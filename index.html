@@ -3,53 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimeLex — Dashboard</title>
+<title>Rocha Advogados — Dashboard</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
-  .container{max-width:900px;margin:0 auto;padding:1rem}
-  .top{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 .75rem;border-bottom:1px solid #e5e5e0;margin-bottom:1rem}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo-mark{width:38px;height:38px;border-radius:10px;background:#0F6E56;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .logo-p{font-size:20px;font-weight:500;color:#fff}
-  .logo-name{font-size:18px;font-weight:500;color:#1a1a1a;letter-spacing:-0.5px;line-height:1}
-  .logo-name span{color:#1D9E75}
-  .logo-sub{font-size:10px;color:#888;letter-spacing:.5px;text-transform:uppercase}
-  .refresh-btn{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;cursor:pointer;border:none;background:none;padding:4px 8px;border-radius:6px}
-  .refresh-btn:hover{background:#eee;color:#333}
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
-  @media(max-width:600px){.grid4{grid-template-columns:repeat(2,1fr)}}
-  .card{border-radius:12px;padding:1.1rem 1.25rem 1rem;border:1px solid #e5e5e0;background:#fff}
-  .card-label{font-size:11px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-  .card-val{font-size:40px;font-weight:500;line-height:1}
-  .card-hint{font-size:11px;color:#888;margin-top:5px}
-  .c-green .card-val{color:#1D9E75}.c-green{border-top:3px solid #1D9E75}
-  .c-amber .card-val{color:#BA7517}.c-amber{border-top:3px solid #BA7517}
-  .c-blue .card-val{color:#185FA5}.c-blue{border-top:3px solid #185FA5}
-  .c-purple .card-val{color:#534AB7}.c-purple{border-top:3px solid #534AB7}
-  .section{background:#fff;border:1px solid #e5e5e0;border-radius:12px;overflow:hidden;margin-bottom:10px}
-  .sec-head{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.25rem;background:#fafaf8;border-bottom:1px solid #e5e5e0}
-  .sec-title{font-size:12px;font-weight:500;color:#888;display:flex;align-items:center;gap:5px}
-  .tabs{display:flex;gap:2px;padding:.5rem .75rem 0;border-bottom:1px solid #e5e5e0;background:#fafaf8}
-  .tab{padding:.35rem .75rem;font-size:11px;cursor:pointer;border-radius:4px 4px 0 0;color:#888;border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
-  .tab.active{background:#fff;color:#1a1a1a;border-color:#e5e5e0;font-weight:500}
-  .tbl-head{display:grid;grid-template-columns:95px 1fr 130px 140px;padding:.5rem 1.25rem;font-size:10px;color:#888;font-weight:500;border-bottom:1px solid #e5e5e0;background:#fafaf8}
-  .tbl-row{display:grid;grid-template-columns:95px 1fr 130px 140px;padding:.65rem 1.25rem;font-size:12px;color:#1a1a1a;border-bottom:1px solid #f0f0ee;align-items:center}
-  .tbl-row:last-child{border-bottom:none}
-  .tbl-row:hover{background:#fafaf8}
-  @media(max-width:600px){
-    .tbl-head,.tbl-row{grid-template-columns:1fr 1fr}
-    .tbl-head span:nth-child(2),.tbl-row span:nth-child(2){display:none}
-    .tbl-head span:nth-child(3),.tbl-row span:nth-child(3){display:none}
-  }
-  .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-  .b-green{background:#E1F5EE;color:#0F6E56}
-  .b-amber{background:#FAEEDA;color:#854F0B}
-  .empty{padding:2rem;text-align:center;font-size:12px;color:#888}
-  .spinner{display:inline-block;width:12px;height:12px;border:2px solid #ccc;border-top-color:#1D9E75;border-radius:50%;animation:spin .8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:1rem}
+.top{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 .75rem;border-bottom:1px solid #e5e5e0;margin-bottom:1rem}
+.brand{display:flex;align-items:center;gap:12px}
+.logo-mark{width:38px;height:38px;border-radius:10px;background:#0F6E56;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-r{font-size:20px;font-weight:600;color:#fff;font-family:-apple-system,sans-serif}
+.logo-name{font-size:18px;font-weight:500;color:#1a1a1a;letter-spacing:-0.5px;line-height:1}
+.logo-name span{color:#1D9E75}
+.logo-sub{font-size:10px;color:#888;letter-spacing:.5px;text-transform:uppercase}
+.refresh-btn{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;cursor:pointer;border:none;background:none;padding:4px 8px;border-radius:6px}
+.refresh-btn:hover{background:#eee;color:#333}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+@media(max-width:600px){.grid4{grid-template-columns:repeat(2,1fr)}}
+.card{border-radius:12px;padding:1.1rem 1.25rem 1rem;border:1px solid #e5e5e0;background:#fff}
+.card-label{font-size:11px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.card-val{font-size:40px;font-weight:500;line-height:1}
+.card-hint{font-size:11px;color:#888;margin-top:5px}
+.c-green .card-val{color:#1D9E75}.c-green{border-top:3px solid #1D9E75}
+.c-amber .card-val{color:#BA7517}.c-amber{border-top:3px solid #BA7517}
+.c-blue .card-val{color:#185FA5}.c-blue{border-top:3px solid #185FA5}
+.c-purple .card-val{color:#534AB7}.c-purple{border-top:3px solid #534AB7}
+.section{background:#fff;border:1px solid #e5e5e0;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.sec-head{display:flex;align-items:center;padding:.65rem 1.25rem;background:#fafaf8;border-bottom:1px solid #e5e5e0}
+.sec-title{font-size:12px;font-weight:500;color:#888;display:flex;align-items:center;gap:5px}
+.tabs{display:flex;gap:2px;padding:.5rem .75rem 0;border-bottom:1px solid #e5e5e0;background:#fafaf8}
+.tab{padding:.35rem .75rem;font-size:11px;cursor:pointer;border-radius:4px 4px 0 0;color:#888;border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
+.tab.active{background:#fff;color:#1a1a1a;border-color:#e5e5e0;font-weight:500}
+.tbl-head{display:grid;grid-template-columns:95px 1fr 140px;padding:.5rem 1.25rem;font-size:10px;color:#888;font-weight:500;border-bottom:1px solid #e5e5e0;background:#fafaf8}
+.tbl-row{display:grid;grid-template-columns:95px 1fr 140px;padding:.65rem 1.25rem;font-size:12px;color:#1a1a1a;border-bottom:1px solid #f0f0ee;align-items:center}
+.tbl-row:last-child{border-bottom:none}
+.tbl-row:hover{background:#fafaf8}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.b-green{background:#E1F5EE;color:#0F6E56}
+.b-amber{background:#FAEEDA;color:#854F0B}
+.empty{padding:2rem;text-align:center;font-size:12px;color:#888}
 </style>
 </head>
 <body>
@@ -57,9 +50,9 @@
 
   <div class="top">
     <div class="brand">
-      <div class="logo-mark"><span class="logo-p">P</span></div>
+      <div class="logo-mark"><span class="logo-r">R</span></div>
       <div>
-        <div class="logo-name">Prime<span>Lex</span></div>
+        <div class="logo-name">Rocha <span>Advogados</span></div>
         <div class="logo-sub">Gestão de processos</div>
       </div>
     </div>
@@ -71,9 +64,9 @@
 
   <div class="grid4">
     <div class="card c-green">
-      <div class="card-label"><i class="ti ti-folders"></i> Processos ativos</div>
+      <div class="card-label"><i class="ti ti-folders"></i> Total</div>
       <div class="card-val" id="m-total">—</div>
-      <div class="card-hint">total acumulado</div>
+      <div class="card-hint">envelopes</div>
     </div>
     <div class="card c-amber">
       <div class="card-label"><i class="ti ti-clock"></i> Em andamento</div>
@@ -81,12 +74,12 @@
       <div class="card-hint">aguardando assinatura</div>
     </div>
     <div class="card c-blue">
-      <div class="card-label"><i class="ti ti-writing-sign"></i> Assinados hoje</div>
+      <div class="card-label"><i class="ti ti-writing-sign"></i> Hoje</div>
       <div class="card-val" id="m-hoje">—</div>
       <div class="card-hint" id="m-hoje-hint">vs ontem</div>
     </div>
     <div class="card c-purple">
-      <div class="card-label"><i class="ti ti-calendar-check"></i> Assinados mês</div>
+      <div class="card-label"><i class="ti ti-calendar-check"></i> Mensal</div>
       <div class="card-val" id="m-mes">—</div>
       <div class="card-hint" id="m-mes-label">—</div>
     </div>
@@ -106,63 +99,69 @@
   <div class="section">
     <div class="tabs">
       <div class="tab active" id="tab-todos" onclick="setTab('todos')">Todos</div>
+      <div class="tab" id="tab-andamento" onclick="setTab('andamento')">Em andamento</div>
       <div class="tab" id="tab-hoje" onclick="setTab('hoje')">Hoje</div>
       <div class="tab" id="tab-mes" onclick="setTab('mes')">Este mês</div>
     </div>
     <div class="tbl-head">
-      <span>Data</span><span>Cliente</span><span>Documento</span><span>Assinado em</span>
+      <span>Data</span><span>Cliente</span><span>Status</span>
     </div>
-    <div id="tbody"><div class="empty"><span class="spinner"></span> Carregando...</div></div>
+    <div id="tbody"><div class="empty">Carregando...</div></div>
   </div>
 
 </div>
-
 <script>
-const SHEET_ID = '1-_hgRb5oVaho7BPDuGtnIhk8gFXgnUO-41Rj4fhbQOQ';
-const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-let allRows = [], tab = 'todos', ch;
-const today = new Date().toISOString().slice(0,10);
-const mesStr = today.slice(0,7);
-document.getElementById('m-mes-label').textContent = new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+const SHEET_ID='1-_hgRb5oVaho7BPDuGtnIhk8gFXgnUO-41Rj4fhbQOQ';
+const URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+let allRows=[],tab='todos',ch;
+const today=new Date().toISOString().slice(0,10);
+const mesStr=today.slice(0,7);
+document.getElementById('m-mes-label').textContent=new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
 
 function parseDate(val){
-  if(!val) return null;
-  if(typeof val==='string'&&val.includes('T')) return val.slice(0,10);
+  if(!val)return null;
+  if(typeof val==='string'&&val.length>=10)return val.slice(0,10);
   return null;
 }
 function fmt(d){
-  if(!d) return '—';
+  if(!d)return'—';
   const[a,m,dia]=d.split('-');return`${dia}/${m}/${a}`;
 }
 
 async function fetchData(){
   document.getElementById('refreshed').textContent='Atualizando...';
   try{
-    const res = await fetch(URL+'&t='+Date.now());
-    const text = await res.text();
-    const json = JSON.parse(text.replace(/^.*?({.*}).*$/s,'$1'));
-    const rows = json.table.rows||[];
-    allRows = rows.map(r=>{
+    const res=await fetch(URL+'&t='+Date.now());
+    const text=await res.text();
+    const json=JSON.parse(text.replace(/^.*?({.*}).*$/s,'$1'));
+    const rows=json.table.rows||[];
+    allRows=rows.map(r=>{
       const c=r.c||[];
       const g=i=>(c[i]&&c[i].v!=null)?String(c[i].v):'';
-      return{nomeDoc:g(0),status:g(1),criadoEm:parseDate(g(2)),atualizadoEm:parseDate(g(3)),cliente:g(5),email:g(6),assinadoEm:parseDate(g(7))};
-    }).filter(r=>r.cliente||r.nomeDoc);
+      const status=g(1);
+      const assinadoEm=parseDate(g(7));
+      const criadoEm=parseDate(g(2));
+      const isAssinado=status==='Assinado'&&assinadoEm;
+      return{status,criadoEm,cliente:g(5)||g(0),assinadoEm:isAssinado?assinadoEm:null};
+    }).filter(r=>r.cliente);
     render();
     document.getElementById('refreshed').textContent='Atualizado '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   }catch(e){
     document.getElementById('refreshed').textContent='Erro ao carregar';
-    document.getElementById('tbody').innerHTML='<div class="empty">Não foi possível carregar. Verifique a planilha.</div>';
   }
 }
 
 function render(){
   const total=allRows.length;
   const assinados=allRows.filter(r=>r.assinadoEm);
+  const andamento=allRows.filter(r=>!r.assinadoEm);
+  const hoje=assinados.filter(r=>r.assinadoEm===today).length;
+  const mes=assinados.filter(r=>r.assinadoEm&&r.assinadoEm.startsWith(mesStr)).length;
+
   document.getElementById('m-total').textContent=total;
-  document.getElementById('m-and').textContent=total-assinados.length;
-  document.getElementById('m-hoje').textContent=assinados.filter(r=>r.assinadoEm===today).length;
-  document.getElementById('m-mes').textContent=assinados.filter(r=>r.assinadoEm&&r.assinadoEm.startsWith(mesStr)).length;
+  document.getElementById('m-and').textContent=andamento.length;
+  document.getElementById('m-hoje').textContent=hoje;
+  document.getElementById('m-mes').textContent=mes;
 
   const days14=[];
   for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days14.push(d.toISOString().slice(0,10));}
@@ -183,23 +182,23 @@ function render(){
 
 function setTab(t){
   tab=t;
-  ['todos','hoje','mes'].forEach(x=>document.getElementById('tab-'+x).className='tab'+(x===t?' active':''));
+  ['todos','andamento','hoje','mes'].forEach(x=>document.getElementById('tab-'+x).className='tab'+(x===t?' active':''));
   renderTable();
 }
 
 function renderTable(){
   let data=allRows;
-  if(tab==='hoje')data=allRows.filter(r=>r.assinadoEm===today||r.criadoEm===today);
+  if(tab==='andamento')data=allRows.filter(r=>!r.assinadoEm);
+  else if(tab==='hoje')data=allRows.filter(r=>r.assinadoEm===today||r.criadoEm===today);
   else if(tab==='mes')data=allRows.filter(r=>(r.assinadoEm&&r.assinadoEm.startsWith(mesStr))||(r.criadoEm&&r.criadoEm.startsWith(mesStr)));
   const b=document.getElementById('tbody');
   if(!data.length){b.innerHTML='<div class="empty">Nenhum registro nesta categoria.</div>';return;}
   b.innerHTML=data.map(r=>`
     <div class="tbl-row">
-      <span style="font-size:11px;color:#888">${fmt(r.criadoEm)}</span>
-      <span style="font-weight:500">${r.cliente||r.nomeDoc||'—'}</span>
-      <span style="font-size:11px;color:#888">${r.nomeDoc||'—'}</span>
+      <span style="font-size:11px;color:#888">${fmt(r.assinadoEm||r.criadoEm)}</span>
+      <span style="font-weight:500">${r.cliente}</span>
       <span>${r.assinadoEm
-        ?`<span class="badge b-green"><i class="ti ti-check" style="font-size:10px"></i> ${fmt(r.assinadoEm)}</span>`
+        ?`<span class="badge b-green"><i class="ti ti-check" style="font-size:10px"></i> Assinado ${fmt(r.assinadoEm)}</span>`
         :`<span class="badge b-amber"><i class="ti ti-clock" style="font-size:10px"></i> Em andamento</span>`}
       </span>
     </div>`).join('');
