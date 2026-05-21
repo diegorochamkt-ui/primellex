@@ -1,211 +1,516 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Rocha Advogados — Dashboard</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
-.container{max-width:900px;margin:0 auto;padding:1rem}
-.top{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 .75rem;border-bottom:1px solid #e5e5e0;margin-bottom:1rem}
-.brand{display:flex;align-items:center;gap:12px}
-.logo-mark{width:38px;height:38px;border-radius:10px;background:#0F6E56;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-r{font-size:20px;font-weight:600;color:#fff;font-family:-apple-system,sans-serif}
-.logo-name{font-size:18px;font-weight:500;color:#1a1a1a;letter-spacing:-0.5px;line-height:1}
-.logo-name span{color:#1D9E75}
-.logo-sub{font-size:10px;color:#888;letter-spacing:.5px;text-transform:uppercase}
-.refresh-btn{font-size:11px;color:#888;display:flex;align-items:center;gap:5px;cursor:pointer;border:none;background:none;padding:4px 8px;border-radius:6px}
-.refresh-btn:hover{background:#eee;color:#333}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
-@media(max-width:600px){.grid4{grid-template-columns:repeat(2,1fr)}}
-.card{border-radius:12px;padding:1.1rem 1.25rem 1rem;border:1px solid #e5e5e0;background:#fff}
-.card-label{font-size:11px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.card-val{font-size:40px;font-weight:500;line-height:1}
-.card-hint{font-size:11px;color:#888;margin-top:5px}
-.c-green .card-val{color:#1D9E75}.c-green{border-top:3px solid #1D9E75}
-.c-amber .card-val{color:#BA7517}.c-amber{border-top:3px solid #BA7517}
-.c-blue .card-val{color:#185FA5}.c-blue{border-top:3px solid #185FA5}
-.c-purple .card-val{color:#534AB7}.c-purple{border-top:3px solid #534AB7}
-.section{background:#fff;border:1px solid #e5e5e0;border-radius:12px;overflow:hidden;margin-bottom:10px}
-.sec-head{display:flex;align-items:center;padding:.65rem 1.25rem;background:#fafaf8;border-bottom:1px solid #e5e5e0}
-.sec-title{font-size:12px;font-weight:500;color:#888;display:flex;align-items:center;gap:5px}
-.tabs{display:flex;gap:2px;padding:.5rem .75rem 0;border-bottom:1px solid #e5e5e0;background:#fafaf8}
-.tab{padding:.35rem .75rem;font-size:11px;cursor:pointer;border-radius:4px 4px 0 0;color:#888;border:1px solid transparent;border-bottom:none;margin-bottom:-1px}
-.tab.active{background:#fff;color:#1a1a1a;border-color:#e5e5e0;font-weight:500}
-.tbl-head{display:grid;grid-template-columns:95px 1fr 140px;padding:.5rem 1.25rem;font-size:10px;color:#888;font-weight:500;border-bottom:1px solid #e5e5e0;background:#fafaf8}
-.tbl-row{display:grid;grid-template-columns:95px 1fr 140px;padding:.65rem 1.25rem;font-size:12px;color:#1a1a1a;border-bottom:1px solid #f0f0ee;align-items:center}
-.tbl-row:last-child{border-bottom:none}
-.tbl-row:hover{background:#fafaf8}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.b-green{background:#E1F5EE;color:#0F6E56}
-.b-amber{background:#FAEEDA;color:#854F0B}
-.empty{padding:2rem;text-align:center;font-size:12px;color:#888}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green:#1a7a52;--green-l:#e8f5ef;--green-m:#c3e8d4;
+  --amber:#b8720e;--amber-l:#fef3e0;
+  --blue:#1a5fa8;--blue-l:#e5f0fb;
+  --purple:#6135a8;--purple-l:#f0eafb;
+  --bg:#f2f4f7;--card:#fff;--border:#e2e6ea;
+  --text:#1a1d23;--muted:#6b7280;
+  --r:12px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
+}
+
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+
+/* NAV */
+nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;
+    display:flex;align-items:center;justify-content:space-between;height:60px;
+    position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:8px;background:var(--green);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:17px;color:#fff;letter-spacing:-.5px;
+      box-shadow:0 2px 8px rgba(26,122,82,.35)}
+.brand-info{line-height:1.25}
+.brand-name{font-weight:700;font-size:15px}
+.brand-name span{color:var(--green)}
+.brand-sub{font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:500}
+#clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
+#clock svg{width:13px;height:13px;opacity:.5}
+
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:24px 20px 56px}
+
+/* KPI GRID */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+.kcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+       padding:18px 20px;border-top:3px solid transparent;transition:transform .15s}
+.kcard:hover{transform:translateY(-2px)}
+.kcard.k-green{border-color:var(--green)}
+.kcard.k-amber{border-color:var(--amber)}
+.kcard.k-blue{border-color:var(--blue)}
+.kcard.k-purple{border-color:var(--purple)}
+
+.klabel{font-size:11px;text-transform:uppercase;letter-spacing:.1em;
+        color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.kval{font-size:44px;font-weight:700;line-height:1;letter-spacing:-2px;margin-bottom:4px}
+.k-green .kval{color:var(--green)}.k-amber .kval{color:var(--amber)}
+.k-blue .kval{color:var(--blue)}.k-purple .kval{color:var(--purple)}
+.ksub{font-size:12px;color:var(--muted)}
+
+/* CHART */
+.chart-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+            padding:20px 24px;margin-bottom:20px}
+.sec-title{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.07em;
+           text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.chart-wrap{height:160px;position:relative}
+
+/* TABLE CARD */
+.tcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 8px}
+.tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
+     border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;
+     white-space:nowrap;user-select:none}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab:hover:not(.active){color:var(--text)}
+
+/* SEARCH */
+.srow{padding:12px 20px;border-bottom:1px solid var(--border)}
+.sinput{width:100%;max-width:300px;padding:7px 12px;border-radius:8px;
+        border:1px solid var(--border);font-family:inherit;font-size:13px;
+        color:var(--text);background:var(--bg);outline:none;transition:border-color .15s}
+.sinput:focus{border-color:var(--green)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 20px;text-align:left;font-size:11px;font-weight:600;
+         text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+         border-bottom:1px solid var(--border);background:#fafbfc}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f7faf8}
+td{padding:12px 20px;font-size:13px;vertical-align:middle}
+.td-data{color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;white-space:nowrap;min-width:95px}
+.td-cliente{font-weight:500}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+       border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-assinado{background:var(--green-l);color:var(--green)}
+.b-andamento{background:var(--amber-l);color:var(--amber)}
+.b-outro{background:#f0f0f0;color:var(--muted)}
+
+/* STATES */
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.loading-wrap{text-align:center;padding:60px}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--green);
+         border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PAGER */
+.pager{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
+       border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.pager-btns{display:flex;gap:6px}
+.pbtn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);
+      background:var(--card);font-family:inherit;font-size:12px;cursor:pointer;
+      color:var(--text);transition:background .1s}
+.pbtn:hover:not(:disabled){background:var(--bg)}
+.pbtn:disabled{opacity:.4;cursor:default}
 </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="top">
-    <div class="brand">
-      <div class="logo-mark"><span class="logo-r">R</span></div>
-      <div>
-        <div class="logo-name">Rocha <span>Advogados</span></div>
-        <div class="logo-sub">Gestão de processos</div>
+<nav>
+  <div class="brand">
+    <div class="logo">R</div>
+    <div class="brand-info">
+      <div class="brand-name">Rocha <span>Advogados</span></div>
+      <div class="brand-sub">Gestão de processos</div>
+    </div>
+  </div>
+  <div id="clock">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+    <span id="clock-txt">Atualizado —</span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kcard k-green">
+      <div class="klabel">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>Total
       </div>
+      <div class="kval" id="k-total">—</div>
+      <div class="ksub">envelopes</div>
     </div>
-    <button class="refresh-btn" onclick="fetchData()">
-      <i class="ti ti-refresh"></i>
-      <span id="refreshed">Carregando...</span>
-    </button>
-  </div>
-
-  <div class="grid4">
-    <div class="card c-green">
-      <div class="card-label"><i class="ti ti-folders"></i> Total</div>
-      <div class="card-val" id="m-total">—</div>
-      <div class="card-hint">envelopes</div>
-    </div>
-    <div class="card c-amber">
-      <div class="card-label"><i class="ti ti-clock"></i> Em andamento</div>
-      <div class="card-val" id="m-and">—</div>
-      <div class="card-hint">aguardando assinatura</div>
-    </div>
-    <div class="card c-blue">
-      <div class="card-label"><i class="ti ti-writing-sign"></i> Hoje</div>
-      <div class="card-val" id="m-hoje">—</div>
-      <div class="card-hint" id="m-hoje-hint">vs ontem</div>
-    </div>
-    <div class="card c-purple">
-      <div class="card-label"><i class="ti ti-calendar-check"></i> Mensal</div>
-      <div class="card-val" id="m-mes">—</div>
-      <div class="card-hint" id="m-mes-label">—</div>
-    </div>
-  </div>
-
-  <div class="section" style="margin-bottom:10px">
-    <div class="sec-head">
-      <span class="sec-title"><i class="ti ti-chart-bar"></i> Assinaturas — últimos 14 dias</span>
-    </div>
-    <div style="padding:.75rem 1.25rem">
-      <div style="position:relative;height:120px">
-        <canvas id="chart" role="img" aria-label="Assinaturas dos últimos 14 dias"></canvas>
+    <div class="kcard k-amber">
+      <div class="klabel">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>Em andamento
       </div>
+      <div class="kval" id="k-and">—</div>
+      <div class="ksub">aguardando assinatura</div>
+    </div>
+    <div class="kcard k-blue">
+      <div class="klabel">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>Hoje
+      </div>
+      <div class="kval" id="k-hoje">—</div>
+      <div class="ksub" id="k-hoje-sub">assinaturas hoje</div>
+    </div>
+    <div class="kcard k-purple">
+      <div class="klabel">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>Mensal
+      </div>
+      <div class="kval" id="k-mes">—</div>
+      <div class="ksub" id="k-mes-sub">—</div>
     </div>
   </div>
 
-  <div class="section">
+  <!-- CHART -->
+  <div class="chart-card">
+    <div class="sec-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+      Assinaturas — últimos 14 dias
+    </div>
+    <div class="chart-wrap">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tcard">
     <div class="tabs">
-      <div class="tab active" id="tab-todos" onclick="setTab('todos')">Todos</div>
-      <div class="tab" id="tab-andamento" onclick="setTab('andamento')">Em andamento</div>
-      <div class="tab" id="tab-hoje" onclick="setTab('hoje')">Hoje</div>
-      <div class="tab" id="tab-mes" onclick="setTab('mes')">Este mês</div>
+      <div class="tab active" data-tab="todos">Todos</div>
+      <div class="tab" data-tab="andamento">Em andamento</div>
+      <div class="tab" data-tab="hoje">Hoje</div>
+      <div class="tab" data-tab="mes">Este mês</div>
     </div>
-    <div class="tbl-head">
-      <span>Data</span><span>Cliente</span><span>Status</span>
+    <div class="srow">
+      <input class="sinput" id="search" type="text" placeholder="Buscar cliente…"/>
     </div>
-    <div id="tbody"><div class="empty">Carregando...</div></div>
+    <div id="table-wrap">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <div style="color:var(--muted);font-size:13px">Carregando dados…</div>
+      </div>
+    </div>
   </div>
 
-</div>
-<script>
-const SHEET_ID='1-_hgRb5oVaho7BPDuGtnIhk8gFXgnUO-41Rj4fhbQOQ';
-const URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-let allRows=[],tab='todos',ch;
-const today=new Date().toISOString().slice(0,10);
-const mesStr=today.slice(0,7);
-document.getElementById('m-mes-label').textContent=new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+</main>
 
-function parseDate(val){
-  if(!val)return null;
-  if(typeof val==='string'&&val.length>=10)return val.slice(0,10);
+<script>
+/* ─── CONFIG ────────────────────────────────────────────── */
+const SHEET_ID = '1-_hgRb5oVaho7BPDuGtnIhk8gFXgnUO-41Rj4fhbQOQ';
+const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+/* Índices das colunas na planilha (base 0) */
+const C = {
+  DATA_ASSINATURA : 0,
+  CLIENTE         : 1,
+  TIPO_ACAO       : 2,
+  NUM_PROCESSO    : 3,
+  STATUS          : 4,
+  DOC_ID          : 5,
+  EMAIL           : 6,
+  DATA_CRIACAO    : 7,
+};
+
+const PAGE_SIZE = 25;
+
+/* ─── ESTADO ────────────────────────────────────────────── */
+let allRows   = [];
+let filtered  = [];
+let currentTab= 'todos';
+let page      = 0;
+let chart     = null;
+
+/* ─── PARSE CSV (lida com vírgulas dentro de aspas) ─────── */
+function parseCSVLine(line) {
+  const cols = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"')        { inQ = !inQ; }
+    else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+    else                  { cur += c; }
+  }
+  cols.push(cur.trim());
+  return cols;
+}
+
+/* ─── PARSE DATA (ISO ou DD/MM/AAAA ou DD/MM/AAAA HH:mm) ── */
+function parseDate(val) {
+  if (!val || val.trim() === '') return null;
+  const s = val.trim();
+
+  /* Formato ISO: 2026-05-21T15:30:00.000Z  ou  2026-05-21 */
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  /* Formato brasileiro: 21/05/2026 ou 21/05/2026 15:30:00 */
+  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?/);
+  if (m) {
+    const d = new Date(
+      parseInt(m[3]), parseInt(m[2]) - 1, parseInt(m[1]),
+      parseInt(m[4] || 0), parseInt(m[5] || 0), parseInt(m[6] || 0)
+    );
+    return isNaN(d.getTime()) ? null : d;
+  }
+
   return null;
 }
-function fmt(d){
-  if(!d)return'—';
-  const[a,m,dia]=d.split('-');return`${dia}/${m}/${a}`;
+
+/* ─── FORMATAR DATA → DD/MM/AAAA ────────────────────────── */
+function fmtDate(d) {
+  if (!d) return '—';
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yy = d.getFullYear();
+  return `${dd}/${mm}/${yy}`;
 }
 
-async function fetchData(){
-  document.getElementById('refreshed').textContent='Atualizando...';
-  try{
-    const res=await fetch(URL+'&t='+Date.now());
-    const text=await res.text();
-    const json=JSON.parse(text.replace(/^.*?({.*}).*$/s,'$1'));
-    const rows=json.table.rows||[];
-    allRows=rows.map(r=>{
-      const c=r.c||[];
-      const g=i=>(c[i]&&c[i].v!=null)?String(c[i].v):'';
-      const status=g(1);
-      const assinadoEm=parseDate(g(7));
-      const criadoEm=parseDate(g(2));
-      const isAssinado=status==='Assinado'&&assinadoEm;
-      return{status,criadoEm,cliente:g(5)||g(0),assinadoEm:isAssinado?assinadoEm:null};
-    }).filter(r=>r.cliente);
-    render();
-    document.getElementById('refreshed').textContent='Atualizado '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  }catch(e){
-    document.getElementById('refreshed').textContent='Erro ao carregar';
+/* ─── HELPERS DE DATA ────────────────────────────────────── */
+function isToday(d) {
+  if (!d) return false;
+  const n = new Date();
+  return d.getDate()===n.getDate() && d.getMonth()===n.getMonth() && d.getFullYear()===n.getFullYear();
+}
+function isThisMonth(d) {
+  if (!d) return false;
+  const n = new Date();
+  return d.getMonth()===n.getMonth() && d.getFullYear()===n.getFullYear();
+}
+function isAndamento(row) {
+  /* "Em andamento" = qualquer status que NÃO seja Assinado/signed */
+  const s = (row.status || '').toLowerCase();
+  return s !== 'assinado' && s !== 'signed' && s !== '';
+}
+
+/* ─── FETCH + PARSE ─────────────────────────────────────── */
+async function fetchRows() {
+  const res  = await fetch(CSV_URL + '&t=' + Date.now());
+  const text = await res.text();
+  const lines = text.trim().split('\n');
+  const header = lines[0]; // ignora cabeçalho
+
+  return lines.slice(1)
+    .map(line => {
+      const cols = parseCSVLine(line);
+      return {
+        dataAssinatura : parseDate(cols[C.DATA_ASSINATURA]),
+        cliente        : (cols[C.CLIENTE]       || '').trim(),
+        tipoAcao       : (cols[C.TIPO_ACAO]      || '').trim(),
+        numProcesso    : (cols[C.NUM_PROCESSO]   || '').trim(),
+        status         : (cols[C.STATUS]         || '').trim(),
+        docId          : (cols[C.DOC_ID]         || '').trim(),
+        email          : (cols[C.EMAIL]          || '').trim(),
+        dataCriacao    : parseDate(cols[C.DATA_CRIACAO]),
+      };
+    })
+    .filter(r => r.cliente !== ''); // remove linhas vazias
+}
+
+/* ─── KPIs ──────────────────────────────────────────────── */
+function updateKPIs(rows) {
+  const hoje = rows.filter(r => isToday(r.dataAssinatura)).length;
+  const mes  = rows.filter(r => isThisMonth(r.dataAssinatura)).length;
+  const and  = rows.filter(r => isAndamento(r)).length;
+
+  document.getElementById('k-total').textContent = rows.length.toLocaleString('pt-BR');
+  document.getElementById('k-and').textContent   = and.toLocaleString('pt-BR');
+  document.getElementById('k-hoje').textContent  = hoje.toLocaleString('pt-BR');
+  document.getElementById('k-mes').textContent   = mes.toLocaleString('pt-BR');
+
+  const meses = ['janeiro','fevereiro','março','abril','maio','junho',
+                 'julho','agosto','setembro','outubro','novembro','dezembro'];
+  const n = new Date();
+  document.getElementById('k-mes-sub').textContent = meses[n.getMonth()] + ' de ' + n.getFullYear();
+  document.getElementById('k-hoje-sub').textContent = 'assinaturas hoje';
+}
+
+/* ─── GRÁFICO ───────────────────────────────────────────── */
+function updateChart(rows) {
+  const labels = [], counts = [];
+  const hoje = new Date();
+
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(hoje);
+    d.setDate(d.getDate() - i);
+    const label = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+    labels.push(label);
+
+    const count = rows.filter(r => {
+      if (!r.dataAssinatura) return false;
+      const rd = r.dataAssinatura;
+      return rd.getDate()===d.getDate() && rd.getMonth()===d.getMonth() && rd.getFullYear()===d.getFullYear();
+    }).length;
+    counts.push(count);
+  }
+
+  if (chart) chart.destroy();
+  const ctx = document.getElementById('myChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Assinaturas',
+        data: counts,
+        backgroundColor: 'rgba(26,122,82,.18)',
+        borderColor: 'rgba(26,122,82,.8)',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        hoverBackgroundColor: 'rgba(26,122,82,.35)',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: ctx => ` ${ctx.parsed.y} assinatura${ctx.parsed.y!==1?'s':''}` }
+      }},
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9ca3af' }},
+        y: { grid: { color: '#f0f0f0' }, ticks: { stepSize: 1, precision: 0, font: { size: 11 }, color: '#9ca3af' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+/* ─── BADGE ─────────────────────────────────────────────── */
+function badge(status) {
+  const s = (status || '').toLowerCase();
+  if (s === 'assinado' || s === 'signed') {
+    return `<span class="badge b-assinado">✓ Assinado</span>`;
+  }
+  if (s === 'em andamento' || s === 'pending' || s === 'awaiting') {
+    return `<span class="badge b-andamento">● Em andamento</span>`;
+  }
+  return `<span class="badge b-outro">${status || '—'}</span>`;
+}
+
+/* ─── TABELA ─────────────────────────────────────────────── */
+function applyFilter() {
+  const query = document.getElementById('search').value.toLowerCase();
+  let base = allRows;
+
+  if (currentTab === 'andamento') base = allRows.filter(r => isAndamento(r));
+  else if (currentTab === 'hoje') base = allRows.filter(r => isToday(r.dataAssinatura));
+  else if (currentTab === 'mes')  base = allRows.filter(r => isThisMonth(r.dataAssinatura));
+
+  filtered = query ? base.filter(r => r.cliente.toLowerCase().includes(query)) : base;
+  page = 0;
+  renderTable();
+}
+
+function renderTable() {
+  const wrap = document.getElementById('table-wrap');
+  const start = page * PAGE_SIZE;
+  const slice = filtered.slice(start, start + PAGE_SIZE);
+  const total = filtered.length;
+
+  if (total === 0) {
+    wrap.innerHTML = `<div class="empty">Nenhum registro encontrado.</div>`;
+    return;
+  }
+
+  const rows = slice.map(r => `
+    <tr>
+      <td class="td-data">${fmtDate(r.dataAssinatura)}</td>
+      <td class="td-cliente">${r.cliente}</td>
+      <td>${badge(r.status)}</td>
+    </tr>
+  `).join('');
+
+  const pageInfo = `${start+1}–${Math.min(start+PAGE_SIZE, total)} de ${total.toLocaleString('pt-BR')}`;
+
+  wrap.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Cliente</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="pager">
+      <span>${pageInfo}</span>
+      <div class="pager-btns">
+        <button class="pbtn" id="btn-prev" ${page===0?'disabled':''}>← Anterior</button>
+        <button class="pbtn" id="btn-next" ${start+PAGE_SIZE>=total?'disabled':''}>Próximo →</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btn-prev')?.addEventListener('click', () => { page--; renderTable(); });
+  document.getElementById('btn-next')?.addEventListener('click', () => { page++; renderTable(); });
+}
+
+/* ─── CLOCK ─────────────────────────────────────────────── */
+function updateClock() {
+  const n = new Date();
+  const h = String(n.getHours()).padStart(2,'0');
+  const m = String(n.getMinutes()).padStart(2,'0');
+  document.getElementById('clock-txt').textContent = `Atualizado ${h}:${m}`;
+}
+
+/* ─── INIT ──────────────────────────────────────────────── */
+async function init() {
+  updateClock();
+  try {
+    allRows = await fetchRows();
+    filtered = allRows;
+    updateKPIs(allRows);
+    updateChart(allRows);
+    renderTable();
+  } catch(e) {
+    document.getElementById('table-wrap').innerHTML =
+      `<div class="empty" style="color:#c0392b">Erro ao carregar dados. Verifique se a planilha está pública.<br><small>${e.message}</small></div>`;
+    console.error(e);
   }
 }
 
-function render(){
-  const total=allRows.length;
-  const assinados=allRows.filter(r=>r.assinadoEm);
-  const andamento=allRows.filter(r=>!r.assinadoEm);
-  const hoje=assinados.filter(r=>r.assinadoEm===today).length;
-  const mes=assinados.filter(r=>r.assinadoEm&&r.assinadoEm.startsWith(mesStr)).length;
-
-  document.getElementById('m-total').textContent=total;
-  document.getElementById('m-and').textContent=andamento.length;
-  document.getElementById('m-hoje').textContent=hoje;
-  document.getElementById('m-mes').textContent=mes;
-
-  const days14=[];
-  for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days14.push(d.toISOString().slice(0,10));}
-  const cnt=Object.fromEntries(days14.map(d=>[d,0]));
-  assinados.forEach(r=>{if(r.assinadoEm&&cnt[r.assinadoEm]!==undefined)cnt[r.assinadoEm]++;});
-  const labels=days14.map(d=>{const[a,m,dia]=d.split('-');return`${dia}/${m}`;});
-
-  if(ch)ch.destroy();
-  ch=new Chart(document.getElementById('chart'),{
-    type:'bar',
-    data:{labels,datasets:[{data:days14.map(d=>cnt[d]),backgroundColor:'#1D9E75',borderRadius:3,label:'Assinados'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{ticks:{font:{size:9},color:'#888',maxRotation:0,autoSkip:false},grid:{display:false},border:{display:false}},
-              y:{ticks:{font:{size:9},color:'#888',stepSize:1,precision:0},grid:{color:'rgba(0,0,0,0.06)'},border:{display:false},min:0}}}
+/* ─── EVENTOS ────────────────────────────────────────────── */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentTab = tab.dataset.tab;
+    applyFilter();
   });
-  renderTable();
-}
+});
 
-function setTab(t){
-  tab=t;
-  ['todos','andamento','hoje','mes'].forEach(x=>document.getElementById('tab-'+x).className='tab'+(x===t?' active':''));
-  renderTable();
-}
+document.getElementById('search').addEventListener('input', applyFilter);
 
-function renderTable(){
-  let data=allRows;
-  if(tab==='andamento')data=allRows.filter(r=>!r.assinadoEm);
-  else if(tab==='hoje')data=allRows.filter(r=>r.assinadoEm===today||r.criadoEm===today);
-  else if(tab==='mes')data=allRows.filter(r=>(r.assinadoEm&&r.assinadoEm.startsWith(mesStr))||(r.criadoEm&&r.criadoEm.startsWith(mesStr)));
-  const b=document.getElementById('tbody');
-  if(!data.length){b.innerHTML='<div class="empty">Nenhum registro nesta categoria.</div>';return;}
-  b.innerHTML=data.map(r=>`
-    <div class="tbl-row">
-      <span style="font-size:11px;color:#888">${fmt(r.assinadoEm||r.criadoEm)}</span>
-      <span style="font-weight:500">${r.cliente}</span>
-      <span>${r.assinadoEm
-        ?`<span class="badge b-green"><i class="ti ti-check" style="font-size:10px"></i> Assinado ${fmt(r.assinadoEm)}</span>`
-        :`<span class="badge b-amber"><i class="ti ti-clock" style="font-size:10px"></i> Em andamento</span>`}
-      </span>
-    </div>`).join('');
-}
-
-fetchData();
-setInterval(fetchData,300000);
+/* Auto-refresh a cada 5 minutos */
+init();
+setInterval(() => { init(); }, 5 * 60 * 1000);
 </script>
 </body>
 </html>
