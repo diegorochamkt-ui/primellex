@@ -10,8 +10,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#1a7a52;--green-l:#e8f5ef;
-  --amber:#b8720e;--amber-l:#fef3e0;
+  --green:#1a7a52;--green-l:#e8f5ef;--green-m:rgba(26,122,82,.18);--green-b:rgba(26,122,82,.8);
+  --amber:#b8720e;--amber-l:#fef3e0;--amber-m:rgba(184,114,14,.18);--amber-b:rgba(184,114,14,.8);
   --blue:#1a5fa8;--blue-l:#e5f0fb;
   --purple:#6135a8;--purple-l:#f0eafb;
   --red:#c0392b;--red-l:#fdecea;
@@ -47,9 +47,13 @@ main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
 .k-blue  .kval{color:var(--blue)}.k-purple .kval{color:var(--purple)}
 .ksub{font-size:12px;color:var(--muted)}
 .chart-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:20px 24px;margin-bottom:20px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .sec-title{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.07em;
-           text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:6px}
-.chart-wrap{height:160px;position:relative}
+           text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.legend{display:flex;gap:16px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:500}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+.chart-wrap{height:180px;position:relative}
 .tcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
 .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 8px}
 .tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
@@ -150,17 +154,25 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
       <div class="ksub" id="k-mes-sub">—</div>
     </div>
   </div>
+
   <div class="chart-card">
-    <div class="sec-title">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <line x1="18" y1="20" x2="18" y2="10"/>
-        <line x1="12" y1="20" x2="12" y2="4"/>
-        <line x1="6" y1="20" x2="6" y2="14"/>
-      </svg>
-      Assinaturas — últimos 14 dias
+    <div class="chart-header">
+      <div class="sec-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        Envelopes — últimos 14 dias
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--green-b)"></div>Assinados</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--amber-b)"></div>Em andamento</div>
+      </div>
     </div>
     <div class="chart-wrap"><canvas id="myChart"></canvas></div>
   </div>
+
   <div class="tcard">
     <div class="tabs">
       <div class="tab active" data-tab="todos">Todos</div>
@@ -186,44 +198,26 @@ const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
                'julho','agosto','setembro','outubro','novembro','dezembro'];
 let allRows=[], filtered=[], currentTab='todos', page=0, chart=null;
 
-/* ── PARSE DATA ─────────────────────────────────────────────
-   Aceita TODOS os formatos:
-   • "Thu May 21 2026 18:24:30 GMT-0300 (Horário Padrão de Brasília)"
-   • "2026-05-21 14:24:30"
-   • "2026-05-21T14:24:30Z"
-   • "21/05/2026"
-   ────────────────────────────────────────────────────────── */
+/* ── PARSE DATA ─────────────────────────────────────────── */
 function parseDate(val) {
-  if (!val || val==='' || val==='undefined' || val==='null') return null;
+  if (!val||val===''||val==='undefined'||val==='null') return null;
   const s = String(val).trim();
-
-  /* Tenta parse nativo primeiro — funciona para ISO e "Thu May 21..." */
   const d = new Date(s);
   if (!isNaN(d.getTime())) return d;
-
-  /* "2026-05-21 14:24:30" — espaço no lugar do T */
   if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(s)) {
-    const d2 = new Date(s.replace(' ','T'));
-    return isNaN(d2)?null:d2;
+    const d2=new Date(s.replace(' ','T')); return isNaN(d2)?null:d2;
   }
-
-  /* "21/05/2026" */
-  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m) { const d3=new Date(+m[3],+m[2]-1,+m[1]); return isNaN(d3)?null:d3; }
-
+  const m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m){const d3=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d3)?null:d3;}
   return null;
 }
-
-function fmtDate(d) {
-  if (!d) return '—';
-  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+function fmtDate(d){
+  if(!d)return'—';
+  return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
-function fmtDateTime(d) {
-  if (!d) return '—';
-  const dt = fmtDate(d);
-  const h  = String(d.getHours()).padStart(2,'0');
-  const mi = String(d.getMinutes()).padStart(2,'0');
-  return `${dt} ${h}:${mi}`;
+function fmtDateTime(d){
+  if(!d)return'—';
+  return`${fmtDate(d)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
 /* ── HELPERS ─────────────────────────────────────────────── */
@@ -247,52 +241,42 @@ function isSigned(row){
 }
 
 /* ── JSONP ───────────────────────────────────────────────── */
-function fetchJSONP(url) {
-  return new Promise((resolve, reject) => {
-    const cbName = '__plx_' + Date.now();
-    const script = document.createElement('script');
-    const timer  = setTimeout(()=>{ cleanup(); reject(new Error('Timeout (15s)')); }, 15000);
-    window[cbName] = data => { cleanup(); resolve(data); };
-    script.onerror = () => { cleanup(); reject(new Error('Falha ao carregar Apps Script')); };
-    script.src = `${url}?callback=${cbName}&t=${Date.now()}`;
+function fetchJSONP(url){
+  return new Promise((resolve,reject)=>{
+    const cbName='__plx_'+Date.now();
+    const script=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject(new Error('Timeout (15s)'));},15000);
+    window[cbName]=data=>{cleanup();resolve(data);};
+    script.onerror=()=>{cleanup();reject(new Error('Falha ao carregar Apps Script'));};
+    script.src=`${url}?callback=${cbName}&t=${Date.now()}`;
     document.head.appendChild(script);
-    function cleanup(){ clearTimeout(timer); delete window[cbName]; script.parentNode?.removeChild(script); }
+    function cleanup(){clearTimeout(timer);delete window[cbName];script.parentNode?.removeChild(script);}
   });
 }
 
-/* ── FETCH + PARSE ───────────────────────────────────────── */
-async function fetchRows() {
-  const json = await fetchJSONP(API);
-  if (!Array.isArray(json)) throw new Error('Formato inesperado da API');
-
-  const rows = json.map(r => {
-    /* Data de referência: assinadoEm > atualizadoEm > criadoEm */
-    const dataRef = parseDate(r.assinadoEm)
-                 || parseDate(r.atualizadoEm)
-                 || parseDate(r.criadoEm);
-    return {
-      status      : (r.status       ||'').trim(),
-      cliente     : (r.clienteNome  ||'').trim(),
-      email       : (r.clienteEmail ||'').trim(),
-      cpf         : (r.cpf          ||'').trim(),
-      data        : dataRef,
-      dataAtualiz : parseDate(r.atualizadoEm) || parseDate(r.criadoEm),
+/* ── FETCH ───────────────────────────────────────────────── */
+async function fetchRows(){
+  const json=await fetchJSONP(API);
+  if(!Array.isArray(json))throw new Error('Formato inesperado');
+  const rows=json.map(r=>{
+    const dataRef=parseDate(r.assinadoEm)||parseDate(r.atualizadoEm)||parseDate(r.criadoEm);
+    return{
+      status     :(r.status      ||'').trim(),
+      cliente    :(r.clienteNome ||'').trim(),
+      email      :(r.clienteEmail||'').trim(),
+      cpf        :(r.cpf         ||'').trim(),
+      data       :dataRef,
+      dataAtualiz:parseDate(r.atualizadoEm)||parseDate(r.criadoEm),
     };
-  }).filter(r => r.cliente!==''||r.status!=='');
-
-  /* Diagnóstico */
-  const comData = rows.filter(r=>r.data!==null).length;
-  console.log('%c[PrimeLex]','color:#1a7a52;font-weight:bold',
-    `${rows.length} registros | ${comData} com data`);
-  if(rows[0]) console.log('[PrimeLex] Exemplo:', rows[0]);
+  }).filter(r=>r.cliente!==''||r.status!=='');
+  console.log('%c[PrimeLex]','color:#1a7a52;font-weight:bold',rows.length,'registros');
   return rows;
 }
 
 /* ── KPIs ────────────────────────────────────────────────── */
 function updateKPIs(rows){
-  const n   =new Date();
-  /* Hoje e Mensal contam docs assinados */
-  const assinados = rows.filter(r=>isSigned(r));
+  const n=new Date();
+  const assinados=rows.filter(r=>isSigned(r));
   const hoje=assinados.filter(r=>isToday(r.data)).length;
   const mes =assinados.filter(r=>isThisMonth(r.data)).length;
   const and =rows.filter(r=>isPending(r)).length;
@@ -304,38 +288,55 @@ function updateKPIs(rows){
 }
 function set(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
 
-/* ── GRÁFICO ─────────────────────────────────────────────── */
+/* ── GRÁFICO EMPILHADO ───────────────────────────────────── */
 function updateChart(rows){
-  const labels=[],counts=[];
+  const labels=[], signed=[], pending=[];
   const hoje=new Date();
-  /* Conta apenas assinados por data */
-  const assinados = rows.filter(r=>isSigned(r));
   for(let i=13;i>=0;i--){
-    const d=new Date(hoje);d.setDate(d.getDate()-i);
+    const d=new Date(hoje); d.setDate(d.getDate()-i);
     labels.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
-    counts.push(assinados.filter(r=>{
+    const same=r=>{
       const rd=r.data;
       return rd&&rd.getDate()===d.getDate()&&rd.getMonth()===d.getMonth()&&rd.getFullYear()===d.getFullYear();
-    }).length);
+    };
+    signed.push(rows.filter(r=>isSigned(r)&&same(r)).length);
+    pending.push(rows.filter(r=>isPending(r)&&same(r)).length);
   }
   if(chart)chart.destroy();
   chart=new Chart(document.getElementById('myChart').getContext('2d'),{
     type:'bar',
-    data:{labels,datasets:[{
-      label:'Assinaturas',data:counts,
-      backgroundColor:'rgba(26,122,82,.18)',
-      borderColor:'rgba(26,122,82,.8)',
-      borderWidth:1.5,borderRadius:4,
-      hoverBackgroundColor:'rgba(26,122,82,.32)',
-    }]},
+    data:{
+      labels,
+      datasets:[
+        {
+          label:'Assinados',data:signed,
+          backgroundColor:'rgba(26,122,82,.75)',
+          borderColor:'rgba(26,122,82,.9)',
+          borderWidth:0,borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},
+          stack:'s',
+        },
+        {
+          label:'Em andamento',data:pending,
+          backgroundColor:'rgba(184,114,14,.75)',
+          borderColor:'rgba(184,114,14,.9)',
+          borderWidth:0,borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},
+          stack:'s',
+        }
+      ]
+    },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{
-        label:c=>` ${c.parsed.y} assinatura${c.parsed.y!==1?'s':''}`
-      }}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:c=>`${c.dataset.label}: ${c.parsed.y}`
+          }
+        }
+      },
       scales:{
-        x:{grid:{display:false},ticks:{font:{size:11},color:'#9ca3af'}},
-        y:{grid:{color:'#f0f0f0'},ticks:{stepSize:1,precision:0,font:{size:11},color:'#9ca3af'},beginAtZero:true}
+        x:{grid:{display:false},stacked:true,ticks:{font:{size:11},color:'#9ca3af'}},
+        y:{grid:{color:'#f0f0f0'},stacked:true,ticks:{stepSize:1,precision:0,font:{size:11},color:'#9ca3af'},beginAtZero:true}
       }
     }
   });
@@ -360,12 +361,9 @@ function applyFilter(){
   if(currentTab==='andamento') base=allRows.filter(r=>isPending(r));
   else if(currentTab==='hoje') base=allRows.filter(r=>isSigned(r)&&isToday(r.data));
   else if(currentTab==='mes')  base=allRows.filter(r=>isSigned(r)&&isThisMonth(r.data));
-  filtered=q?base.filter(r=>
-    r.cliente.toLowerCase().includes(q)||r.cpf.includes(q)
-  ):base;
+  filtered=q?base.filter(r=>r.cliente.toLowerCase().includes(q)||r.cpf.includes(q)):base;
   page=0;renderTable();
 }
-
 function renderTable(){
   const wrap=document.getElementById('table-wrap');
   const start=page*PAGE_SIZE;
@@ -396,13 +394,11 @@ function renderTable(){
   document.getElementById('btn-next')?.addEventListener('click',()=>{page++;renderTable();});
 }
 
-/* ── CLOCK ───────────────────────────────────────────────── */
+/* ── CLOCK + INIT ────────────────────────────────────────── */
 function updateClock(){
   const n=new Date();
   set('clock-txt',`Atualizado ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`);
 }
-
-/* ── INIT ────────────────────────────────────────────────── */
 async function init(){
   updateClock();
   try{
@@ -416,10 +412,9 @@ async function init(){
       <div class="empty" style="color:#c0392b">
         <b>Erro ao carregar dados</b><br><br>${e.message}
       </div>`;
-    console.error('[PrimeLex] Erro:',e);
+    console.error('[PrimeLex]',e);
   }
 }
-
 document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -429,7 +424,6 @@ document.querySelectorAll('.tab').forEach(t=>{
   });
 });
 document.getElementById('search').addEventListener('input',applyFilter);
-
 init();
 setInterval(init,5*60*1000);
 </script>
