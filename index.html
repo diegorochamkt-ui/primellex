@@ -118,7 +118,7 @@ tr:hover td{background:#fafbfc}
         Total
       </div>
       <div class="kpi-val" id="kTotal">–</div>
-      <div class="kpi-sub">envelopes únicos</div>
+      <div class="kpi-sub">documentos assinados</div>
     </div>
     <div class="kpi amber">
       <div class="kpi-label">
@@ -286,7 +286,7 @@ function renderKPIs() {
   // Mensal: assinados cujo assinadoEm é este mês
   const mensalCount = assinados.filter(r => isMes(parseDate(r.assinadoEm))).length;
 
-  document.getElementById('kTotal').textContent    = todasLinhas.length;
+  document.getElementById('kTotal').textContent    = assinados.length;
   document.getElementById('kAndamento').textContent = andamento.length;
   document.getElementById('kHoje').textContent      = hojeCount;
   document.getElementById('kMensal').textContent    = mensalCount;
