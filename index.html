@@ -32,7 +32,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;
 .brand-name span{color:var(--green)}
 .brand-sub{font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:500}
 #clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
-main{max-width:1100px;margin:0 auto;padding:24px 20px 56px}
+main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 @media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}}
 .kcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
@@ -69,8 +69,9 @@ tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:#f7faf8}
 td{padding:12px 20px;font-size:13px;vertical-align:middle}
-.td-data{color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;white-space:nowrap;min-width:95px}
 .td-cliente{font-weight:500}
+.td-cpf{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
+.td-data{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
        border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap}
 .b-signed {background:var(--green-l);color:var(--green)}
@@ -168,7 +169,7 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
       <div class="tab" data-tab="mes">Este mês</div>
     </div>
     <div class="srow">
-      <input class="sinput" id="search" type="text" placeholder="Buscar cliente…"/>
+      <input class="sinput" id="search" type="text" placeholder="Buscar cliente ou CPF…"/>
     </div>
     <div id="table-wrap">
       <div class="loading-wrap">
@@ -185,25 +186,44 @@ const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
                'julho','agosto','setembro','outubro','novembro','dezembro'];
 let allRows=[], filtered=[], currentTab='todos', page=0, chart=null;
 
-/* ── PARSE DATA ─────────────────────────────────────────── */
+/* ── PARSE DATA ─────────────────────────────────────────────
+   Aceita TODOS os formatos:
+   • "Thu May 21 2026 18:24:30 GMT-0300 (Horário Padrão de Brasília)"
+   • "2026-05-21 14:24:30"
+   • "2026-05-21T14:24:30Z"
+   • "21/05/2026"
+   ────────────────────────────────────────────────────────── */
 function parseDate(val) {
   if (!val || val==='' || val==='undefined' || val==='null') return null;
   const s = String(val).trim();
+
+  /* Tenta parse nativo primeiro — funciona para ISO e "Thu May 21..." */
+  const d = new Date(s);
+  if (!isNaN(d.getTime())) return d;
+
+  /* "2026-05-21 14:24:30" — espaço no lugar do T */
   if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(s)) {
-    const d = new Date(s.replace(' ','T'));
-    return isNaN(d)?null:d;
+    const d2 = new Date(s.replace(' ','T'));
+    return isNaN(d2)?null:d2;
   }
-  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
-    const d = new Date(s);
-    return isNaN(d)?null:d;
-  }
+
+  /* "21/05/2026" */
   const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m) { const d=new Date(+m[3],+m[2]-1,+m[1]); return isNaN(d)?null:d; }
+  if (m) { const d3=new Date(+m[3],+m[2]-1,+m[1]); return isNaN(d3)?null:d3; }
+
   return null;
 }
+
 function fmtDate(d) {
   if (!d) return '—';
   return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+function fmtDateTime(d) {
+  if (!d) return '—';
+  const dt = fmtDate(d);
+  const h  = String(d.getHours()).padStart(2,'0');
+  const mi = String(d.getMinutes()).padStart(2,'0');
+  return `${dt} ${h}:${mi}`;
 }
 
 /* ── HELPERS ─────────────────────────────────────────────── */
@@ -221,13 +241,17 @@ function isPending(row){
   const s=(row.status||'').toLowerCase().trim();
   return s==='em andamento'||s==='em curso'||s==='pending'||s==='awaiting';
 }
+function isSigned(row){
+  const s=(row.status||'').toLowerCase().trim();
+  return s==='assinado'||s==='signed'||s==='finalizado';
+}
 
 /* ── JSONP ───────────────────────────────────────────────── */
 function fetchJSONP(url) {
   return new Promise((resolve, reject) => {
     const cbName = '__plx_' + Date.now();
     const script = document.createElement('script');
-    const timer  = setTimeout(()=>{ cleanup(); reject(new Error('Timeout (10s)')); }, 10000);
+    const timer  = setTimeout(()=>{ cleanup(); reject(new Error('Timeout (15s)')); }, 15000);
     window[cbName] = data => { cleanup(); resolve(data); };
     script.onerror = () => { cleanup(); reject(new Error('Falha ao carregar Apps Script')); };
     script.src = `${url}?callback=${cbName}&t=${Date.now()}`;
@@ -239,38 +263,38 @@ function fetchJSONP(url) {
 /* ── FETCH + PARSE ───────────────────────────────────────── */
 async function fetchRows() {
   const json = await fetchJSONP(API);
-  if (!Array.isArray(json)) throw new Error('Formato inesperado');
+  if (!Array.isArray(json)) throw new Error('Formato inesperado da API');
 
   const rows = json.map(r => {
-    /* Data: usa assinadoEm primeiro; fallback para atualizadoEm depois criadoEm */
+    /* Data de referência: assinadoEm > atualizadoEm > criadoEm */
     const dataRef = parseDate(r.assinadoEm)
                  || parseDate(r.atualizadoEm)
                  || parseDate(r.criadoEm);
     return {
-      status   : (r.status      ||'').trim(),
-      cliente  : (r.clienteNome ||'').trim(),
-      email    : (r.clienteEmail||'').trim(),
-      data     : dataRef,
-      assinado : parseDate(r.assinadoEm),
+      status      : (r.status       ||'').trim(),
+      cliente     : (r.clienteNome  ||'').trim(),
+      email       : (r.clienteEmail ||'').trim(),
+      cpf         : (r.cpf          ||'').trim(),
+      data        : dataRef,
+      dataAtualiz : parseDate(r.atualizadoEm) || parseDate(r.criadoEm),
     };
   }).filter(r => r.cliente!==''||r.status!=='');
 
-  console.log('%c[PrimeLex] Carregado','color:#1a7a52;font-weight:bold', rows.length,'registros');
-  if(rows[0]){
-    console.log('[PrimeLex] Primeiro registro:', rows[0]);
-    console.log('[PrimeLex] Data resolvida:', rows[0].data);
-  }
-  // Diagnóstico de datas
+  /* Diagnóstico */
   const comData = rows.filter(r=>r.data!==null).length;
-  console.log(`[PrimeLex] Com data: ${comData} / ${rows.length}`);
+  console.log('%c[PrimeLex]','color:#1a7a52;font-weight:bold',
+    `${rows.length} registros | ${comData} com data`);
+  if(rows[0]) console.log('[PrimeLex] Exemplo:', rows[0]);
   return rows;
 }
 
 /* ── KPIs ────────────────────────────────────────────────── */
 function updateKPIs(rows){
   const n   =new Date();
-  const hoje=rows.filter(r=>isToday(r.data)).length;
-  const mes =rows.filter(r=>isThisMonth(r.data)).length;
+  /* Hoje e Mensal contam docs assinados */
+  const assinados = rows.filter(r=>isSigned(r));
+  const hoje=assinados.filter(r=>isToday(r.data)).length;
+  const mes =assinados.filter(r=>isThisMonth(r.data)).length;
   const and =rows.filter(r=>isPending(r)).length;
   set('k-total',rows.length.toLocaleString('pt-BR'));
   set('k-and',  and.toLocaleString('pt-BR'));
@@ -284,10 +308,12 @@ function set(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
 function updateChart(rows){
   const labels=[],counts=[];
   const hoje=new Date();
+  /* Conta apenas assinados por data */
+  const assinados = rows.filter(r=>isSigned(r));
   for(let i=13;i>=0;i--){
     const d=new Date(hoje);d.setDate(d.getDate()-i);
     labels.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
-    counts.push(rows.filter(r=>{
+    counts.push(assinados.filter(r=>{
       const rd=r.data;
       return rd&&rd.getDate()===d.getDate()&&rd.getMonth()===d.getMonth()&&rd.getFullYear()===d.getFullYear();
     }).length);
@@ -332,11 +358,14 @@ function applyFilter(){
   const q=document.getElementById('search').value.toLowerCase();
   let base=allRows;
   if(currentTab==='andamento') base=allRows.filter(r=>isPending(r));
-  else if(currentTab==='hoje') base=allRows.filter(r=>isToday(r.data));
-  else if(currentTab==='mes')  base=allRows.filter(r=>isThisMonth(r.data));
-  filtered=q?base.filter(r=>r.cliente.toLowerCase().includes(q)):base;
+  else if(currentTab==='hoje') base=allRows.filter(r=>isSigned(r)&&isToday(r.data));
+  else if(currentTab==='mes')  base=allRows.filter(r=>isSigned(r)&&isThisMonth(r.data));
+  filtered=q?base.filter(r=>
+    r.cliente.toLowerCase().includes(q)||r.cpf.includes(q)
+  ):base;
   page=0;renderTable();
 }
+
 function renderTable(){
   const wrap=document.getElementById('table-wrap');
   const start=page*PAGE_SIZE;
@@ -344,15 +373,16 @@ function renderTable(){
   if(!filtered.length){wrap.innerHTML=`<div class="empty">Nenhum registro encontrado.</div>`;return;}
   const rows=slice.map(r=>`
     <tr>
-      <td class="td-data">${fmtDate(r.data)}</td>
       <td class="td-cliente">${r.cliente||'—'}</td>
+      <td class="td-cpf">${r.cpf||'—'}</td>
+      <td class="td-data">${fmtDateTime(r.dataAtualiz)}</td>
       <td>${badge(r.status)}</td>
     </tr>`).join('');
   const total=filtered.length;
   const info=`${start+1}–${Math.min(start+PAGE_SIZE,total)} de ${total.toLocaleString('pt-BR')}`;
   wrap.innerHTML=`
     <table>
-      <thead><tr><th>Data</th><th>Cliente</th><th>Status</th></tr></thead>
+      <thead><tr><th>Cliente</th><th>CPF</th><th>Última atualização</th><th>Status</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div class="pager">
