@@ -107,7 +107,6 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
     <span id="clock-txt">Carregando…</span>
   </div>
 </nav>
-
 <main>
   <div class="kpis">
     <div class="kcard k-green">
@@ -150,7 +149,6 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
       <div class="ksub" id="k-mes-sub">—</div>
     </div>
   </div>
-
   <div class="chart-card">
     <div class="sec-title">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -162,7 +160,6 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
     </div>
     <div class="chart-wrap"><canvas id="myChart"></canvas></div>
   </div>
-
   <div class="tcard">
     <div class="tabs">
       <div class="tab active" data-tab="todos">Todos</div>
@@ -181,50 +178,35 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
     </div>
   </div>
 </main>
-
 <script>
-/* ── CONFIG ────────────────────────────────────────────── */
 const API = 'https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
-
-/* Chaves do JSON (= cabeçalhos reais da planilha) */
-const K = {
-  STATUS   : 'Status',
-  CLIENTE  : 'Cliente Nome',
-  EMAIL    : 'Cliente Email',
-  ASSINADO : 'Assinado Em',
-  CRIADO   : 'Criado Em',
-};
-
 const PAGE_SIZE = 25;
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
                'julho','agosto','setembro','outubro','novembro','dezembro'];
 let allRows=[], filtered=[], currentTab='todos', page=0, chart=null;
 
-/* ── PARSE DATA ──────────────────────────────────────── */
+/* ── PARSE DATA ─────────────────────────────────────────── */
 function parseDate(val) {
   if (!val || val==='' || val==='undefined' || val==='null') return null;
   const s = String(val).trim();
-  /* "2026-05-21 14:24:30" */
   if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(s)) {
     const d = new Date(s.replace(' ','T'));
     return isNaN(d)?null:d;
   }
-  /* ISO */
   if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
     const d = new Date(s);
     return isNaN(d)?null:d;
   }
-  /* DD/MM/AAAA */
   const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (m) { const d=new Date(+m[3],+m[2]-1,+m[1]); return isNaN(d)?null:d; }
   return null;
 }
-function fmtDate(d){
-  if(!d)return'—';
-  return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+function fmtDate(d) {
+  if (!d) return '—';
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
 
-/* ── HELPERS ─────────────────────────────────────────── */
+/* ── HELPERS ─────────────────────────────────────────────── */
 function isToday(d){
   if(!d)return false;
   const n=new Date();
@@ -240,60 +222,55 @@ function isPending(row){
   return s==='em andamento'||s==='em curso'||s==='pending'||s==='awaiting';
 }
 
-/* ── JSONP — sem CORS ────────────────────────────────── */
+/* ── JSONP ───────────────────────────────────────────────── */
 function fetchJSONP(url) {
   return new Promise((resolve, reject) => {
-    const cbName = '__primelexCb_' + Date.now();
-    const script  = document.createElement('script');
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error('Timeout ao buscar dados (10s)'));
-    }, 10000);
-
-    window[cbName] = (data) => {
-      cleanup();
-      resolve(data);
-    };
-    script.onerror = () => {
-      cleanup();
-      reject(new Error('Falha ao carregar o script do Apps Script'));
-    };
+    const cbName = '__plx_' + Date.now();
+    const script = document.createElement('script');
+    const timer  = setTimeout(()=>{ cleanup(); reject(new Error('Timeout (10s)')); }, 10000);
+    window[cbName] = data => { cleanup(); resolve(data); };
+    script.onerror = () => { cleanup(); reject(new Error('Falha ao carregar Apps Script')); };
     script.src = `${url}?callback=${cbName}&t=${Date.now()}`;
     document.head.appendChild(script);
-
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
+    function cleanup(){ clearTimeout(timer); delete window[cbName]; script.parentNode?.removeChild(script); }
   });
 }
 
-/* ── FETCH + PARSE ───────────────────────────────────── */
+/* ── FETCH + PARSE ───────────────────────────────────────── */
 async function fetchRows() {
   const json = await fetchJSONP(API);
-  if (!Array.isArray(json)) throw new Error('Formato de dados inesperado');
+  if (!Array.isArray(json)) throw new Error('Formato inesperado');
 
-  const rows = json
-    .map(r => ({
-      status   : (r[K.STATUS]  ||'').trim(),
-      cliente  : (r[K.CLIENTE] ||'').trim(),
-      email    : (r[K.EMAIL]   ||'').trim(),
-      assinado : parseDate(r[K.ASSINADO]),
-      criado   : parseDate(r[K.CRIADO]),
-    }))
-    .filter(r => r.cliente!==''||r.status!=='');
+  const rows = json.map(r => {
+    /* Data: usa assinadoEm primeiro; fallback para atualizadoEm depois criadoEm */
+    const dataRef = parseDate(r.assinadoEm)
+                 || parseDate(r.atualizadoEm)
+                 || parseDate(r.criadoEm);
+    return {
+      status   : (r.status      ||'').trim(),
+      cliente  : (r.clienteNome ||'').trim(),
+      email    : (r.clienteEmail||'').trim(),
+      data     : dataRef,
+      assinado : parseDate(r.assinadoEm),
+    };
+  }).filter(r => r.cliente!==''||r.status!=='');
 
   console.log('%c[PrimeLex] Carregado','color:#1a7a52;font-weight:bold', rows.length,'registros');
-  if(rows[0]) console.log('[PrimeLex] Exemplo:',rows[0]);
+  if(rows[0]){
+    console.log('[PrimeLex] Primeiro registro:', rows[0]);
+    console.log('[PrimeLex] Data resolvida:', rows[0].data);
+  }
+  // Diagnóstico de datas
+  const comData = rows.filter(r=>r.data!==null).length;
+  console.log(`[PrimeLex] Com data: ${comData} / ${rows.length}`);
   return rows;
 }
 
-/* ── KPIs ────────────────────────────────────────────── */
+/* ── KPIs ────────────────────────────────────────────────── */
 function updateKPIs(rows){
   const n   =new Date();
-  const hoje=rows.filter(r=>isToday(r.assinado)).length;
-  const mes =rows.filter(r=>isThisMonth(r.assinado)).length;
+  const hoje=rows.filter(r=>isToday(r.data)).length;
+  const mes =rows.filter(r=>isThisMonth(r.data)).length;
   const and =rows.filter(r=>isPending(r)).length;
   set('k-total',rows.length.toLocaleString('pt-BR'));
   set('k-and',  and.toLocaleString('pt-BR'));
@@ -303,7 +280,7 @@ function updateKPIs(rows){
 }
 function set(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
 
-/* ── GRÁFICO ─────────────────────────────────────────── */
+/* ── GRÁFICO ─────────────────────────────────────────────── */
 function updateChart(rows){
   const labels=[],counts=[];
   const hoje=new Date();
@@ -311,7 +288,7 @@ function updateChart(rows){
     const d=new Date(hoje);d.setDate(d.getDate()-i);
     labels.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
     counts.push(rows.filter(r=>{
-      const rd=r.assinado;
+      const rd=r.data;
       return rd&&rd.getDate()===d.getDate()&&rd.getMonth()===d.getMonth()&&rd.getFullYear()===d.getFullYear();
     }).length);
   }
@@ -338,7 +315,7 @@ function updateChart(rows){
   });
 }
 
-/* ── BADGE ───────────────────────────────────────────── */
+/* ── BADGE ───────────────────────────────────────────────── */
 function badge(status){
   const s=(status||'').toLowerCase().trim();
   if(s==='assinado'||s==='signed'||s==='finalizado')
@@ -350,13 +327,13 @@ function badge(status){
   return`<span class="badge b-outro">${status||'—'}</span>`;
 }
 
-/* ── TABELA ──────────────────────────────────────────── */
+/* ── TABELA ──────────────────────────────────────────────── */
 function applyFilter(){
   const q=document.getElementById('search').value.toLowerCase();
   let base=allRows;
   if(currentTab==='andamento') base=allRows.filter(r=>isPending(r));
-  else if(currentTab==='hoje') base=allRows.filter(r=>isToday(r.assinado));
-  else if(currentTab==='mes')  base=allRows.filter(r=>isThisMonth(r.assinado));
+  else if(currentTab==='hoje') base=allRows.filter(r=>isToday(r.data));
+  else if(currentTab==='mes')  base=allRows.filter(r=>isThisMonth(r.data));
   filtered=q?base.filter(r=>r.cliente.toLowerCase().includes(q)):base;
   page=0;renderTable();
 }
@@ -367,7 +344,7 @@ function renderTable(){
   if(!filtered.length){wrap.innerHTML=`<div class="empty">Nenhum registro encontrado.</div>`;return;}
   const rows=slice.map(r=>`
     <tr>
-      <td class="td-data">${fmtDate(r.assinado)}</td>
+      <td class="td-data">${fmtDate(r.data)}</td>
       <td class="td-cliente">${r.cliente||'—'}</td>
       <td>${badge(r.status)}</td>
     </tr>`).join('');
@@ -389,13 +366,13 @@ function renderTable(){
   document.getElementById('btn-next')?.addEventListener('click',()=>{page++;renderTable();});
 }
 
-/* ── CLOCK ───────────────────────────────────────────── */
+/* ── CLOCK ───────────────────────────────────────────────── */
 function updateClock(){
   const n=new Date();
   set('clock-txt',`Atualizado ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`);
 }
 
-/* ── INIT ────────────────────────────────────────────── */
+/* ── INIT ────────────────────────────────────────────────── */
 async function init(){
   updateClock();
   try{
@@ -407,8 +384,7 @@ async function init(){
   }catch(e){
     document.getElementById('table-wrap').innerHTML=`
       <div class="empty" style="color:#c0392b">
-        <b>Erro ao carregar dados</b><br><br>${e.message}<br><br>
-        <small>Verifique se o Apps Script foi atualizado e reimplantado.</small>
+        <b>Erro ao carregar dados</b><br><br>${e.message}
       </div>`;
     console.error('[PrimeLex] Erro:',e);
   }
