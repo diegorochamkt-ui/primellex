@@ -14,19 +14,18 @@
   --amber:#b8720e;--amber-l:#fef3e0;--amber-m:rgba(184,114,14,.18);--amber-b:rgba(184,114,14,.8);
   --blue:#1a5fa8;--blue-l:#e5f0fb;
   --purple:#6135a8;--purple-l:#f0eafb;
-  --red:#c0392b;--red-l:#fdecea;
   --bg:#f2f4f7;--card:#fff;--border:#e2e6ea;
   --text:#1a1d23;--muted:#6b7280;
   --r:12px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;
-    display:flex;align-items:center;justify-content:space-between;height:60px;
-    position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+  display:flex;align-items:center;justify-content:space-between;height:60px;
+  position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{width:36px;height:36px;border-radius:8px;background:var(--green);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:700;font-size:17px;color:#fff;box-shadow:0 2px 8px rgba(26,122,82,.35)}
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:17px;color:#fff;box-shadow:0 2px 8px rgba(26,122,82,.35)}
 .brand-info{line-height:1.25}
 .brand-name{font-weight:700;font-size:15px}
 .brand-name span{color:var(--green)}
@@ -34,66 +33,66 @@ nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;
 #clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
 main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}}
-.kcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
-       padding:18px 20px;border-top:3px solid transparent;transition:transform .15s}
-.kcard:hover{transform:translateY(-2px)}
-.kcard.k-green{border-color:var(--green)}.kcard.k-amber{border-color:var(--amber)}
-.kcard.k-blue{border-color:var(--blue)}.kcard.k-purple{border-color:var(--purple)}
-.klabel{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
-        font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:8px}
-.kval{font-size:44px;font-weight:700;line-height:1;letter-spacing:-2px;margin-bottom:4px}
-.k-green .kval{color:var(--green)}.k-amber .kval{color:var(--amber)}
-.k-blue  .kval{color:var(--blue)}.k-purple .kval{color:var(--purple)}
-.ksub{font-size:12px;color:var(--muted)}
-.chart-card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:20px 24px;margin-bottom:20px}
-.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.sec-title{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.07em;
-           text-transform:uppercase;display:flex;align-items:center;gap:6px}
-.legend{display:flex;gap:16px}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:500}
-.leg-dot{width:10px;height:10px;border-radius:2px}
-.chart-wrap{height:180px;position:relative}
-.tcard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
-.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 8px}
-.tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
-     border-bottom:2px solid transparent;margin-bottom:-1px;
-     transition:color .15s,border-color .15s;white-space:nowrap;user-select:none}
-.tab.active{color:var(--green);border-bottom-color:var(--green)}
-.tab:hover:not(.active){color:var(--text)}
-.srow{padding:12px 20px;border-bottom:1px solid var(--border)}
-.sinput{width:100%;max-width:300px;padding:7px 12px;border-radius:8px;
-        border:1px solid var(--border);font-family:inherit;font-size:13px;
-        color:var(--text);background:var(--bg);outline:none;transition:border-color .15s}
-.sinput:focus{border-color:var(--green)}
+@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border-radius:var(--r);padding:20px 22px;box-shadow:var(--sh);
+  border:1px solid var(--border);position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.green::before{background:var(--green)}
+.kpi.amber::before{background:var(--amber)}
+.kpi.blue::before{background:var(--blue)}
+.kpi.purple::before{background:var(--purple)}
+.kpi-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.kpi-label svg{opacity:.7}
+.kpi-val{font-size:36px;font-weight:700;line-height:1;margin-bottom:4px}
+.kpi.green .kpi-val{color:var(--green)}
+.kpi.amber .kpi-val{color:var(--amber)}
+.kpi.blue  .kpi-val{color:var(--blue)}
+.kpi.purple .kpi-val{color:var(--purple)}
+.kpi-sub{font-size:11px;color:var(--muted)}
+.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+  border:1px solid var(--border);margin-bottom:20px}
+.panel-head{padding:16px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.panel-title{font-weight:600;font-size:13px;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.chart-wrap{padding:20px 22px;height:220px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:20px;border:1px solid var(--border);
+  font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);
+  transition:.15s}
+.tab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.search-wrap{padding:12px 22px;border-bottom:1px solid var(--border)}
+.search-wrap input{width:100%;padding:8px 14px;border:1px solid var(--border);
+  border-radius:8px;font-size:13px;font-family:inherit;outline:none;
+  background:var(--bg);color:var(--text);transition:.15s}
+.search-wrap input:focus{border-color:var(--green);background:#fff}
 table{width:100%;border-collapse:collapse}
-thead th{padding:10px 20px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;
-         letter-spacing:.1em;color:var(--muted);border-bottom:1px solid var(--border);background:#fafbfc}
-tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:#f7faf8}
-td{padding:12px 20px;font-size:13px;vertical-align:middle}
-.td-cliente{font-weight:500}
-.td-cpf{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
-.td-data{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
-       border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap}
-.b-signed {background:var(--green-l);color:var(--green)}
-.b-pending{background:var(--amber-l);color:var(--amber)}
-.b-refused{background:var(--red-l);color:var(--red)}
-.b-outro  {background:#f0f0f0;color:var(--muted)}
-.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px;line-height:1.8}
-.loading-wrap{text-align:center;padding:60px}
-.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--green);
-         border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
+th{padding:10px 22px;text-align:left;font-size:10px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:13px 22px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.badge{display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge.assinado{background:var(--green-l);color:var(--green)}
+.badge.andamento{background:var(--amber-l);color:var(--amber)}
+.cpf{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
 .pager{display:flex;align-items:center;justify-content:space-between;
-       padding:12px 20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+  padding:12px 22px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
 .pager-btns{display:flex;gap:6px}
-.pbtn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card);
-      font-family:inherit;font-size:12px;cursor:pointer;color:var(--text);transition:background .1s}
-.pbtn:hover:not(:disabled){background:var(--bg)}
-.pbtn:disabled{opacity:.4;cursor:default}
+.pager-btns button{padding:5px 12px;border:1px solid var(--border);border-radius:6px;
+  background:var(--bg);cursor:pointer;font-size:12px;font-family:inherit;
+  transition:.15s;color:var(--text)}
+.pager-btns button:hover{border-color:var(--green);color:var(--green)}
+.pager-btns button:disabled{opacity:.4;cursor:default}
+#spinner{display:flex;align-items:center;justify-content:center;padding:60px;
+  flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
+.spin{width:28px;height:28px;border:3px solid var(--border);
+  border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -102,330 +101,316 @@ td{padding:12px 20px;font-size:13px;vertical-align:middle}
     <div class="logo">R</div>
     <div class="brand-info">
       <div class="brand-name">Rocha <span>Advogados</span></div>
-      <div class="brand-sub">Gestão de processos</div>
+      <div class="brand-sub">Gestão de Processos</div>
     </div>
   </div>
   <div id="clock">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-    </svg>
-    <span id="clock-txt">Carregando…</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span id="ts">–</span>
   </div>
 </nav>
+
 <main>
   <div class="kpis">
-    <div class="kcard k-green">
-      <div class="klabel">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-        </svg>Total
+    <div class="kpi green">
+      <div class="kpi-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Total
       </div>
-      <div class="kval" id="k-total">—</div>
-      <div class="ksub">envelopes</div>
+      <div class="kpi-val" id="kTotal">–</div>
+      <div class="kpi-sub">envelopes únicos</div>
     </div>
-    <div class="kcard k-amber">
-      <div class="klabel">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>Em andamento
+    <div class="kpi amber">
+      <div class="kpi-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Em Andamento
       </div>
-      <div class="kval" id="k-and">—</div>
-      <div class="ksub">aguardando assinatura</div>
+      <div class="kpi-val" id="kAndamento">–</div>
+      <div class="kpi-sub">aguardando assinatura</div>
     </div>
-    <div class="kcard k-blue">
-      <div class="klabel">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>Hoje
+    <div class="kpi blue">
+      <div class="kpi-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Hoje
       </div>
-      <div class="kval" id="k-hoje">—</div>
-      <div class="ksub">assinaturas hoje</div>
+      <div class="kpi-val" id="kHoje">–</div>
+      <div class="kpi-sub">assinaturas hoje</div>
     </div>
-    <div class="kcard k-purple">
-      <div class="klabel">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>Mensal
+    <div class="kpi purple">
+      <div class="kpi-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Mensal
       </div>
-      <div class="kval" id="k-mes">—</div>
-      <div class="ksub" id="k-mes-sub">—</div>
+      <div class="kpi-val" id="kMensal">–</div>
+      <div class="kpi-sub" id="kMensalSub">–</div>
     </div>
   </div>
 
-  <div class="chart-card">
-    <div class="chart-header">
-      <div class="sec-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <line x1="18" y1="20" x2="18" y2="10"/>
-          <line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-        </svg>
-        Envelopes — últimos 14 dias
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Envelopes — Últimos 14 dias
       </div>
-      <div class="legend">
-        <div class="leg-item"><div class="leg-dot" style="background:var(--green-b)"></div>Assinados</div>
-        <div class="leg-item"><div class="leg-dot" style="background:var(--amber-b)"></div>Em andamento</div>
+      <div style="display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block"></span>Assinados</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber);display:inline-block"></span>Em andamento</span>
       </div>
     </div>
-    <div class="chart-wrap"><canvas id="myChart"></canvas></div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
-  <div class="tcard">
-    <div class="tabs">
-      <div class="tab active" data-tab="todos">Todos</div>
-      <div class="tab" data-tab="andamento">Em andamento</div>
-      <div class="tab" data-tab="hoje">Hoje</div>
-      <div class="tab" data-tab="mes">Este mês</div>
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Processos
+      </div>
+      <div class="tabs">
+        <button class="tab on" onclick="setTab('todos')">Todos</button>
+        <button class="tab" onclick="setTab('andamento')">Em andamento</button>
+        <button class="tab" onclick="setTab('assinado')">Assinados</button>
+        <button class="tab" onclick="setTab('hoje')">Hoje</button>
+        <button class="tab" onclick="setTab('mes')">Este mês</button>
+      </div>
     </div>
-    <div class="srow">
-      <input class="sinput" id="search" type="text" placeholder="Buscar cliente ou CPF…"/>
+    <div class="search-wrap">
+      <input type="text" id="busca" placeholder="Buscar por cliente, CPF ou documento..." oninput="onBusca()"/>
     </div>
-    <div id="table-wrap">
-      <div class="loading-wrap">
-        <div class="spinner"></div>
-        <div style="color:var(--muted);font-size:13px">Carregando dados…</div>
+    <div id="tbl-wrap">
+      <div id="spinner"><div class="spin"></div>Carregando...</div>
+    </div>
+    <div class="pager" id="pager" style="display:none">
+      <span id="pager-info"></span>
+      <div class="pager-btns">
+        <button id="btn-prev" onclick="goPage(-1)">← Anterior</button>
+        <button id="btn-next" onclick="goPage(1)">Próxima →</button>
       </div>
     </div>
   </div>
 </main>
-<script>
-const API = 'https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
-const PAGE_SIZE = 25;
-const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
-               'julho','agosto','setembro','outubro','novembro','dezembro'];
-let allRows=[], filtered=[], currentTab='todos', page=0, chart=null;
 
-/* ── PARSE DATA ─────────────────────────────────────────── */
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbxvERVgKpD1XWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
+const PAGE = 25;
+const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+let todasLinhas = [], filtrado = [], abaAtual = 'todos', pagina = 0, grafico = null;
+
+/* ── DATAS ── */
 function parseDate(val) {
-  if (!val||val===''||val==='undefined'||val==='null') return null;
+  if (!val || val === '' || val === 'null' || val === 'undefined') return null;
   const s = String(val).trim();
+  // formato Apps Script: yyyy-MM-dd HH:mm:ss
+  if (/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(s)) {
+    const d = new Date(s.replace(' ', 'T'));
+    return isNaN(d.getTime()) ? null : d;
+  }
   const d = new Date(s);
   if (!isNaN(d.getTime())) return d;
-  if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(s)) {
-    const d2=new Date(s.replace(' ','T')); return isNaN(d2)?null:d2;
-  }
-  const m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if(m){const d3=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d3)?null:d3;}
+  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) { const d3 = new Date(+m[3], +m[2]-1, +m[1]); return isNaN(d3) ? null : d3; }
   return null;
 }
-function fmtDate(d){
-  if(!d)return'—';
-  return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-}
-function fmtDateTime(d){
-  if(!d)return'—';
-  return`${fmtDate(d)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+
+function fmtDate(d) {
+  if (!d) return '–';
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
-/* ── HELPERS ─────────────────────────────────────────────── */
-function isToday(d){
-  if(!d)return false;
-  const n=new Date();
-  return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();
-}
-function isThisMonth(d){
-  if(!d)return false;
-  const n=new Date();
-  return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();
-}
-function isPending(row){
-  const s=(row.status||'').toLowerCase().trim();
-  return s==='em andamento'||s==='em curso'||s==='pending'||s==='awaiting';
-}
-function isSigned(row){
-  const s=(row.status||'').toLowerCase().trim();
-  return s==='assinado'||s==='signed'||s==='finalizado';
+function isHoje(d) {
+  if (!d) return false;
+  const h = new Date();
+  return d.getDate()===h.getDate() && d.getMonth()===h.getMonth() && d.getFullYear()===h.getFullYear();
 }
 
-/* ── JSONP ───────────────────────────────────────────────── */
-function fetchJSONP(url){
-  return new Promise((resolve,reject)=>{
-    const cbName='__plx_'+Date.now();
-    const script=document.createElement('script');
-    const timer=setTimeout(()=>{cleanup();reject(new Error('Timeout (15s)'));},15000);
-    window[cbName]=data=>{cleanup();resolve(data);};
-    script.onerror=()=>{cleanup();reject(new Error('Falha ao carregar Apps Script'));};
-    script.src=`${url}?callback=${cbName}&t=${Date.now()}`;
-    document.head.appendChild(script);
-    function cleanup(){clearTimeout(timer);delete window[cbName];script.parentNode?.removeChild(script);}
-  });
+function isMes(d) {
+  if (!d) return false;
+  const h = new Date();
+  return d.getMonth()===h.getMonth() && d.getFullYear()===h.getFullYear();
 }
 
-/* ── FETCH ───────────────────────────────────────────────── */
-async function fetchRows(){
-  const json=await fetchJSONP(API);
-  if(!Array.isArray(json))throw new Error('Formato inesperado');
-  const rows=json.map(r=>{
-    const dataRef=parseDate(r.assinadoEm)||parseDate(r.atualizadoEm)||parseDate(r.criadoEm);
-    return{
-      status     :(r.status      ||'').trim(),
-      cliente    :(r.clienteNome ||'').trim(),
-      email      :(r.clienteEmail||'').trim(),
-      cpf        :(r.cpf         ||'').trim(),
-      data       :dataRef,
-      dataAtualiz:parseDate(r.atualizadoEm)||parseDate(r.criadoEm),
-    };
-  }).filter(r=>r.cliente!==''||r.status!=='');
-  console.log('%c[PrimeLex]','color:#1a7a52;font-weight:bold',rows.length,'registros');
-  return rows;
+/* ── STATUS ── */
+function normalStatus(s) {
+  const v = String(s||'').toLowerCase().trim();
+  if (v.includes('assinado') || v === 'signed') return 'assinado';
+  return 'andamento';
 }
 
-/* ── KPIs ────────────────────────────────────────────────── */
-function updateKPIs(rows){
-  const n=new Date();
-  const assinados=rows.filter(r=>isSigned(r));
-  const hoje=assinados.filter(r=>isToday(r.data)).length;
-  const mes =assinados.filter(r=>isThisMonth(r.data)).length;
-  const and =rows.filter(r=>isPending(r)).length;
-  set('k-total',rows.length.toLocaleString('pt-BR'));
-  set('k-and',  and.toLocaleString('pt-BR'));
-  set('k-hoje', hoje.toLocaleString('pt-BR'));
-  set('k-mes',  mes.toLocaleString('pt-BR'));
-  set('k-mes-sub',`${MESES[n.getMonth()]} de ${n.getFullYear()}`);
-}
-function set(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
-
-/* ── GRÁFICO EMPILHADO ───────────────────────────────────── */
-function updateChart(rows){
-  const labels=[], signed=[], pending=[];
-  const hoje=new Date();
-  for(let i=13;i>=0;i--){
-    const d=new Date(hoje); d.setDate(d.getDate()-i);
-    labels.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
-    const same=r=>{
-      const rd=r.data;
-      return rd&&rd.getDate()===d.getDate()&&rd.getMonth()===d.getMonth()&&rd.getFullYear()===d.getFullYear();
-    };
-    signed.push(rows.filter(r=>isSigned(r)&&same(r)).length);
-    pending.push(rows.filter(r=>isPending(r)&&same(r)).length);
+/* ── DEDUPLICAR por token ── */
+function deduplicar(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    const key = r.token || (r.clienteNome + '|' + r.nomeDoc);
+    if (!map.has(key)) {
+      map.set(key, r);
+    } else {
+      const atual = map.get(key);
+      // prefere "assinado" sobre "andamento"
+      if (normalStatus(r.status) === 'assinado') {
+        map.set(key, r);
+      }
+    }
   }
-  if(chart)chart.destroy();
-  chart=new Chart(document.getElementById('myChart').getContext('2d'),{
+  return Array.from(map.values());
+}
+
+/* ── CARREGAR ── */
+function carregar() {
+  const cb = 'cb_' + Date.now();
+  const s = document.createElement('script');
+  s.src = `${API}?callback=${cb}`;
+  window[cb] = function(data) {
+    delete window[cb];
+    document.head.removeChild(s);
+    // deduplicar antes de tudo
+    todasLinhas = deduplicar(data);
+    renderKPIs();
+    renderChart();
+    aplicarFiltro();
+  };
+  s.onerror = function() {
+    document.getElementById('tbl-wrap').innerHTML = '<div class="empty">Erro ao carregar dados. Verifique o Apps Script.</div>';
+  };
+  document.head.appendChild(s);
+}
+
+/* ── KPIs ── */
+function renderKPIs() {
+  const hoje = new Date();
+  const assinados = todasLinhas.filter(r => normalStatus(r.status) === 'assinado');
+  const andamento = todasLinhas.filter(r => normalStatus(r.status) === 'andamento');
+
+  // Hoje: assinados cuja data de assinatura é hoje
+  const hojeCount = assinados.filter(r => isHoje(parseDate(r.assinadoEm))).length;
+  // Mensal: assinados cujo assinadoEm é este mês
+  const mensalCount = assinados.filter(r => isMes(parseDate(r.assinadoEm))).length;
+
+  document.getElementById('kTotal').textContent    = todasLinhas.length;
+  document.getElementById('kAndamento').textContent = andamento.length;
+  document.getElementById('kHoje').textContent      = hojeCount;
+  document.getElementById('kMensal').textContent    = mensalCount;
+  document.getElementById('kMensalSub').textContent = MESES[hoje.getMonth()] + ' de ' + hoje.getFullYear();
+  document.getElementById('ts').textContent = 'Atualizado ' + String(hoje.getHours()).padStart(2,'0') + ':' + String(hoje.getMinutes()).padStart(2,'0');
+}
+
+/* ── GRÁFICO ── */
+function renderChart() {
+  const labels=[], signed=[], pend=[];
+  const hoje = new Date();
+  for (let i=13; i>=0; i--) {
+    const d = new Date(hoje);
+    d.setDate(hoje.getDate()-i);
+    const dd = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
+    labels.push(dd);
+    const dayStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    let s=0, p=0;
+    for (const r of todasLinhas) {
+      const st = normalStatus(r.status);
+      // data relevante: assinadoEm para assinados, criadoEm para andamento
+      const dt = parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
+      if (!dt) continue;
+      const rStr = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+      if (rStr === dayStr) { st === 'assinado' ? s++ : p++; }
+    }
+    signed.push(s); pend.push(p);
+  }
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (grafico) grafico.destroy();
+  grafico = new Chart(ctx, {
     type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {
-          label:'Assinados',data:signed,
-          backgroundColor:'rgba(26,122,82,.75)',
-          borderColor:'rgba(26,122,82,.9)',
-          borderWidth:0,borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},
-          stack:'s',
-        },
-        {
-          label:'Em andamento',data:pending,
-          backgroundColor:'rgba(184,114,14,.75)',
-          borderColor:'rgba(184,114,14,.9)',
-          borderWidth:0,borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},
-          stack:'s',
-        }
-      ]
-    },
+    data:{labels,datasets:[
+      {label:'Assinados',data:signed,backgroundColor:'rgba(26,122,82,.75)',borderRadius:4,stack:'a'},
+      {label:'Em andamento',data:pend,backgroundColor:'rgba(184,114,14,.65)',borderRadius:4,stack:'a'}
+    ]},
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          callbacks:{
-            label:c=>`${c.dataset.label}: ${c.parsed.y}`
-          }
-        }
-      },
-      scales:{
-        x:{grid:{display:false},stacked:true,ticks:{font:{size:11},color:'#9ca3af'}},
-        y:{grid:{color:'#f0f0f0'},stacked:true,ticks:{stepSize:1,precision:0,font:{size:11},color:'#9ca3af'},beginAtZero:true}
-      }
+      plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},
+              y:{beginAtZero:true,ticks:{stepSize:1,font:{size:11}},grid:{color:'#f0f0f0'}}}
     }
   });
 }
 
-/* ── BADGE ───────────────────────────────────────────────── */
-function badge(status){
-  const s=(status||'').toLowerCase().trim();
-  if(s==='assinado'||s==='signed'||s==='finalizado')
-    return`<span class="badge b-signed">✓ Assinado</span>`;
-  if(s==='em andamento'||s==='em curso'||s==='pending'||s==='awaiting')
-    return`<span class="badge b-pending">● Em andamento</span>`;
-  if(s==='recusado'||s==='refused')
-    return`<span class="badge b-refused">✕ Recusado</span>`;
-  return`<span class="badge b-outro">${status||'—'}</span>`;
+/* ── FILTRO E TABS ── */
+function setTab(aba) {
+  abaAtual = aba;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  event.target.classList.add('on');
+  pagina = 0;
+  aplicarFiltro();
 }
 
-/* ── TABELA ──────────────────────────────────────────────── */
-function applyFilter(){
-  const q=document.getElementById('search').value.toLowerCase();
-  let base=allRows;
-  if(currentTab==='andamento') base=allRows.filter(r=>isPending(r));
-  else if(currentTab==='hoje') base=allRows.filter(r=>isSigned(r)&&isToday(r.data));
-  else if(currentTab==='mes')  base=allRows.filter(r=>isSigned(r)&&isThisMonth(r.data));
-  filtered=q?base.filter(r=>r.cliente.toLowerCase().includes(q)||r.cpf.includes(q)):base;
-  page=0;renderTable();
-}
-function renderTable(){
-  const wrap=document.getElementById('table-wrap');
-  const start=page*PAGE_SIZE;
-  const slice=filtered.slice(start,start+PAGE_SIZE);
-  if(!filtered.length){wrap.innerHTML=`<div class="empty">Nenhum registro encontrado.</div>`;return;}
-  const rows=slice.map(r=>`
-    <tr>
-      <td class="td-cliente">${r.cliente||'—'}</td>
-      <td class="td-cpf">${r.cpf||'—'}</td>
-      <td class="td-data">${fmtDateTime(r.dataAtualiz)}</td>
-      <td>${badge(r.status)}</td>
-    </tr>`).join('');
-  const total=filtered.length;
-  const info=`${start+1}–${Math.min(start+PAGE_SIZE,total)} de ${total.toLocaleString('pt-BR')}`;
-  wrap.innerHTML=`
-    <table>
-      <thead><tr><th>Cliente</th><th>CPF</th><th>Última atualização</th><th>Status</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <div class="pager">
-      <span>${info}</span>
-      <div class="pager-btns">
-        <button class="pbtn" id="btn-prev" ${page===0?'disabled':''}>← Anterior</button>
-        <button class="pbtn" id="btn-next" ${start+PAGE_SIZE>=total?'disabled':''}>Próximo →</button>
-      </div>
-    </div>`;
-  document.getElementById('btn-prev')?.addEventListener('click',()=>{page--;renderTable();});
-  document.getElementById('btn-next')?.addEventListener('click',()=>{page++;renderTable();});
-}
+function onBusca() { pagina = 0; aplicarFiltro(); }
 
-/* ── CLOCK + INIT ────────────────────────────────────────── */
-function updateClock(){
-  const n=new Date();
-  set('clock-txt',`Atualizado ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`);
-}
-async function init(){
-  updateClock();
-  try{
-    allRows=await fetchRows();
-    filtered=allRows;
-    updateKPIs(allRows);
-    updateChart(allRows);
-    renderTable();
-  }catch(e){
-    document.getElementById('table-wrap').innerHTML=`
-      <div class="empty" style="color:#c0392b">
-        <b>Erro ao carregar dados</b><br><br>${e.message}
-      </div>`;
-    console.error('[PrimeLex]',e);
-  }
-}
-document.querySelectorAll('.tab').forEach(t=>{
-  t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    currentTab=t.dataset.tab;
-    applyFilter();
+function aplicarFiltro() {
+  const q = (document.getElementById('busca').value||'').toLowerCase().trim();
+  filtrado = todasLinhas.filter(r => {
+    const st = normalStatus(r.status);
+    if (abaAtual === 'andamento' && st !== 'andamento') return false;
+    if (abaAtual === 'assinado'  && st !== 'assinado')  return false;
+    if (abaAtual === 'hoje') {
+      const d = parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
+      if (!isHoje(d)) return false;
+    }
+    if (abaAtual === 'mes') {
+      const d = parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
+      if (!isMes(d)) return false;
+    }
+    if (q) {
+      const txt = `${r.clienteNome} ${r.cpf} ${r.nomeDoc} ${r.clienteEmail}`.toLowerCase();
+      if (!txt.includes(q)) return false;
+    }
+    return true;
   });
-});
-document.getElementById('search').addEventListener('input',applyFilter);
-init();
-setInterval(init,5*60*1000);
+  renderTabela();
+}
+
+/* ── TABELA ── */
+function renderTabela() {
+  const wrap = document.getElementById('tbl-wrap');
+  const pager = document.getElementById('pager');
+  if (!filtrado.length) {
+    wrap.innerHTML = '<div class="empty">Nenhum registro encontrado.</div>';
+    pager.style.display = 'none';
+    return;
+  }
+  const total = filtrado.length;
+  const totalPags = Math.ceil(total / PAGE);
+  pagina = Math.max(0, Math.min(pagina, totalPags-1));
+  const slice = filtrado.slice(pagina*PAGE, (pagina+1)*PAGE);
+
+  let html = '<table><thead><tr><th>Cliente</th><th>CPF</th><th>Última atualização</th><th>Status</th></tr></thead><tbody>';
+  for (const r of slice) {
+    const st = normalStatus(r.status);
+    const dt = parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
+    const dtStr = fmtDate(dt);
+    const badge = st === 'assinado'
+      ? '<span class="badge assinado">✓ Assinado</span>'
+      : '<span class="badge andamento">⏳ Em andamento</span>';
+    const cpf = r.cpf && r.cpf !== 'null' && r.cpf !== '' ? `<span class="cpf">${r.cpf}</span>` : '–';
+    const nome = r.clienteNome || r.nomeDoc || '–';
+    html += `<tr><td>${nome}</td><td>${cpf}</td><td>${dtStr}</td><td>${badge}</td></tr>`;
+  }
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  pager.style.display = 'flex';
+  document.getElementById('pager-info').textContent = `${pagina*PAGE+1}–${Math.min((pagina+1)*PAGE, total)} de ${total}`;
+  document.getElementById('btn-prev').disabled = pagina === 0;
+  document.getElementById('btn-next').disabled = pagina >= totalPags-1;
+}
+
+function goPage(d) { pagina += d; renderTabela(); }
+
+/* ── CLOCK ── */
+setInterval(()=>{
+  const n=new Date();
+  const el=document.getElementById('ts');
+  if(el) el.textContent='Atualizado '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+}, 60000);
+
+carregar();
 </script>
 </body>
 </html>
