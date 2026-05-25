@@ -167,11 +167,11 @@ tr:hover td{background:#fafbfc}
         Processos
       </div>
       <div class="tabs">
-        <button class="tab on" onclick="setTab('todos')">Todos</button>
-        <button class="tab" onclick="setTab('andamento')">Em andamento</button>
-        <button class="tab" onclick="setTab('assinado')">Assinados</button>
-        <button class="tab" onclick="setTab('hoje')">Hoje</button>
-        <button class="tab" onclick="setTab('mes')">Este mês</button>
+        <button class="tab on" onclick="setTab('todos',this)">Todos</button>
+        <button class="tab" onclick="setTab('andamento',this)">Em andamento</button>
+        <button class="tab" onclick="setTab('assinado',this)">Assinados</button>
+        <button class="tab" onclick="setTab('hoje',this)">Hoje</button>
+        <button class="tab" onclick="setTab('mes',this)">Este mês</button>
       </div>
     </div>
     <div class="search-wrap">
@@ -201,7 +201,6 @@ let todasLinhas = [], filtrado = [], abaAtual = 'todos', pagina = 0, grafico = n
 function parseDate(val) {
   if (!val || val === '' || val === 'null' || val === 'undefined') return null;
   const s = String(val).trim();
-  // formato Apps Script: yyyy-MM-dd HH:mm:ss
   if (/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(s)) {
     const d = new Date(s.replace(' ', 'T'));
     return isNaN(d.getTime()) ? null : d;
@@ -237,6 +236,12 @@ function normalStatus(s) {
   return 'andamento';
 }
 
+/* ── DATA RELEVANTE para ordenação ── */
+function getDataRelevante(r) {
+  const st = normalStatus(r.status);
+  return parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
+}
+
 /* ── DEDUPLICAR por token ── */
 function deduplicar(rows) {
   const map = new Map();
@@ -245,8 +250,6 @@ function deduplicar(rows) {
     if (!map.has(key)) {
       map.set(key, r);
     } else {
-      const atual = map.get(key);
-      // prefere "assinado" sobre "andamento"
       if (normalStatus(r.status) === 'assinado') {
         map.set(key, r);
       }
@@ -263,7 +266,6 @@ function carregar() {
   window[cb] = function(data) {
     delete window[cb];
     document.head.removeChild(s);
-    // deduplicar antes de tudo
     todasLinhas = deduplicar(data);
     renderKPIs();
     renderChart();
@@ -280,13 +282,10 @@ function renderKPIs() {
   const hoje = new Date();
   const assinados = todasLinhas.filter(r => normalStatus(r.status) === 'assinado');
   const andamento = todasLinhas.filter(r => normalStatus(r.status) === 'andamento');
-
-  // Hoje: assinados cuja data de assinatura é hoje
-  const hojeCount = assinados.filter(r => isHoje(parseDate(r.assinadoEm))).length;
-  // Mensal: assinados cujo assinadoEm é este mês
+  const hojeCount   = assinados.filter(r => isHoje(parseDate(r.assinadoEm))).length;
   const mensalCount = assinados.filter(r => isMes(parseDate(r.assinadoEm))).length;
 
-  document.getElementById('kTotal').textContent    = assinados.length;
+  document.getElementById('kTotal').textContent     = assinados.length;
   document.getElementById('kAndamento').textContent = andamento.length;
   document.getElementById('kHoje').textContent      = hojeCount;
   document.getElementById('kMensal').textContent    = mensalCount;
@@ -307,7 +306,6 @@ function renderChart() {
     let s=0, p=0;
     for (const r of todasLinhas) {
       const st = normalStatus(r.status);
-      // data relevante: assinadoEm para assinados, criadoEm para andamento
       const dt = parseDate(st === 'assinado' ? r.assinadoEm : r.criadoEm);
       if (!dt) continue;
       const rStr = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
@@ -333,10 +331,10 @@ function renderChart() {
 }
 
 /* ── FILTRO E TABS ── */
-function setTab(aba) {
+function setTab(aba, el) {
   abaAtual = aba;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
-  event.target.classList.add('on');
+  el.classList.add('on');
   pagina = 0;
   aplicarFiltro();
 }
@@ -363,6 +361,17 @@ function aplicarFiltro() {
     }
     return true;
   });
+
+  /* ── ORDENAÇÃO: mais recentes primeiro ── */
+  filtrado.sort((a, b) => {
+    const da = getDataRelevante(a);
+    const db = getDataRelevante(b);
+    if (!da && !db) return 0;
+    if (!da) return 1;
+    if (!db) return -1;
+    return db - da;
+  });
+
   renderTabela();
 }
 
