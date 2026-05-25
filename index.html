@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Rocha Marketing — Dashboard</title>
+<title>PrimeLex — Rocha Marketing</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -15,27 +15,128 @@
   --blue:#1a5fa8;--blue-l:#e5f0fb;
   --purple:#6135a8;--purple-l:#f0eafb;
   --teal:#0e7a8a;--teal-l:#e0f5f7;
-  --rose:#a8351a;--rose-l:#fbeae6;--yellow:#e6c200;--yellow-l:#fefbe6;
+  --rose:#a8351a;--rose-l:#fbeae6;
+  --yellow:#e6c200;--yellow-l:#fefbe6;
   --bg:#f2f4f7;--card:#fff;--border:#e2e6ea;
   --text:#1a1d23;--muted:#6b7280;
+  --sidebar-w:220px;
   --r:12px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
-nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 28px;
-  display:flex;align-items:center;justify-content:space-between;height:60px;
-  position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:36px;height:36px;border-radius:8px;background:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:17px;color:#fff;box-shadow:0 2px 8px rgba(26,122,82,.35)}
-.brand-info{line-height:1.25}
-.brand-name{font-weight:700;font-size:15px}
-.brand-name span{color:var(--green)}
-.brand-sub{font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:500}
-#clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
-main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
 
-/* ── PERÍODO BAR ── */
+/* ════════════════════════════════
+   LOGIN
+════════════════════════════════ */
+#login-screen{
+  position:fixed;inset:0;background:linear-gradient(135deg,#0f2419 0%,#1a3a28 50%,#0f2419 100%);
+  display:flex;align-items:center;justify-content:center;z-index:9999;
+}
+.login-box{
+  background:#fff;border-radius:20px;padding:48px 44px;width:100%;max-width:400px;
+  box-shadow:0 24px 80px rgba(0,0,0,.35);text-align:center;
+}
+.login-logo{
+  width:56px;height:56px;border-radius:14px;background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:24px;color:#fff;margin:0 auto 20px;
+  box-shadow:0 4px 16px rgba(26,122,82,.4);
+}
+.login-title{font-size:22px;font-weight:700;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:32px}
+.login-field{margin-bottom:16px;text-align:left}
+.login-field label{display:block;font-size:11px;font-weight:600;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.login-field input{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;font-family:inherit;outline:none;transition:.2s;background:var(--bg);
+}
+.login-field input:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(26,122,82,.08)}
+.login-btn{
+  width:100%;padding:13px;background:var(--green);color:#fff;border:none;
+  border-radius:10px;font-size:14px;font-weight:600;font-family:inherit;
+  cursor:pointer;transition:.2s;margin-top:4px;
+}
+.login-btn:hover{background:#155f40;transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,122,82,.3)}
+.login-btn:active{transform:none}
+.login-err{color:var(--rose);font-size:12px;margin-top:12px;display:none}
+.login-footer{font-size:11px;color:var(--muted);margin-top:24px}
+
+/* ════════════════════════════════
+   LAYOUT COM SIDEBAR
+════════════════════════════════ */
+#app{display:none;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);
+  background:#0f2419;color:#fff;display:flex;flex-direction:column;
+  z-index:100;transition:.3s;
+}
+.sidebar-brand{
+  padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;gap:11px;
+}
+.sidebar-logo{
+  width:36px;height:36px;border-radius:9px;background:var(--green);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:17px;color:#fff;box-shadow:0 2px 10px rgba(26,122,82,.5);
+}
+.sidebar-brand-info{line-height:1.25;min-width:0}
+.sidebar-brand-name{font-weight:700;font-size:14px;white-space:nowrap}
+.sidebar-brand-name span{color:#4ade80}
+.sidebar-brand-sub{font-size:9px;letter-spacing:.14em;color:rgba(255,255,255,.45);text-transform:uppercase}
+
+.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);padding:12px 20px 6px}
+.nav-item{
+  display:flex;align-items:center;gap:11px;padding:10px 20px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.65);
+  cursor:pointer;transition:.15s;border-left:3px solid transparent;
+  user-select:none;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:rgba(26,122,82,.25);color:#4ade80;border-left-color:#4ade80}
+.nav-item.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.nav-item svg{flex-shrink:0;opacity:.8}
+.nav-badge{
+  margin-left:auto;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;
+}
+.nav-item.active .nav-badge{background:rgba(74,222,128,.2);color:#4ade80}
+
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-user{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,.55)}
+.sidebar-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--green);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;
+}
+.btn-logout{
+  display:flex;align-items:center;gap:6px;margin-top:10px;padding:8px 10px;
+  border-radius:8px;border:1px solid rgba(255,255,255,.1);background:none;
+  color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;transition:.15s;width:100%;
+}
+.btn-logout:hover{border-color:rgba(255,255,255,.25);color:#fff}
+
+/* TOPBAR */
+.topbar{
+  position:fixed;left:var(--sidebar-w);right:0;top:0;height:58px;
+  background:#fff;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;z-index:99;box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.topbar-title{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.topbar-title span{font-weight:400;color:var(--muted);font-size:13px}
+#clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
+
+/* CONTEÚDO */
+.content{margin-left:var(--sidebar-w);padding-top:58px;min-height:100vh}
+.page{display:none;padding:24px 28px 56px;max-width:1240px;margin:0 auto}
+.page.active{display:block}
+
+/* ════════════════════════════════
+   PAINEL GERAL — estilos originais
+════════════════════════════════ */
 .periodo-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .periodo-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 .periodo-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -44,9 +145,6 @@ main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
   font-family:inherit;transition:.15s;white-space:nowrap}
 .btn-periodo:hover{border-color:var(--green);color:var(--green)}
 .btn-periodo.on{background:var(--green);color:#fff;border-color:var(--green)}
-.btn-periodo.cal{display:flex;align-items:center;gap:6px}
-
-/* ── CALENDAR DROPDOWN ── */
 .cal-wrap{position:relative}
 .cal-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);
   background:var(--card);border:1px solid var(--border);border-radius:var(--r);
@@ -79,43 +177,28 @@ main{max-width:1200px;margin:0 auto;padding:24px 20px 56px}
   cursor:pointer;font-size:12px;font-family:inherit;background:none;transition:.15s}
 .cal-year-btn:hover{border-color:var(--green);color:var(--green)}
 .cal-year-btn.sel{background:var(--green);color:#fff;border-color:var(--green)}
-.cal-month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.cal-month-btn{padding:8px 4px;border:1px solid var(--border);border-radius:6px;
-  cursor:pointer;font-size:12px;font-family:inherit;background:none;transition:.15s}
-.cal-month-btn:hover{border-color:var(--green);color:var(--green)}
-.cal-month-btn.sel{background:var(--green);color:#fff;border-color:var(--green)}
 .cal-footer{display:flex;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border)}
 .cal-footer button{padding:6px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s}
 .cal-footer .btn-clear{background:none;border:1px solid var(--border);color:var(--muted)}
 .cal-footer .btn-clear:hover{border-color:var(--rose);color:var(--rose)}
 .cal-footer .btn-apply{background:var(--green);border:none;color:#fff;font-weight:600}
 .cal-footer .btn-apply:hover{opacity:.9}
-
-/* ── KPIs ── */
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
 @media(max-width:400px){.kpis{grid-template-columns:1fr}}
 .kpi{background:var(--card);border-radius:var(--r);padding:18px 22px 16px;box-shadow:var(--sh);
   border:1px solid var(--border);position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.kpi.green::before{background:var(--green)}
-.kpi.amber::before{background:var(--amber)}
-.kpi.blue::before{background:var(--blue)}
-.kpi.purple::before{background:var(--purple)}
-.kpi.teal::before{background:var(--teal)}
-.kpi.rose::before{background:var(--rose)}
+.kpi.green::before{background:var(--green)}.kpi.amber::before{background:var(--amber)}
+.kpi.blue::before{background:var(--blue)}.kpi.purple::before{background:var(--purple)}
+.kpi.teal::before{background:var(--teal)}.kpi.rose::before{background:var(--rose)}
 .kpi-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .kpi-val{font-size:34px;font-weight:700;line-height:1}
-.kpi.green .kpi-val{color:var(--green)}
-.kpi.amber .kpi-val{color:var(--amber)}
-.kpi.blue  .kpi-val{color:var(--blue)}
-.kpi.purple .kpi-val{color:var(--purple)}
-.kpi.teal  .kpi-val{color:var(--teal)}
-.kpi.rose  .kpi-val{color:var(--rose)}
+.kpi.green .kpi-val{color:var(--green)}.kpi.amber .kpi-val{color:var(--amber)}
+.kpi.blue  .kpi-val{color:var(--blue)}.kpi.purple .kpi-val{color:var(--purple)}
+.kpi.teal  .kpi-val{color:var(--teal)}.kpi.rose   .kpi-val{color:var(--rose)}
 .kpi-val.small{font-size:22px}
-
-/* ── PAINEL GRÁFICO E TABELA ── */
 .panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
   border:1px solid var(--border);margin-bottom:20px}
 .panel-head{padding:16px 22px;border-bottom:1px solid var(--border);
@@ -143,6 +226,8 @@ tr:hover td{background:#fafbfc}
   padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
 .badge.assinado{background:var(--green-l);color:var(--green)}
 .badge.andamento{background:var(--amber-l);color:var(--amber)}
+.badge.aguardando{background:#f0f4ff;color:#4a6fdc}
+.badge.ativo{background:var(--teal-l);color:var(--teal)}
 .cpf{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
 .empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
 .pager{display:flex;align-items:center;justify-content:space-between;
@@ -157,228 +242,383 @@ tr:hover td{background:#fafbfc}
 .spin{width:28px;height:28px;border:3px solid var(--border);
   border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* ── PIPELINE ── */
 .pipeline{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
   border:1px solid var(--border);margin-bottom:20px;padding:20px 22px}
 .pipeline-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .pipeline-bar-track{height:8px;background:#eef0f3;border-radius:99px;overflow:hidden;display:flex;margin-bottom:18px}
 .pipeline-bar-seg{height:100%;transition:.4s}
-.pipeline-bar-seg.prot{background:var(--green)}
-.pipeline-bar-seg.adv{background:var(--blue)}
-.pipeline-bar-seg.pend{background:var(--yellow)}
+.pipeline-bar-seg.prot{background:var(--green)}.pipeline-bar-seg.adv{background:var(--blue)}.pipeline-bar-seg.pend{background:var(--yellow)}
 .pipeline-items{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:600px){.pipeline-items{grid-template-columns:1fr}}
-.pipeline-item{display:flex;align-items:center;gap:14px;padding:14px 16px;
-  border-radius:10px;border:1px solid var(--border)}
+.pipeline-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;border:1px solid var(--border)}
 .pipeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .pipeline-dot.prot{background:var(--green)}.pipeline-dot.adv{background:var(--blue)}.pipeline-dot.pend{background:var(--yellow)}
 .pipeline-num{font-size:26px;font-weight:700;line-height:1}
 .pipeline-num.prot{color:var(--green)}.pipeline-num.adv{color:var(--blue)}.pipeline-num.pend{color:var(--yellow)}
 .pipeline-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ════════════════════════════════
+   PROCESSOS JUDICIAIS
+════════════════════════════════ */
+.pj-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:900px){.pj-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.pj-kpis{grid-template-columns:1fr}}
+.pj-search-bar{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.pj-search-bar input{flex:1;min-width:200px;padding:8px 14px;border:1px solid var(--border);
+  border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);transition:.15s}
+.pj-search-bar input:focus{border-color:var(--green);background:#fff}
+.pj-filter-select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+  font-size:12px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;cursor:pointer}
+.pj-filter-select:focus{border-color:var(--green)}
+.pj-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--border)}
+.cnj{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.andamento-txt{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+#pj-spinner{display:flex;align-items:center;justify-content:center;padding:60px;
+  flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
+.last-update{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
 </style>
 </head>
 <body>
-<nav>
-  <div class="brand">
-    <div class="logo">R</div>
-    <div class="brand-info">
-      <div class="brand-name">Rocha <span>Marketing</span></div>
-      <div class="brand-sub">Gestão de Processos</div>
+
+<!-- ══════════════════════════════
+     LOGIN
+══════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">R</div>
+    <div class="login-title">PrimeLex</div>
+    <div class="login-sub">Rocha Marketing — Gestão de Processos</div>
+    <div class="login-field">
+      <label>Usuário</label>
+      <input type="email" id="login-user" placeholder="seu@email.com" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Senha</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="login-err">Usuário ou senha incorretos.</div>
+    <div class="login-footer">Acesso restrito — Rocha Marketing</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     APP
+══════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">R</div>
+      <div class="sidebar-brand-info">
+        <div class="sidebar-brand-name">Rocha <span>Marketing</span></div>
+        <div class="sidebar-brand-sub">PrimeLex v2</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">Principal</div>
+      <div class="nav-item active" onclick="showPage('painel')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Painel Geral
+      </div>
+      <div class="nav-item" onclick="showPage('processos')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+        Processos Judiciais
+        <span class="nav-badge" id="nav-pj-count">–</span>
+      </div>
+
+      <div class="nav-section" style="margin-top:8px">Em breve</div>
+      <div class="nav-item disabled">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        Intimações
+      </div>
+      <div class="nav-item disabled">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Configurações
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar">D</div>
+        <span id="user-name" style="font-size:12px;color:rgba(255,255,255,.6)">Diego Rocha</span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Painel Geral
+    </div>
+    <div id="clock">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span id="ts">–</span>
     </div>
   </div>
-  <div id="clock">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    <span id="ts">–</span>
-  </div>
-</nav>
 
-<main>
-  <!-- PERÍODO -->
-  <div class="periodo-bar">
-    <span class="periodo-label">Período</span>
-    <div class="periodo-controls">
-      <button class="btn-periodo on" onclick="setPeriodo('todos',this)">Todos</button>
-      <button class="btn-periodo" onclick="setPeriodo('hoje',this)">Hoje</button>
-      <button class="btn-periodo" onclick="setPeriodo('ontem',this)">Ontem</button>
-      <button class="btn-periodo" onclick="setPeriodo('7dias',this)">7 dias</button>
-      <button class="btn-periodo" onclick="setPeriodo('30dias',this)">30 dias</button>
-      <div class="cal-wrap">
-        <button class="btn-periodo cal" id="btnCal" onclick="toggleCal()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span id="btnCalTxt">Selecionar período</span>
-        </button>
-        <div class="cal-dropdown" id="calDropdown">
-          <div class="cal-header">O intervalo máximo é de 365 dias</div>
-          <div class="cal-tabs">
-            <button class="cal-tab on" id="tabDe" onclick="setCalTab('de')">A partir de</button>
-            <button class="cal-tab" id="tabAte" onclick="setCalTab('ate')">Até</button>
-          </div>
-          <div class="cal-body">
-            <div class="cal-nav">
-              <button onclick="navCal(-1)">‹</button>
-              <span class="cal-nav-title" onclick="toggleYearView()" id="calTitle"></span>
-              <button onclick="navCal(1)">›</button>
+  <!-- CONTEÚDO -->
+  <div class="content">
+
+    <!-- ── PAINEL GERAL ── -->
+    <div class="page active" id="page-painel">
+      <div class="periodo-bar">
+        <span class="periodo-label">Período</span>
+        <div class="periodo-controls">
+          <button class="btn-periodo on" onclick="setPeriodo('todos',this)">Todos</button>
+          <button class="btn-periodo" onclick="setPeriodo('hoje',this)">Hoje</button>
+          <button class="btn-periodo" onclick="setPeriodo('ontem',this)">Ontem</button>
+          <button class="btn-periodo" onclick="setPeriodo('7dias',this)">7 dias</button>
+          <button class="btn-periodo" onclick="setPeriodo('30dias',this)">30 dias</button>
+          <div class="cal-wrap">
+            <button class="btn-periodo cal" id="btnCal" onclick="toggleCal()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span id="btnCalTxt">Selecionar período</span>
+            </button>
+            <div class="cal-dropdown" id="calDropdown">
+              <div class="cal-header">O intervalo máximo é de 365 dias</div>
+              <div class="cal-tabs">
+                <button class="cal-tab on" id="tabDe" onclick="setCalTab('de')">A partir de</button>
+                <button class="cal-tab" id="tabAte" onclick="setCalTab('ate')">Até</button>
+              </div>
+              <div class="cal-body">
+                <div class="cal-nav">
+                  <button onclick="navCal(-1)">‹</button>
+                  <span class="cal-nav-title" onclick="toggleYearView()" id="calTitle"></span>
+                  <button onclick="navCal(1)">›</button>
+                </div>
+                <div id="calGrid"></div>
+              </div>
+              <div class="cal-footer">
+                <button class="btn-clear" onclick="limparCal()">✕ Apagar</button>
+                <button class="btn-apply" onclick="aplicarCal()">Aplicar filtro</button>
+              </div>
             </div>
-            <div id="calGrid"></div>
-          </div>
-          <div class="cal-footer">
-            <button class="btn-clear" onclick="limparCal()">✕ Apagar</button>
-            <button class="btn-apply" onclick="aplicarCal()">Aplicar filtro</button>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- KPIs linha 1 -->
-  <div class="kpis">
-    <div class="kpi green">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        Total de Clientes
-      </div>
-      <div class="kpi-val" id="kClientes">–</div>
-    </div>
-    <div class="kpi teal">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Total de Processos
-      </div>
-      <div class="kpi-val" id="kTotal">–</div>
-    </div>
-    <div class="kpi rose">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Receita Total
-      </div>
-      <div class="kpi-val small" id="kReceita">–</div>
-    </div>
-  </div>
-
-  <!-- KPIs linha 2 -->
-  <div class="kpis">
-    <div class="kpi amber">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Em Andamento
-      </div>
-      <div class="kpi-val" id="kAndamento">–</div>
-    </div>
-    <div class="kpi blue">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Hoje
-      </div>
-      <div class="kpi-val" id="kHoje">–</div>
-    </div>
-    <div class="kpi purple">
-      <div class="kpi-label">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Mensal
-      </div>
-      <div class="kpi-val" id="kMensal">–</div>
-    </div>
-  </div>
-
-
-  <!-- PIPELINE -->
-  <div class="pipeline">
-    <div class="pipeline-title">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      Processos
-    </div>
-    <div class="pipeline-bar-track">
-      <div class="pipeline-bar-seg prot" style="width:22%"></div>
-      <div class="pipeline-bar-seg adv" style="width:45%"></div>
-      <div class="pipeline-bar-seg pend" style="width:33%"></div>
-    </div>
-    <div class="pipeline-items">
-      <div class="pipeline-item">
-        <div class="pipeline-dot prot"></div>
-        <div>
-          <div class="pipeline-num prot">300</div>
-          <div class="pipeline-lbl">Protocolados</div>
+      <div class="kpis">
+        <div class="kpi green">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Total de Clientes</div>
+          <div class="kpi-val" id="kClientes">–</div>
+        </div>
+        <div class="kpi teal">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total de Processos</div>
+          <div class="kpi-val" id="kTotal">–</div>
+        </div>
+        <div class="kpi rose">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Receita Total</div>
+          <div class="kpi-val small" id="kReceita">–</div>
         </div>
       </div>
-      <div class="pipeline-item">
-        <div class="pipeline-dot adv"></div>
-        <div>
-          <div class="pipeline-num adv">620</div>
-          <div class="pipeline-lbl">Aguardando protocolo</div>
+
+      <div class="kpis">
+        <div class="kpi amber">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Em Andamento</div>
+          <div class="kpi-val" id="kAndamento">–</div>
+        </div>
+        <div class="kpi blue">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Hoje</div>
+          <div class="kpi-val" id="kHoje">–</div>
+        </div>
+        <div class="kpi purple">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mensal</div>
+          <div class="kpi-val" id="kMensal">–</div>
         </div>
       </div>
-      <div class="pipeline-item">
-        <div class="pipeline-dot pend"></div>
-        <div>
-          <div class="pipeline-num pend">432</div>
-          <div class="pipeline-lbl">Pendência</div>
+
+      <div class="pipeline">
+        <div class="pipeline-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Processos</div>
+        <div class="pipeline-bar-track">
+          <div class="pipeline-bar-seg prot" style="width:22%"></div>
+          <div class="pipeline-bar-seg adv" style="width:45%"></div>
+          <div class="pipeline-bar-seg pend" style="width:33%"></div>
+        </div>
+        <div class="pipeline-items">
+          <div class="pipeline-item"><div class="pipeline-dot prot"></div><div><div class="pipeline-num prot">300</div><div class="pipeline-lbl">Protocolados</div></div></div>
+          <div class="pipeline-item"><div class="pipeline-dot adv"></div><div><div class="pipeline-num adv">620</div><div class="pipeline-lbl">Aguardando protocolo</div></div></div>
+          <div class="pipeline-item"><div class="pipeline-dot pend"></div><div><div class="pipeline-num pend">432</div><div class="pipeline-lbl">Pendência</div></div></div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- GRÁFICO -->
-  <div class="panel">
-    <div class="panel-head">
-      <div class="panel-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Envelopes — Últimos 14 dias
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Envelopes — Últimos 14 dias</div>
+          <div style="display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block"></span>Assinados</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber);display:inline-block"></span>Em andamento</span>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="chart"></canvas></div>
       </div>
-      <div style="display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)">
-        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block"></span>Assinados</span>
-        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber);display:inline-block"></span>Em andamento</span>
-      </div>
-    </div>
-    <div class="chart-wrap"><canvas id="chart"></canvas></div>
-  </div>
 
-  <!-- TABELA -->
-  <div class="panel">
-    <div class="panel-head">
-      <div class="panel-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        Processos
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Processos</div>
+          <div class="tabs">
+            <button class="tab on" onclick="setTab('todos',this)">Todos</button>
+            <button class="tab" onclick="setTab('andamento',this)">Em andamento</button>
+            <button class="tab" onclick="setTab('assinado',this)">Assinados</button>
+            <button class="tab" onclick="setTab('hoje',this)">Hoje</button>
+            <button class="tab" onclick="setTab('ontem',this)">Ontem</button>
+            <button class="tab" onclick="setTab('mes',this)">Este mês</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <input type="text" id="busca" placeholder="Buscar por cliente, CPF ou documento..." oninput="onBusca()"/>
+        </div>
+        <div id="tbl-wrap"><div id="spinner"><div class="spin"></div>Carregando...</div></div>
+        <div class="pager" id="pager" style="display:none">
+          <span id="pager-info"></span>
+          <div class="pager-btns">
+            <button id="btn-prev" onclick="goPage(-1)">← Anterior</button>
+            <button id="btn-next" onclick="goPage(1)">Próxima →</button>
+          </div>
+        </div>
       </div>
-      <div class="tabs">
-        <button class="tab on" onclick="setTab('todos',this)">Todos</button>
-        <button class="tab" onclick="setTab('andamento',this)">Em andamento</button>
-        <button class="tab" onclick="setTab('assinado',this)">Assinados</button>
-        <button class="tab" onclick="setTab('hoje',this)">Hoje</button>
-        <button class="tab" onclick="setTab('ontem',this)">Ontem</button>
-        <button class="tab" onclick="setTab('mes',this)">Este mês</button>
+    </div><!-- /page-painel -->
+
+    <!-- ── PROCESSOS JUDICIAIS ── -->
+    <div class="page" id="page-processos">
+
+      <!-- KPIs -->
+      <div class="pj-kpis">
+        <div class="kpi teal">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total de Processos</div>
+          <div class="kpi-val" id="pj-total">–</div>
+        </div>
+        <div class="kpi green">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Indexados DataJud</div>
+          <div class="kpi-val" id="pj-indexados">–</div>
+        </div>
+        <div class="kpi amber">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Aguardando DataJud</div>
+          <div class="kpi-val" id="pj-aguardando">–</div>
+        </div>
+        <div class="kpi blue">
+          <div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Advogados Ativos</div>
+          <div class="kpi-val" id="pj-advogados">–</div>
+        </div>
       </div>
-    </div>
-    <div class="search-wrap">
-      <input type="text" id="busca" placeholder="Buscar por cliente, CPF ou documento..." oninput="onBusca()"/>
-    </div>
-    <div id="tbl-wrap"><div id="spinner"><div class="spin"></div>Carregando...</div></div>
-    <div class="pager" id="pager" style="display:none">
-      <span id="pager-info"></span>
-      <div class="pager-btns">
-        <button id="btn-prev" onclick="goPage(-1)">← Anterior</button>
-        <button id="btn-next" onclick="goPage(1)">Próxima →</button>
+
+      <!-- Tabela -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Processos Judiciais
+          </div>
+          <div class="last-update">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span id="pj-update">Atualizando...</span>
+          </div>
+        </div>
+
+        <div class="pj-tabs">
+          <button class="tab on" onclick="setPjTab('todos',this)">Todos</button>
+          <button class="tab" onclick="setPjTab('indexado',this)">Indexados</button>
+          <button class="tab" onclick="setPjTab('aguardando',this)">Aguardando</button>
+        </div>
+
+        <div class="pj-search-bar">
+          <input type="text" id="pj-busca" placeholder="Buscar por CNJ, partes, advogado ou tribunal..." oninput="onPjBusca()"/>
+          <select class="pj-filter-select" id="pj-adv-filter" onchange="onPjBusca()">
+            <option value="">Todos os advogados</option>
+          </select>
+          <select class="pj-filter-select" id="pj-trib-filter" onchange="onPjBusca()">
+            <option value="">Todos os tribunais</option>
+          </select>
+        </div>
+
+        <div id="pj-tbl-wrap">
+          <div id="pj-spinner"><div class="spin"></div>Carregando processos...</div>
+        </div>
+
+        <div class="pager" id="pj-pager" style="display:none">
+          <span id="pj-pager-info"></span>
+          <div class="pager-btns">
+            <button id="pj-btn-prev" onclick="goPjPage(-1)">← Anterior</button>
+            <button id="pj-btn-next" onclick="goPjPage(1)">Próxima →</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</main>
+    </div><!-- /page-processos -->
+
+  </div><!-- /content -->
+</div><!-- /app -->
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
-const PAGE=25, TICKET=13071.28;
-const MESES_NOME=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const MESES_SHORT=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-const DOW=['D','S','T','Q','Q','S','S'];
+// ════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════
+const API     = 'https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
+const PAGE    = 25;
+const TICKET  = 13071.28;
+const USERS   = { 'diegorochamkt@gmail.com': 'Dr015139@Dr015139@' };
+const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOW = ['D','S','T','Q','Q','S','S'];
 
+// ════════════════════════════════════════════
+// LOGIN
+// ════════════════════════════════════════════
+function doLogin() {
+  const u = (document.getElementById('login-user').value || '').trim().toLowerCase();
+  const p = document.getElementById('login-pass').value || '';
+  const err = document.getElementById('login-err');
+  if (USERS[u] && USERS[u] === p) {
+    err.style.display = 'none';
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    const nome = u.split('@')[0];
+    document.getElementById('user-name').textContent = nome.charAt(0).toUpperCase() + nome.slice(1);
+    document.getElementById('user-avatar').textContent = nome.charAt(0).toUpperCase();
+    carregar();
+    carregarProcessos();
+  } else {
+    err.style.display = 'block';
+  }
+}
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-pass').value = '';
+}
+
+// ════════════════════════════════════════════
+// NAVEGAÇÃO
+// ════════════════════════════════════════════
+const PAGES = {
+  painel:    { title: 'Painel Geral',         icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
+  processos: { title: 'Processos Judiciais',  icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' },
+};
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(n => { if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active'); });
+  const pg = PAGES[id];
+  if (pg) document.getElementById('topbar-title').innerHTML = pg.icon + ' ' + pg.title;
+}
+
+// ════════════════════════════════════════════
+// PAINEL GERAL — lógica original intacta
+// ════════════════════════════════════════════
 let todasLinhas=[],filtrado=[],abaAtual='todos',pagina=0,grafico=null;
 let periodoAtivo='todos', dataInicio=null, dataFim=null;
-
-// ── CALENDAR STATE ──
 let calTabAtual='de', calViewYear=false;
 let calAno=new Date().getFullYear(), calMes=new Date().getMonth();
-let calDe=null, calAte=null, calHover=null;
+let calDe=null, calAte=null;
 
-/* ── DATAS ── */
 function parseDate(val){
   if(!val||val===''||val==='null'||val==='undefined') return null;
   const s=String(val).trim();
@@ -398,18 +638,8 @@ function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth
 function isHoje(d){return sameDay(d,new Date());}
 function isOntem(d){const o=new Date();o.setDate(o.getDate()-1);return sameDay(d,o);}
 function isMes(d){if(!d)return false;const h=new Date();return d.getMonth()===h.getMonth()&&d.getFullYear()===h.getFullYear();}
-
-/* ── STATUS ── */
-function normalStatus(s){
-  const v=String(s||'').toLowerCase().trim();
-  if(v.includes('assinado')||v==='signed') return 'assinado';
-  return 'andamento';
-}
-function getDataRelevante(r){
-  return parseDate(normalStatus(r.status)==='assinado'?r.assinadoEm:r.criadoEm);
-}
-
-/* ── DEDUPLICAR ── */
+function normalStatus(s){const v=String(s||'').toLowerCase().trim();if(v.includes('assinado')||v==='signed') return 'assinado';return 'andamento';}
+function getDataRelevante(r){return parseDate(normalStatus(r.status)==='assinado'?r.assinadoEm:r.criadoEm);}
 function deduplicar(rows){
   const map=new Map();
   for(const r of rows){
@@ -419,8 +649,6 @@ function deduplicar(rows){
   }
   return Array.from(map.values());
 }
-
-/* ── FILTRO DE PERÍODO ── */
 function linhasNoPeriodo(){
   if(periodoAtivo==='todos') return todasLinhas;
   const hoje=new Date();
@@ -435,31 +663,21 @@ function linhasNoPeriodo(){
     return true;
   });
 }
-
-/* ── CLIENTES ÚNICOS ── */
 function clientesUnicos(rows){
   const signed=rows.filter(r=>normalStatus(r.status)==='assinado');
   const keys=new Set();
-  for(const r of signed){
-    const k=(r.cpf&&r.cpf!=='null'&&r.cpf!=='')?r.cpf.trim():(r.clienteNome||'').trim().toUpperCase();
-    if(k) keys.add(k);
-  }
+  for(const r of signed){const k=(r.cpf&&r.cpf!=='null'&&r.cpf!=='')?r.cpf.trim():(r.clienteNome||'').trim().toUpperCase();if(k) keys.add(k);}
   return keys.size;
 }
-
 function fmtBRL(v){return 'R$ '+v.toLocaleString('pt-BR');}
-
-/* ── PERÍODO BOTÕES ── */
-function setPeriodo(modo, el){
-  periodoAtivo=modo; dataInicio=null; dataFim=null;
+function setPeriodo(modo,el){
+  periodoAtivo=modo;dataInicio=null;dataFim=null;
   document.querySelectorAll('.btn-periodo').forEach(b=>b.classList.remove('on'));
   if(el) el.classList.add('on');
   document.getElementById('btnCalTxt').textContent='Selecionar período';
   document.getElementById('calDropdown').classList.remove('open');
-  pagina=0; renderKPIs(); renderChart(); aplicarFiltro();
+  pagina=0;renderKPIs();renderChart();aplicarFiltro();
 }
-
-/* ── CALENDAR ── */
 function toggleCal(){
   const dd=document.getElementById('calDropdown');
   dd.classList.toggle('open');
@@ -492,7 +710,7 @@ function renderCal(){
       const sel=(calDe&&calDe.getFullYear()===y)||(calAte&&calAte.getFullYear()===y);
       h+=`<button class="cal-year-btn${sel?' sel':''}" onclick="pickYear(${y})">${y}</button>`;
     }
-    h+='</div>'; grid.innerHTML=h; return;
+    h+='</div>';grid.innerHTML=h;return;
   }
   title.textContent=`${MESES_NOME[calMes].toUpperCase()} DE ${calAno} ▼`;
   const first=new Date(calAno,calMes,1);
@@ -502,10 +720,7 @@ function renderCal(){
   const hoje=new Date();
   let h='<div class="cal-grid">';
   DOW.forEach(d=>{h+=`<div class="cal-dow">${d}</div>`;});
-  for(let i=0;i<startDow;i++){
-    const day=daysInPrev-startDow+1+i;
-    h+=`<button class="cal-day other-month" disabled>${day}</button>`;
-  }
+  for(let i=0;i<startDow;i++){h+=`<button class="cal-day other-month" disabled>${daysInPrev-startDow+1+i}</button>`;}
   for(let d=1;d<=daysInMonth;d++){
     const date=new Date(calAno,calMes,d);
     let cls='cal-day';
@@ -516,50 +731,42 @@ function renderCal(){
   }
   const remaining=(7-(startDow+daysInMonth)%7)%7;
   for(let i=1;i<=remaining;i++) h+=`<button class="cal-day other-month" disabled>${i}</button>`;
-  h+='</div>'; grid.innerHTML=h;
+  h+='</div>';grid.innerHTML=h;
 }
 function pickYear(y){calAno=y;calViewYear=false;renderCal();}
 function pickDay(y,m,d){
   const date=new Date(y,m,d);
   if(calTabAtual==='de'){calDe=date;setCalTab('ate');}
-  else{
-    if(calDe&&date<calDe){calAte=calDe;calDe=date;}
-    else{calAte=date;}
-    setCalTab('de');
-  }
+  else{if(calDe&&date<calDe){calAte=calDe;calDe=date;}else{calAte=date;}setCalTab('de');}
   renderCal();
 }
 function limparCal(){calDe=null;calAte=null;renderCal();setPeriodo('todos',document.querySelector('.btn-periodo'));}
 function aplicarCal(){
   if(!calDe||!calAte){alert('Selecione a data inicial e final.');return;}
-  dataInicio=calDe; dataFim=calAte; periodoAtivo='custom';
+  dataInicio=calDe;dataFim=calAte;periodoAtivo='custom';
   document.querySelectorAll('.btn-periodo').forEach(b=>b.classList.remove('on'));
   document.getElementById('btnCal').classList.add('on');
   const fmt=d=>`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
   document.getElementById('btnCalTxt').textContent=`${fmt(calDe)} – ${fmt(calAte)}`;
   document.getElementById('calDropdown').classList.remove('open');
-  pagina=0; renderKPIs(); renderChart(); aplicarFiltro();
+  pagina=0;renderKPIs();renderChart();aplicarFiltro();
 }
 document.addEventListener('click',e=>{
   const wrap=document.querySelector('.cal-wrap');
   if(wrap&&!wrap.contains(e.target)) document.getElementById('calDropdown').classList.remove('open');
 });
-
-/* ── CARREGAR ── */
 function carregar(){
   const cb='cb_'+Date.now();
   const s=document.createElement('script');
   s.src=`${API}?callback=${cb}`;
   window[cb]=function(data){
-    delete window[cb]; document.head.removeChild(s);
+    delete window[cb];document.head.removeChild(s);
     todasLinhas=deduplicar(data);
-    renderKPIs(); renderChart(); aplicarFiltro();
+    renderKPIs();renderChart();aplicarFiltro();
   };
   s.onerror=function(){document.getElementById('tbl-wrap').innerHTML='<div class="empty">Erro ao carregar dados.</div>';};
   document.head.appendChild(s);
 }
-
-/* ── KPIs ── */
 function renderKPIs(){
   const base=linhasNoPeriodo();
   const hoje=new Date();
@@ -568,18 +775,14 @@ function renderKPIs(){
   const nClientes=clientesUnicos(base);
   const hojeCount=assinados.filter(r=>isHoje(parseDate(r.assinadoEm))).length;
   const mesCount=assinados.filter(r=>isMes(parseDate(r.assinadoEm))).length;
-
   document.getElementById('kClientes').textContent=nClientes;
   document.getElementById('kTotal').textContent=nClientes*2;
   document.getElementById('kReceita').textContent=fmtBRL(nClientes*TICKET);
   document.getElementById('kAndamento').textContent=andamento.length;
-
   document.getElementById('kHoje').textContent=hojeCount;
   document.getElementById('kMensal').textContent=mesCount;
   document.getElementById('ts').textContent='Atualizado '+String(hoje.getHours()).padStart(2,'0')+':'+String(hoje.getMinutes()).padStart(2,'0');
 }
-
-/* ── GRÁFICO ── */
 function renderChart(){
   const labels=[],signed=[],pend=[];
   const hoje=new Date();
@@ -587,15 +790,15 @@ function renderChart(){
     const d=new Date(hoje);d.setDate(hoje.getDate()-i);
     labels.push(String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0'));
     const dayStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    let s=0,p=0;
+    let sv=0,pv=0;
     for(const r of todasLinhas){
       const st=normalStatus(r.status);
       const dt=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);
       if(!dt) continue;
       const rStr=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
-      if(rStr===dayStr){st==='assinado'?s++:p++;}
+      if(rStr===dayStr){st==='assinado'?sv++:pv++;}
     }
-    signed.push(s);pend.push(p);
+    signed.push(sv);pend.push(pv);
   }
   const ctx=document.getElementById('chart').getContext('2d');
   if(grafico) grafico.destroy();
@@ -607,16 +810,12 @@ function renderChart(){
     scales:{x:{grid:{display:false},ticks:{font:{size:11}}},
             y:{beginAtZero:true,ticks:{stepSize:1,font:{size:11}},grid:{color:'#f0f0f0'}}}}});
 }
-
-/* ── TABS TABELA ── */
 function setTab(aba,el){
   abaAtual=aba;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on'); pagina=0; aplicarFiltro();
+  el.classList.add('on');pagina=0;aplicarFiltro();
 }
 function onBusca(){pagina=0;aplicarFiltro();}
-
-/* ── FILTRO TABELA ── */
 function aplicarFiltro(){
   const q=(document.getElementById('busca').value||'').toLowerCase().trim();
   const base=linhasNoPeriodo();
@@ -632,12 +831,10 @@ function aplicarFiltro(){
   });
   filtrado.sort((a,b)=>{
     const da=getDataRelevante(a),db=getDataRelevante(b);
-    if(!da&&!db) return 0; if(!da) return 1; if(!db) return -1; return db-da;
+    if(!da&&!db) return 0;if(!da) return 1;if(!db) return -1;return db-da;
   });
   renderTabela();
 }
-
-/* ── TABELA ── */
 function renderTabela(){
   const wrap=document.getElementById('tbl-wrap'),pager=document.getElementById('pager');
   if(!filtrado.length){wrap.innerHTML='<div class="empty">Nenhum registro encontrado.</div>';pager.style.display='none';return;}
@@ -661,8 +858,124 @@ function renderTabela(){
 }
 function goPage(d){pagina+=d;renderTabela();}
 
-setInterval(()=>{const n=new Date(),el=document.getElementById('ts');if(el)el.textContent='Atualizado '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');},60000);
-carregar();
+// ════════════════════════════════════════════
+// PROCESSOS JUDICIAIS
+// ════════════════════════════════════════════
+let pjTodos=[], pjFiltrado=[], pjPagina=0, pjTabAtual='todos';
+
+function carregarProcessos(){
+  const cb='pj_'+Date.now();
+  const s=document.createElement('script');
+  s.src=`${API}?aba=processos_judiciais&callback=${cb}`;
+  window[cb]=function(data){
+    delete window[cb];document.head.removeChild(s);
+    pjTodos=data;
+    renderPjKPIs();
+    popularFiltros();
+    aplicarPjFiltro();
+    const agora=new Date();
+    document.getElementById('pj-update').textContent=
+      'Atualizado às '+String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0');
+  };
+  s.onerror=function(){
+    document.getElementById('pj-tbl-wrap').innerHTML='<div class="empty">Erro ao carregar processos.</div>';
+    document.getElementById('pj-update').textContent='Erro ao carregar';
+  };
+  document.head.appendChild(s);
+}
+
+function renderPjKPIs(){
+  const total=pjTodos.length;
+  const indexados=pjTodos.filter(r=>r.tribunal&&r.tribunal!==''&&!r.ultimoAndamento.includes('Aguardando')).length;
+  const aguardando=total-indexados;
+  const advs=new Set(pjTodos.map(r=>r.advogado).filter(Boolean)).size;
+  document.getElementById('pj-total').textContent=total;
+  document.getElementById('pj-indexados').textContent=indexados;
+  document.getElementById('pj-aguardando').textContent=aguardando;
+  document.getElementById('pj-advogados').textContent=advs;
+  document.getElementById('nav-pj-count').textContent=total;
+}
+
+function popularFiltros(){
+  const advs=[...new Set(pjTodos.map(r=>r.advogado).filter(Boolean))].sort();
+  const tribs=[...new Set(pjTodos.map(r=>r.tribunal).filter(Boolean))].sort();
+  const advSel=document.getElementById('pj-adv-filter');
+  const tribSel=document.getElementById('pj-trib-filter');
+  advs.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;advSel.appendChild(o);});
+  tribs.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t.toUpperCase();tribSel.appendChild(o);});
+}
+
+function setPjTab(aba,el){
+  pjTabAtual=aba;
+  document.querySelectorAll('.pj-tabs .tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');pjPagina=0;aplicarPjFiltro();
+}
+function onPjBusca(){pjPagina=0;aplicarPjFiltro();}
+
+function aplicarPjFiltro(){
+  const q=(document.getElementById('pj-busca').value||'').toLowerCase().trim();
+  const adv=(document.getElementById('pj-adv-filter').value||'').toLowerCase();
+  const trib=(document.getElementById('pj-trib-filter').value||'').toLowerCase();
+
+  pjFiltrado=pjTodos.filter(r=>{
+    const indexado=r.tribunal&&r.tribunal!==''&&!r.ultimoAndamento.includes('Aguardando');
+    if(pjTabAtual==='indexado'&&!indexado) return false;
+    if(pjTabAtual==='aguardando'&&indexado) return false;
+    if(adv&&(r.advogado||'').toLowerCase()!==adv) return false;
+    if(trib&&(r.tribunal||'').toLowerCase()!==trib) return false;
+    if(q){const txt=`${r.cnj} ${r.partes} ${r.advogado} ${r.tribunal} ${r.ultimoAndamento} ${r.status}`.toLowerCase();if(!txt.includes(q)) return false;}
+    return true;
+  });
+
+  renderPjTabela();
+}
+
+function renderPjTabela(){
+  const wrap=document.getElementById('pj-tbl-wrap');
+  const pager=document.getElementById('pj-pager');
+  if(!pjFiltrado.length){
+    wrap.innerHTML='<div class="empty">Nenhum processo encontrado.</div>';
+    pager.style.display='none';return;
+  }
+  const total=pjFiltrado.length;
+  const totalPags=Math.ceil(total/PAGE);
+  pjPagina=Math.max(0,Math.min(pjPagina,totalPags-1));
+  const slice=pjFiltrado.slice(pjPagina*PAGE,(pjPagina+1)*PAGE);
+
+  let html='<div style="overflow-x:auto"><table><thead><tr>';
+  html+='<th>Nº CNJ</th><th>Advogado</th><th>Partes</th><th>Tribunal</th><th>Último Andamento</th><th>Data</th><th>Status</th>';
+  html+='</tr></thead><tbody>';
+
+  for(const r of slice){
+    const indexado=r.tribunal&&r.tribunal!==''&&!r.ultimoAndamento.includes('Aguardando');
+    const statusBadge=indexado
+      ?`<span class="badge ativo">${r.status||'Ativo'}</span>`
+      :`<span class="badge aguardando">⏳ Aguardando</span>`;
+    const dataFmt=r.dataAndamento?r.dataAndamento.substring(0,10).split('-').reverse().join('/'):'–';
+    html+=`<tr>
+      <td><span class="cnj">${r.cnj||'–'}</span></td>
+      <td>${r.advogado||'–'}</td>
+      <td><div class="andamento-txt" title="${r.partes||''}">${r.partes||'Não informado'}</div></td>
+      <td><strong>${(r.tribunal||'–').toUpperCase()}</strong></td>
+      <td><div class="andamento-txt" title="${r.ultimoAndamento||''}">${r.ultimoAndamento||'–'}</div></td>
+      <td>${dataFmt}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }
+  html+='</tbody></table></div>';
+  wrap.innerHTML=html;
+  pager.style.display='flex';
+  document.getElementById('pj-pager-info').textContent=`${pjPagina*PAGE+1}–${Math.min((pjPagina+1)*PAGE,total)} de ${total}`;
+  document.getElementById('pj-btn-prev').disabled=pjPagina===0;
+  document.getElementById('pj-btn-next').disabled=pjPagina>=totalPags-1;
+}
+function goPjPage(d){pjPagina+=d;renderPjTabela();}
+
+// Clock
+setInterval(()=>{
+  const n=new Date(),el=document.getElementById('ts');
+  if(el) el.textContent='Atualizado '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+},60000);
 </script>
 </body>
 </html>
