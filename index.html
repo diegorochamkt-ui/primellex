@@ -309,7 +309,7 @@ tr:hover td{background:#fafbfc}
 
 <script>
 const API='https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
-const PAGE=25, TICKET=12000;
+const PAGE=25, TICKET=13071.28;
 const MESES_NOME=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MESES_SHORT=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const DOW=['D','S','T','Q','Q','S','S'];
@@ -427,9 +427,12 @@ function renderCal(){
   const title=document.getElementById('calTitle');
   const grid=document.getElementById('calGrid');
   if(calViewYear){
-    title.textContent=`${calAno} – ${calAno+11} ▲`;
+    const anoAtual=new Date().getFullYear();
+    let anoMin=anoAtual;
+    for(const r of todasLinhas){const d=getDataRelevante(r);if(d&&d.getFullYear()<anoMin)anoMin=d.getFullYear();}
+    title.textContent=`${anoMin} – ${anoAtual} ▲`;
     let h='<div class="cal-year-grid">';
-    for(let y=calAno;y<calAno+12;y++){
+    for(let y=anoMin;y<=anoAtual;y++){
       const sel=(calDe&&calDe.getFullYear()===y)||(calAte&&calAte.getFullYear()===y);
       h+=`<button class="cal-year-btn${sel?' sel':''}" onclick="pickYear(${y})">${y}</button>`;
     }
