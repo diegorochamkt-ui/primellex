@@ -157,6 +157,25 @@ tr:hover td{background:#fafbfc}
 .spin{width:28px;height:28px;border:3px solid var(--border);
   border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* ── PIPELINE ── */
+.pipeline{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+  border:1px solid var(--border);margin-bottom:20px;padding:20px 22px}
+.pipeline-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.pipeline-bar-track{height:8px;background:#eef0f3;border-radius:99px;overflow:hidden;display:flex;margin-bottom:18px}
+.pipeline-bar-seg{height:100%;transition:.4s}
+.pipeline-bar-seg.prot{background:var(--green)}
+.pipeline-bar-seg.adv{background:var(--blue)}
+.pipeline-bar-seg.pend{background:var(--amber)}
+.pipeline-items{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.pipeline-items{grid-template-columns:1fr}}
+.pipeline-item{display:flex;align-items:center;gap:14px;padding:14px 16px;
+  border-radius:10px;border:1px solid var(--border)}
+.pipeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pipeline-dot.prot{background:var(--green)}.pipeline-dot.adv{background:var(--blue)}.pipeline-dot.pend{background:var(--amber)}
+.pipeline-num{font-size:26px;font-weight:700;line-height:1}
+.pipeline-num.prot{color:var(--green)}.pipeline-num.adv{color:var(--blue)}.pipeline-num.pend{color:var(--amber)}
+.pipeline-lbl{font-size:11px;color:var(--muted);margin-top:3px}
 </style>
 </head>
 <body>
@@ -259,6 +278,43 @@ tr:hover td{background:#fafbfc}
         Mensal
       </div>
       <div class="kpi-val" id="kMensal">–</div>
+    </div>
+  </div>
+
+
+  <!-- PIPELINE -->
+  <div class="pipeline">
+    <div class="pipeline-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Processos
+    </div>
+    <div class="pipeline-bar-track">
+      <div class="pipeline-bar-seg prot" style="width:22%"></div>
+      <div class="pipeline-bar-seg adv" style="width:45%"></div>
+      <div class="pipeline-bar-seg pend" style="width:33%"></div>
+    </div>
+    <div class="pipeline-items">
+      <div class="pipeline-item">
+        <div class="pipeline-dot prot"></div>
+        <div>
+          <div class="pipeline-num prot">300</div>
+          <div class="pipeline-lbl">Protocolados</div>
+        </div>
+      </div>
+      <div class="pipeline-item">
+        <div class="pipeline-dot adv"></div>
+        <div>
+          <div class="pipeline-num adv">620</div>
+          <div class="pipeline-lbl">Aguardando protocolo</div>
+        </div>
+      </div>
+      <div class="pipeline-item">
+        <div class="pipeline-dot pend"></div>
+        <div>
+          <div class="pipeline-num pend">432</div>
+          <div class="pipeline-lbl">Pendência</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -517,6 +573,7 @@ function renderKPIs(){
   document.getElementById('kTotal').textContent=nClientes*2;
   document.getElementById('kReceita').textContent=fmtBRL(nClientes*TICKET);
   document.getElementById('kAndamento').textContent=andamento.length;
+
   document.getElementById('kHoje').textContent=hojeCount;
   document.getElementById('kMensal').textContent=mesCount;
   document.getElementById('ts').textContent='Atualizado '+String(hoje.getHours()).padStart(2,'0')+':'+String(hoje.getMinutes()).padStart(2,'0');
