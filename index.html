@@ -511,7 +511,7 @@ function renderKPIs(){
   const mesCount=assinados.filter(r=>isMes(parseDate(r.assinadoEm))).length;
 
   document.getElementById('kClientes').textContent=nClientes;
-  document.getElementById('kTotal').textContent=assinados.length;
+  document.getElementById('kTotal').textContent=nClientes*3;
   document.getElementById('kReceita').textContent=fmtBRL(nClientes*TICKET);
   document.getElementById('kAndamento').textContent=andamento.length;
   document.getElementById('kHoje').textContent=hojeCount;
