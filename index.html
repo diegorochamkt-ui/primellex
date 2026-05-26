@@ -19,52 +19,57 @@
   --yellow:#e6c200;--yellow-l:#fefbe6;
   --bg:#f2f4f7;--card:#fff;--border:#e2e6ea;
   --text:#1a1d23;--muted:#6b7280;
-  --sidebar-w:220px;
+  --sidebar-w:220px;--topbar-h:58px;--bottomnav-h:64px;
   --r:12px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 
-/* SIDEBAR */
+/* ═══ SIDEBAR (desktop) ═══ */
 .sidebar{
   position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);
   background:#0f2419;color:#fff;display:flex;flex-direction:column;z-index:100;
 }
-.sidebar-brand{
-  padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;gap:11px;
-}
-.sidebar-logo{
-  width:36px;height:36px;border-radius:9px;background:var(--green);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:17px;color:#fff;box-shadow:0 2px 10px rgba(26,122,82,.5);
-}
+.sidebar-brand{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:11px;}
+.sidebar-logo{width:36px;height:36px;border-radius:9px;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#fff;box-shadow:0 2px 10px rgba(26,122,82,.5);}
 .sidebar-brand-info{line-height:1.25;min-width:0}
 .sidebar-brand-name{font-weight:700;font-size:14px;white-space:nowrap}
 .sidebar-brand-name span{color:#4ade80}
 .sidebar-brand-sub{font-size:9px;letter-spacing:.14em;color:rgba(255,255,255,.45);text-transform:uppercase}
 .sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
-.nav-section{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);padding:12px 20px 6px}
-.nav-item{
-  display:flex;align-items:center;gap:11px;padding:10px 20px;
-  font-size:13px;font-weight:500;color:rgba(255,255,255,.65);
-  cursor:pointer;transition:.15s;border-left:3px solid transparent;user-select:none;
-}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:12px 20px 6px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65);cursor:pointer;transition:.15s;border-left:3px solid transparent;user-select:none;}
 .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
 .nav-item.active{background:rgba(26,122,82,.25);color:#4ade80;border-left-color:#4ade80}
 .nav-item.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
 .nav-item svg{flex-shrink:0;opacity:.8}
-.nav-badge{
-  margin-left:auto;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);
-  font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;
-}
+.nav-badge{margin-left:auto;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;}
 .nav-item.active .nav-badge{background:rgba(74,222,128,.2);color:#4ade80}
-.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);
-  font-size:11px;color:rgba(255,255,255,.3);text-align:center}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.3);text-align:center}
 
-/* TOPBAR */
+/* ═══ BOTTOM NAV (mobile) ═══ */
+.bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;height:var(--bottomnav-h);
+  background:#0f2419;border-top:1px solid rgba(255,255,255,.1);
+  z-index:200;
+}
+.bottom-nav-inner{display:flex;height:100%}
+.bn-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;cursor:pointer;color:rgba(255,255,255,.5);font-size:10px;font-weight:500;
+  transition:.15s;position:relative;border:none;background:none;font-family:inherit;
+}
+.bn-item.active{color:#4ade80}
+.bn-item svg{opacity:.7}
+.bn-item.active svg{opacity:1}
+.bn-badge{
+  position:absolute;top:8px;right:calc(50% - 18px);
+  background:#4ade80;color:#0f2419;font-size:9px;font-weight:700;
+  padding:1px 5px;border-radius:99px;min-width:16px;text-align:center;
+}
+
+/* ═══ TOPBAR ═══ */
 .topbar{
-  position:fixed;left:var(--sidebar-w);right:0;top:0;height:58px;
+  position:fixed;left:var(--sidebar-w);right:0;top:0;height:var(--topbar-h);
   background:#fff;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 28px;z-index:99;box-shadow:0 1px 4px rgba(0,0,0,.04);
@@ -72,31 +77,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .topbar-title{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
 #clock{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
 
-/* CONTEÚDO */
-.content{margin-left:var(--sidebar-w);padding-top:58px;min-height:100vh}
-.page{display:none;padding:24px 28px 56px;max-width:1240px;margin:0 auto}
+/* ═══ CONTEÚDO ═══ */
+.content{margin-left:var(--sidebar-w);padding-top:var(--topbar-h);min-height:100vh}
+.page{display:none;padding:20px 28px 56px;max-width:1240px;margin:0 auto}
 .page.active{display:block}
 
-/* PERÍODO */
+/* ═══ PERÍODO ═══ */
 .periodo-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .periodo-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
 .periodo-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.btn-periodo{padding:6px 13px;border-radius:20px;border:1px solid var(--border);
-  font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);
-  font-family:inherit;transition:.15s;white-space:nowrap}
+.btn-periodo{padding:6px 13px;border-radius:20px;border:1px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);font-family:inherit;transition:.15s;white-space:nowrap}
 .btn-periodo:hover{border-color:var(--green);color:var(--green)}
 .btn-periodo.on{background:var(--green);color:#fff;border-color:var(--green)}
 .cal-wrap{position:relative}
-.cal-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);
-  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:200;width:300px;overflow:hidden}
+.cal-dropdown{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:200;width:290px;overflow:hidden}
 .cal-dropdown.open{display:block}
-.cal-header{padding:12px 16px;background:#f8f9fa;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);text-align:center}
+.cal-header{padding:10px 14px;background:#f8f9fa;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted);text-align:center}
 .cal-tabs{display:flex;border-bottom:1px solid var(--border)}
-.cal-tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);transition:.15s;border:none;background:none;font-family:inherit}
+.cal-tab{flex:1;padding:9px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);transition:.15s;border:none;background:none;font-family:inherit}
 .cal-tab.on{color:var(--green);border-bottom:2px solid var(--green)}
-.cal-body{padding:14px 16px}
-.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-body{padding:12px 14px}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .cal-nav-title{font-size:13px;font-weight:600;cursor:pointer}
 .cal-nav button{background:none;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;color:var(--muted);transition:.15s}
 .cal-nav button:hover{border-color:var(--green);color:var(--green)}
@@ -111,97 +112,172 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .cal-day.other-month{opacity:.35}
 .cal-year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .cal-year-btn{padding:8px 4px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit;background:none;transition:.15s}
-.cal-year-btn:hover{border-color:var(--green);color:var(--green)}
-.cal-year-btn.sel{background:var(--green);color:#fff;border-color:var(--green)}
-.cal-footer{display:flex;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border)}
+.cal-year-btn:hover,.cal-year-btn.sel{border-color:var(--green);color:var(--green)}
+.cal-year-btn.sel{background:var(--green);color:#fff}
+.cal-footer{display:flex;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--border)}
 .cal-footer button{padding:6px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s}
 .cal-footer .btn-clear{background:none;border:1px solid var(--border);color:var(--muted)}
 .cal-footer .btn-clear:hover{border-color:var(--rose);color:var(--rose)}
 .cal-footer .btn-apply{background:var(--green);border:none;color:#fff;font-weight:600}
 
-/* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
-@media(max-width:400px){.kpis{grid-template-columns:1fr}}
-.pj-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:900px){.pj-kpis{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.pj-kpis{grid-template-columns:1fr}}
-.kpi{background:var(--card);border-radius:var(--r);padding:18px 22px 16px;box-shadow:var(--sh);
-  border:1px solid var(--border);position:relative;overflow:hidden}
+/* ═══ KPIs ═══ */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.pj-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--card);border-radius:var(--r);padding:16px 18px 14px;box-shadow:var(--sh);border:1px solid var(--border);position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .kpi.green::before{background:var(--green)}.kpi.amber::before{background:var(--amber)}
 .kpi.blue::before{background:var(--blue)}.kpi.purple::before{background:var(--purple)}
 .kpi.teal::before{background:var(--teal)}.kpi.rose::before{background:var(--rose)}
-.kpi-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:8px}
-.kpi-val{font-size:34px;font-weight:700;line-height:1}
+.kpi-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.kpi-val{font-size:32px;font-weight:700;line-height:1}
 .kpi.green .kpi-val{color:var(--green)}.kpi.amber .kpi-val{color:var(--amber)}
 .kpi.blue .kpi-val{color:var(--blue)}.kpi.purple .kpi-val{color:var(--purple)}
 .kpi.teal .kpi-val{color:var(--teal)}.kpi.rose .kpi-val{color:var(--rose)}
-.kpi-val.small{font-size:22px}
+.kpi-val.small{font-size:20px}
 
-/* PANELS */
-.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:20px}
-.panel-head{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.panel-title{font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
-.chart-wrap{padding:20px 22px;height:220px}
-.tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tab{padding:5px 12px;border-radius:20px;border:1px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);transition:.15s}
+/* ═══ PANELS ═══ */
+.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:16px}
+.panel-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.panel-title{font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.chart-wrap{padding:16px 18px;height:200px}
+.tabs{display:flex;gap:5px;flex-wrap:wrap}
+.tab{padding:5px 11px;border-radius:20px;border:1px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--muted);transition:.15s}
 .tab.on{background:var(--green);color:#fff;border-color:var(--green)}
-.search-wrap{padding:12px 22px;border-bottom:1px solid var(--border)}
-.search-wrap input{width:100%;padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);color:var(--text);transition:.15s}
+.search-wrap{padding:10px 18px;border-bottom:1px solid var(--border)}
+.search-wrap input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);color:var(--text);transition:.15s}
 .search-wrap input:focus{border-color:var(--green);background:#fff}
 table{width:100%;border-collapse:collapse}
-th{padding:10px 22px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:13px 22px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+th{padding:9px 18px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:12px 18px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
 .badge.assinado{background:var(--green-l);color:var(--green)}
 .badge.andamento{background:var(--amber-l);color:var(--amber)}
 .badge.aguardando{background:#f0f4ff;color:#4a6fdc}
 .badge.ativo{background:var(--teal-l);color:var(--teal)}
 .cpf{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
 .empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
-.pager{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.pager{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
 .pager-btns{display:flex;gap:6px}
 .pager-btns button{padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;font-family:inherit;transition:.15s;color:var(--text)}
 .pager-btns button:hover{border-color:var(--green);color:var(--green)}
 .pager-btns button:disabled{opacity:.4;cursor:default}
-.spin{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+.spin{width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-wrap{display:flex;align-items:center;justify-content:center;padding:60px;flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
+.loading-wrap{display:flex;align-items:center;justify-content:center;padding:50px;flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
 
-/* PIPELINE */
-.pipeline{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:20px;padding:20px 22px}
-.pipeline-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.pipeline-bar-track{height:8px;background:#eef0f3;border-radius:99px;overflow:hidden;display:flex;margin-bottom:18px}
+/* ═══ PIPELINE ═══ */
+.pipeline{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--border);margin-bottom:16px;padding:18px}
+.pipeline-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pipeline-bar-track{height:7px;background:#eef0f3;border-radius:99px;overflow:hidden;display:flex;margin-bottom:16px}
 .pipeline-bar-seg{height:100%;transition:.4s}
 .pipeline-bar-seg.prot{background:var(--green)}.pipeline-bar-seg.adv{background:var(--blue)}.pipeline-bar-seg.pend{background:var(--yellow)}
-.pipeline-items{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:600px){.pipeline-items{grid-template-columns:1fr}}
-.pipeline-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;border:1px solid var(--border)}
-.pipeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pipeline-items{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pipeline-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid var(--border)}
+.pipeline-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .pipeline-dot.prot{background:var(--green)}.pipeline-dot.adv{background:var(--blue)}.pipeline-dot.pend{background:var(--yellow)}
-.pipeline-num{font-size:26px;font-weight:700;line-height:1}
+.pipeline-num{font-size:24px;font-weight:700;line-height:1}
 .pipeline-num.prot{color:var(--green)}.pipeline-num.adv{color:var(--blue)}.pipeline-num.pend{color:var(--yellow)}
-.pipeline-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+.pipeline-lbl{font-size:11px;color:var(--muted);margin-top:2px}
 
-/* PROCESSOS JUDICIAIS extras */
-.pj-filters{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap}
-.pj-filters input{flex:1;min-width:200px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);transition:.15s}
+/* ═══ PROCESSOS JUDICIAIS ═══ */
+.pj-tabs{display:flex;gap:5px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--border)}
+.pj-filters{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.pj-filters input{flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);transition:.15s}
 .pj-filters input:focus{border-color:var(--green);background:#fff}
-.pj-filters select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;cursor:pointer}
+.pj-filters select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:inherit;background:var(--bg);color:var(--text);outline:none;cursor:pointer}
 .pj-filters select:focus{border-color:var(--green)}
-.pj-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--border)}
 .cnj{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
-.truncate{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.truncate{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
 .last-update{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:5px}
+
+/* ═══ MOBILE CARDS (processos judiciais) ═══ */
+.pj-cards{display:none;padding:12px}
+.pj-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+.pj-card-cnj{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px}
+.pj-card-adv{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
+.pj-card-tribunal{display:inline-block;background:var(--blue-l);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:8px}
+.pj-card-andamento{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.pj-card-footer{display:flex;align-items:center;justify-content:space-between}
+.pj-card-data{font-size:11px;color:var(--muted)}
+
+/* ═══ MOBILE TABLE CARDS (painel geral) ═══ */
+.mob-list{display:none;padding:8px}
+.mob-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;box-shadow:var(--sh)}
+.mob-card-name{font-weight:600;font-size:14px;margin-bottom:4px}
+.mob-card-cpf{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px}
+.mob-card-footer{display:flex;align-items:center;justify-content:space-between}
+.mob-card-date{font-size:11px;color:var(--muted)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  /* esconde sidebar, mostra bottom nav */
+  .sidebar{display:none}
+  .bottom-nav{display:block}
+  .topbar{left:0;padding:0 16px}
+  .content{margin-left:0;padding-top:var(--topbar-h);padding-bottom:var(--bottomnav-h)}
+  .page{padding:14px 12px calc(var(--bottomnav-h) + 16px)}
+
+  /* KPIs 2 colunas */
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .pj-kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:12px 14px 10px}
+  .kpi-val{font-size:26px}
+  .kpi-val.small{font-size:17px}
+
+  /* Pipeline 1 coluna */
+  .pipeline-items{grid-template-columns:1fr}
+  .pipeline-item{padding:10px 12px}
+
+  /* Gráfico menor */
+  .chart-wrap{height:160px;padding:12px}
+
+  /* Tabs wrap menor */
+  .tabs{gap:4px}
+  .tab{padding:4px 9px;font-size:11px}
+  .pj-tabs{padding:10px 12px}
+  .pj-filters{padding:10px 12px;gap:6px}
+  .pj-filters input{min-width:100%;order:-1}
+  .pj-filters select{flex:1}
+
+  /* Período bar empilha */
+  .periodo-bar{flex-direction:column;align-items:flex-start}
+  .periodo-controls{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .btn-periodo{flex-shrink:0}
+
+  /* Tabela → cards no mobile */
+  .desktop-table{display:none}
+  .mob-list{display:block}
+  .pj-table-wrap{display:none}
+  .pj-cards{display:block}
+
+  /* panel-head empilha */
+  .panel-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .panel-head .tabs{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .panel-head .tab{flex-shrink:0}
+
+  /* calendar abre à esquerda no mobile */
+  .cal-dropdown{right:auto;left:0;width:280px}
+
+  /* search */
+  .search-wrap{padding:10px 12px}
+  th,td{padding:10px 12px}
+
+  /* pager */
+  .pager{padding:10px 12px;font-size:11px}
+}
+
+@media(max-width:400px){
+  .kpis{grid-template-columns:1fr}
+  .pj-kpis{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:28px}
+}
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+<!-- ═══ SIDEBAR (desktop) ═══ -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <div class="sidebar-logo">R</div>
@@ -212,11 +288,11 @@ tr:hover td{background:#fafbfc}
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section">Principal</div>
-    <div class="nav-item active" onclick="showPage('painel')">
+    <div class="nav-item active" onclick="showPage('painel',this)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
       Painel Geral
     </div>
-    <div class="nav-item" onclick="showPage('processos')">
+    <div class="nav-item" onclick="showPage('processos',this)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Processos Judiciais
       <span class="nav-badge" id="nav-pj-count">–</span>
@@ -234,22 +310,41 @@ tr:hover td{background:#fafbfc}
   <div class="sidebar-footer">Rocha Marketing © 2025</div>
 </aside>
 
-<!-- TOPBAR -->
+<!-- ═══ BOTTOM NAV (mobile) ═══ -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bn-item active" id="bn-painel" onclick="showPage('painel',this)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Painel
+    </button>
+    <button class="bn-item" id="bn-processos" onclick="showPage('processos',this)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="bn-badge" id="bn-pj-count" style="display:none">–</span>
+      Processos
+    </button>
+    <button class="bn-item disabled" style="opacity:.35;pointer-events:none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+      Intimações
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ TOPBAR ═══ -->
 <div class="topbar">
   <div class="topbar-title" id="topbar-title">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
     Painel Geral
   </div>
   <div id="clock">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     <span id="ts">–</span>
   </div>
 </div>
 
-<!-- CONTEÚDO -->
+<!-- ═══ CONTEÚDO ═══ -->
 <div class="content">
 
-  <!-- ═══ PAINEL GERAL ═══ -->
+  <!-- ══ PAINEL GERAL ══ -->
   <div class="page active" id="page-painel">
     <div class="periodo-bar">
       <span class="periodo-label">Período</span>
@@ -261,11 +356,11 @@ tr:hover td{background:#fafbfc}
         <button class="btn-periodo" onclick="setPeriodo('30dias',this)">30 dias</button>
         <div class="cal-wrap">
           <button class="btn-periodo" id="btnCal" onclick="toggleCal()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             <span id="btnCalTxt">Selecionar período</span>
           </button>
           <div class="cal-dropdown" id="calDropdown">
-            <div class="cal-header">O intervalo máximo é de 365 dias</div>
+            <div class="cal-header">Intervalo máximo: 365 dias</div>
             <div class="cal-tabs">
               <button class="cal-tab on" id="tabDe" onclick="setCalTab('de')">A partir de</button>
               <button class="cal-tab" id="tabAte" onclick="setCalTab('ate')">Até</button>
@@ -280,7 +375,7 @@ tr:hover td{background:#fafbfc}
             </div>
             <div class="cal-footer">
               <button class="btn-clear" onclick="limparCal()">✕ Apagar</button>
-              <button class="btn-apply" onclick="aplicarCal()">Aplicar filtro</button>
+              <button class="btn-apply" onclick="aplicarCal()">Aplicar</button>
             </div>
           </div>
         </div>
@@ -288,18 +383,18 @@ tr:hover td{background:#fafbfc}
     </div>
 
     <div class="kpis">
-      <div class="kpi green"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Total de Clientes</div><div class="kpi-val" id="kClientes">–</div></div>
-      <div class="kpi teal"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total de Processos</div><div class="kpi-val" id="kTotal">–</div></div>
-      <div class="kpi rose"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Projeção de Receita Total</div><div class="kpi-val small" id="kReceita">–</div></div>
+      <div class="kpi green"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Total de Clientes</div><div class="kpi-val" id="kClientes">–</div></div>
+      <div class="kpi teal"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total de Processos</div><div class="kpi-val" id="kTotal">–</div></div>
+      <div class="kpi rose"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Projeção de Receita Total</div><div class="kpi-val small" id="kReceita">–</div></div>
     </div>
     <div class="kpis">
-      <div class="kpi amber"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Em Andamento</div><div class="kpi-val" id="kAndamento">–</div></div>
-      <div class="kpi blue"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Hoje</div><div class="kpi-val" id="kHoje">–</div></div>
-      <div class="kpi purple"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mensal</div><div class="kpi-val" id="kMensal">–</div></div>
+      <div class="kpi amber"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Em Andamento</div><div class="kpi-val" id="kAndamento">–</div></div>
+      <div class="kpi blue"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Hoje</div><div class="kpi-val" id="kHoje">–</div></div>
+      <div class="kpi purple"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mensal</div><div class="kpi-val" id="kMensal">–</div></div>
     </div>
 
     <div class="pipeline">
-      <div class="pipeline-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Processos</div>
+      <div class="pipeline-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Processos</div>
       <div class="pipeline-bar-track">
         <div class="pipeline-bar-seg prot" style="width:22%"></div>
         <div class="pipeline-bar-seg adv" style="width:45%"></div>
@@ -314,10 +409,10 @@ tr:hover td{background:#fafbfc}
 
     <div class="panel">
       <div class="panel-head">
-        <div class="panel-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Envelopes — Últimos 14 dias</div>
-        <div style="display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)">
-          <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block"></span>Assinados</span>
-          <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--amber);display:inline-block"></span>Em andamento</span>
+        <div class="panel-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Envelopes — Últimos 14 dias</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:11px;color:var(--muted)">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--green);display:inline-block"></span>Assinados</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--amber);display:inline-block"></span>Em andamento</span>
         </div>
       </div>
       <div class="chart-wrap"><canvas id="chart"></canvas></div>
@@ -325,7 +420,7 @@ tr:hover td{background:#fafbfc}
 
     <div class="panel">
       <div class="panel-head">
-        <div class="panel-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Processos</div>
+        <div class="panel-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Processos</div>
         <div class="tabs">
           <button class="tab on" onclick="setTab('todos',this)">Todos</button>
           <button class="tab" onclick="setTab('andamento',this)">Em andamento</button>
@@ -338,7 +433,10 @@ tr:hover td{background:#fafbfc}
       <div class="search-wrap">
         <input type="text" id="busca" placeholder="Buscar por cliente, CPF ou documento..." oninput="onBusca()"/>
       </div>
-      <div id="tbl-wrap"><div class="loading-wrap"><div class="spin"></div>Carregando...</div></div>
+      <!-- Desktop: tabela -->
+      <div id="tbl-wrap" class="desktop-table"><div class="loading-wrap"><div class="spin"></div>Carregando...</div></div>
+      <!-- Mobile: cards -->
+      <div id="mob-list" class="mob-list"></div>
       <div class="pager" id="pager" style="display:none">
         <span id="pager-info"></span>
         <div class="pager-btns">
@@ -349,34 +447,34 @@ tr:hover td{background:#fafbfc}
     </div>
   </div><!-- /page-painel -->
 
-  <!-- ═══ PROCESSOS JUDICIAIS ═══ -->
+  <!-- ══ PROCESSOS JUDICIAIS ══ -->
   <div class="page" id="page-processos">
     <div class="pj-kpis">
-      <div class="kpi teal"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total de Processos</div><div class="kpi-val" id="pj-total">–</div></div>
-      <div class="kpi green"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Indexados DataJud</div><div class="kpi-val" id="pj-indexados">–</div></div>
-      <div class="kpi amber"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Aguardando DataJud</div><div class="kpi-val" id="pj-aguardando">–</div></div>
-      <div class="kpi blue"><div class="kpi-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Advogados</div><div class="kpi-val" id="pj-advogados">–</div></div>
+      <div class="kpi teal"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Total</div><div class="kpi-val" id="pj-total">–</div></div>
+      <div class="kpi green"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Indexados</div><div class="kpi-val" id="pj-indexados">–</div></div>
+      <div class="kpi amber"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Aguardando</div><div class="kpi-val" id="pj-aguardando">–</div></div>
+      <div class="kpi blue"><div class="kpi-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Advogados</div><div class="kpi-val" id="pj-advogados">–</div></div>
     </div>
 
     <div class="panel">
       <div class="panel-head">
-        <div class="panel-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Processos Judiciais</div>
-        <div class="last-update">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          <span id="pj-update">Carregando...</span>
-        </div>
+        <div class="panel-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Processos Judiciais</div>
+        <div class="last-update"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg><span id="pj-update">Carregando...</span></div>
       </div>
       <div class="pj-tabs">
         <button class="tab on" onclick="setPjTab('todos',this)">Todos</button>
         <button class="tab" onclick="setPjTab('indexado',this)">Indexados</button>
-        <button class="tab" onclick="setPjTab('aguardando',this)">Aguardando DataJud</button>
+        <button class="tab" onclick="setPjTab('aguardando',this)">Aguardando</button>
       </div>
       <div class="pj-filters">
-        <input type="text" id="pj-busca" placeholder="Buscar por CNJ, partes, advogado ou tribunal..." oninput="onPjBusca()"/>
+        <input type="text" id="pj-busca" placeholder="Buscar CNJ, partes, advogado..." oninput="onPjBusca()"/>
         <select id="pj-adv-filter" onchange="onPjBusca()"><option value="">Todos os advogados</option></select>
         <select id="pj-trib-filter" onchange="onPjBusca()"><option value="">Todos os tribunais</option></select>
       </div>
-      <div id="pj-tbl-wrap"><div class="loading-wrap"><div class="spin"></div>Carregando processos...</div></div>
+      <!-- Desktop: tabela -->
+      <div id="pj-tbl-wrap" class="pj-table-wrap"><div class="loading-wrap"><div class="spin"></div>Carregando processos...</div></div>
+      <!-- Mobile: cards -->
+      <div id="pj-cards" class="pj-cards"></div>
       <div class="pager" id="pj-pager" style="display:none">
         <span id="pj-pager-info"></span>
         <div class="pager-btns">
@@ -390,22 +488,30 @@ tr:hover td{background:#fafbfc}
 </div><!-- /content -->
 
 <script>
-const API    = 'https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
-const PAGE   = 25;
-const TICKET = 13071.28;
-const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DOW = ['D','S','T','Q','Q','S','S'];
+const API='https://script.google.com/macros/s/AKfycbxvERVgKpDlXWaDTeaSme9gJPvSTr4hCqS_eKJtpfR1t2ySdbcuPMh7F3_PIqBsu-w6wg/exec';
+const PAGE=25,TICKET=13071.28;
+const MESES_NOME=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOW=['D','S','T','Q','Q','S','S'];
+function isMobile(){return window.innerWidth<=768;}
 
 // ── NAVEGAÇÃO ──
-function showPage(id){
+function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item:not(.disabled)').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  // sidebar
+  document.querySelectorAll('.nav-item:not(.disabled)').forEach(n=>n.classList.remove('active'));
+  // bottom nav
+  document.querySelectorAll('.bn-item:not(.disabled)').forEach(n=>n.classList.remove('active'));
+  if(el){el.classList.add('active');}
+  // sincroniza ambos
+  const sid=document.querySelector(`.nav-item[onclick*="'${id}'"]`);
+  if(sid) sid.classList.add('active');
+  const bn=document.getElementById('bn-'+id);
+  if(bn) bn.classList.add('active');
   const titles={painel:'Painel Geral',processos:'Processos Judiciais'};
   const icons={
-    painel:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
-    processos:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+    painel:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+    processos:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
   };
   document.getElementById('topbar-title').innerHTML=(icons[id]||'')+' '+titles[id];
 }
@@ -426,14 +532,15 @@ function parseDate(val){
   if(m){const d3=new Date(+m[3],+m[2]-1,+m[1]);return isNaN(d3)?null:d3;}
   return null;
 }
-function fmtDate(d){if(!d) return '–';return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+function fmtDate(d){if(!d)return '–';return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+function fmtDateShort(d){if(!d)return '–';return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}
 function dayStart(d){const r=new Date(d);r.setHours(0,0,0,0);return r;}
 function dayEnd(d){const r=new Date(d);r.setHours(23,59,59,999);return r;}
 function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
 function isHoje(d){return sameDay(d,new Date());}
 function isOntem(d){const o=new Date();o.setDate(o.getDate()-1);return sameDay(d,o);}
 function isMes(d){if(!d)return false;const h=new Date();return d.getMonth()===h.getMonth()&&d.getFullYear()===h.getFullYear();}
-function normalStatus(s){const v=String(s||'').toLowerCase().trim();if(v.includes('assinado')||v==='signed') return 'assinado';return 'andamento';}
+function normalStatus(s){const v=String(s||'').toLowerCase().trim();if(v.includes('assinado')||v==='signed')return 'assinado';return 'andamento';}
 function getDataRelevante(r){return parseDate(normalStatus(r.status)==='assinado'?r.assinadoEm:r.criadoEm);}
 function deduplicar(rows){
   const map=new Map();
@@ -441,12 +548,12 @@ function deduplicar(rows){
   return Array.from(map.values());
 }
 function linhasNoPeriodo(){
-  if(periodoAtivo==='todos') return todasLinhas;
+  if(periodoAtivo==='todos')return todasLinhas;
   const hoje=new Date();
   return todasLinhas.filter(r=>{
-    const d=getDataRelevante(r);if(!d) return false;
-    if(periodoAtivo==='hoje') return isHoje(d);
-    if(periodoAtivo==='ontem') return isOntem(d);
+    const d=getDataRelevante(r);if(!d)return false;
+    if(periodoAtivo==='hoje')return isHoje(d);
+    if(periodoAtivo==='ontem')return isOntem(d);
     if(periodoAtivo==='7dias'){const lim=new Date(hoje);lim.setDate(hoje.getDate()-6);return d>=dayStart(lim)&&d<=dayEnd(hoje);}
     if(periodoAtivo==='30dias'){const lim=new Date(hoje);lim.setDate(hoje.getDate()-29);return d>=dayStart(lim)&&d<=dayEnd(hoje);}
     if(periodoAtivo==='custom'&&dataInicio&&dataFim){return d>=dayStart(dataInicio)&&d<=dayEnd(dataFim);}
@@ -456,14 +563,14 @@ function linhasNoPeriodo(){
 function clientesUnicos(rows){
   const signed=rows.filter(r=>normalStatus(r.status)==='assinado');
   const keys=new Set();
-  for(const r of signed){const k=(r.cpf&&r.cpf!=='null'&&r.cpf!=='')?r.cpf.trim():(r.clienteNome||'').trim().toUpperCase();if(k) keys.add(k);}
+  for(const r of signed){const k=(r.cpf&&r.cpf!=='null'&&r.cpf!=='')?r.cpf.trim():(r.clienteNome||'').trim().toUpperCase();if(k)keys.add(k);}
   return keys.size;
 }
-function fmtBRL(v){return 'R$ '+v.toLocaleString('pt-BR');}
+function fmtBRL(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});}
 function setPeriodo(modo,el){
   periodoAtivo=modo;dataInicio=null;dataFim=null;
   document.querySelectorAll('.btn-periodo').forEach(b=>b.classList.remove('on'));
-  if(el) el.classList.add('on');
+  if(el)el.classList.add('on');
   document.getElementById('btnCalTxt').textContent='Selecionar período';
   document.getElementById('calDropdown').classList.remove('open');
   pagina=0;renderKPIs();renderChart();aplicarFiltro();
@@ -482,19 +589,19 @@ function renderCal(){
     for(let y=anoMin;y<=anoAtual;y++){const sel=(calDe&&calDe.getFullYear()===y)||(calAte&&calAte.getFullYear()===y);h+=`<button class="cal-year-btn${sel?' sel':''}" onclick="pickYear(${y})">${y}</button>`;}
     h+='</div>';grid.innerHTML=h;return;
   }
-  title.textContent=`${MESES_NOME[calMes].toUpperCase()} DE ${calAno} ▼`;
+  title.textContent=`${MESES_NOME[calMes].toUpperCase()} ${calAno} ▼`;
   const first=new Date(calAno,calMes,1),startDow=first.getDay(),daysInMonth=new Date(calAno,calMes+1,0).getDate(),daysInPrev=new Date(calAno,calMes,0).getDate(),hoje=new Date();
   let h='<div class="cal-grid">';
   DOW.forEach(d=>{h+=`<div class="cal-dow">${d}</div>`;});
   for(let i=0;i<startDow;i++){h+=`<button class="cal-day other-month" disabled>${daysInPrev-startDow+1+i}</button>`;}
   for(let d=1;d<=daysInMonth;d++){
     const date=new Date(calAno,calMes,d);let cls='cal-day';
-    if(sameDay(date,hoje)) cls+=' today';
-    if((calDe&&sameDay(date,calDe))||(calAte&&sameDay(date,calAte))) cls+=' sel';
-    else if(calDe&&calAte&&date>calDe&&date<calAte) cls+=' in-range';
+    if(sameDay(date,hoje))cls+=' today';
+    if((calDe&&sameDay(date,calDe))||(calAte&&sameDay(date,calAte)))cls+=' sel';
+    else if(calDe&&calAte&&date>calDe&&date<calAte)cls+=' in-range';
     h+=`<button class="${cls}" onclick="pickDay(${calAno},${calMes},${d})">${d}</button>`;
   }
-  const rem=(7-(startDow+daysInMonth)%7)%7;for(let i=1;i<=rem;i++) h+=`<button class="cal-day other-month" disabled>${i}</button>`;
+  const rem=(7-(startDow+daysInMonth)%7)%7;for(let i=1;i<=rem;i++)h+=`<button class="cal-day other-month" disabled>${i}</button>`;
   h+='</div>';grid.innerHTML=h;
 }
 function pickYear(y){calAno=y;calViewYear=false;renderCal();}
@@ -515,7 +622,7 @@ function aplicarCal(){
   document.getElementById('calDropdown').classList.remove('open');
   pagina=0;renderKPIs();renderChart();aplicarFiltro();
 }
-document.addEventListener('click',e=>{const wrap=document.querySelector('.cal-wrap');if(wrap&&!wrap.contains(e.target)) document.getElementById('calDropdown').classList.remove('open');});
+document.addEventListener('click',e=>{const wrap=document.querySelector('.cal-wrap');if(wrap&&!wrap.contains(e.target))document.getElementById('calDropdown').classList.remove('open');});
 
 function carregar(){
   const cb='cb_'+Date.now(),s=document.createElement('script');
@@ -529,14 +636,12 @@ function renderKPIs(){
   const assinados=base.filter(r=>normalStatus(r.status)==='assinado');
   const andamento=base.filter(r=>normalStatus(r.status)==='andamento');
   const nClientes=clientesUnicos(base);
-  const hojeCount=assinados.filter(r=>isHoje(parseDate(r.assinadoEm))).length;
-  const mesCount=assinados.filter(r=>isMes(parseDate(r.assinadoEm))).length;
   document.getElementById('kClientes').textContent=nClientes;
   document.getElementById('kTotal').textContent=nClientes*2;
   document.getElementById('kReceita').textContent=fmtBRL(nClientes*TICKET);
   document.getElementById('kAndamento').textContent=andamento.length;
-  document.getElementById('kHoje').textContent=hojeCount;
-  document.getElementById('kMensal').textContent=mesCount;
+  document.getElementById('kHoje').textContent=assinados.filter(r=>isHoje(parseDate(r.assinadoEm))).length;
+  document.getElementById('kMensal').textContent=assinados.filter(r=>isMes(parseDate(r.assinadoEm))).length;
   document.getElementById('ts').textContent='Atualizado '+String(hoje.getHours()).padStart(2,'0')+':'+String(hoje.getMinutes()).padStart(2,'0');
 }
 function renderChart(){
@@ -547,38 +652,38 @@ function renderChart(){
     const dayStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     let sv=0,pv=0;
     for(const r of todasLinhas){
-      const st=normalStatus(r.status),dt=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!dt) continue;
+      const st=normalStatus(r.status),dt=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!dt)continue;
       const rStr=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
       if(rStr===dayStr){st==='assinado'?sv++:pv++;}
     }
     signed.push(sv);pend.push(pv);
   }
   const ctx=document.getElementById('chart').getContext('2d');
-  if(grafico) grafico.destroy();
+  if(grafico)grafico.destroy();
   grafico=new Chart(ctx,{type:'bar',data:{labels,datasets:[
     {label:'Assinados',data:signed,backgroundColor:'rgba(26,122,82,.75)',borderRadius:4,stack:'a'},
     {label:'Em andamento',data:pend,backgroundColor:'rgba(184,114,14,.65)',borderRadius:4,stack:'a'}
   ]},options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{beginAtZero:true,ticks:{stepSize:1,font:{size:11}},grid:{color:'#f0f0f0'}}}}});
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:0}},y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}},grid:{color:'#f0f0f0'}}}}});
 }
-function setTab(aba,el){abaAtual=aba;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');pagina=0;aplicarFiltro();}
+function setTab(aba,el){abaAtual=aba;document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');pagina=0;aplicarFiltro();}
 function onBusca(){pagina=0;aplicarFiltro();}
 function aplicarFiltro(){
   const q=(document.getElementById('busca').value||'').toLowerCase().trim();
   const base=linhasNoPeriodo();
   filtrado=base.filter(r=>{
     const st=normalStatus(r.status);
-    if(abaAtual==='andamento'&&st!=='andamento') return false;
-    if(abaAtual==='assinado'&&st!=='assinado') return false;
-    if(abaAtual==='hoje'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isHoje(d)) return false;}
-    if(abaAtual==='ontem'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isOntem(d)) return false;}
-    if(abaAtual==='mes'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isMes(d)) return false;}
-    if(q){const txt=`${r.clienteNome} ${r.cpf} ${r.nomeDoc} ${r.clienteEmail}`.toLowerCase();if(!txt.includes(q)) return false;}
+    if(abaAtual==='andamento'&&st!=='andamento')return false;
+    if(abaAtual==='assinado'&&st!=='assinado')return false;
+    if(abaAtual==='hoje'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isHoje(d))return false;}
+    if(abaAtual==='ontem'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isOntem(d))return false;}
+    if(abaAtual==='mes'){const d=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);if(!isMes(d))return false;}
+    if(q){const txt=`${r.clienteNome} ${r.cpf} ${r.nomeDoc} ${r.clienteEmail}`.toLowerCase();if(!txt.includes(q))return false;}
     return true;
   });
-  filtrado.sort((a,b)=>{const da=getDataRelevante(a),db=getDataRelevante(b);if(!da&&!db) return 0;if(!da) return 1;if(!db) return -1;return db-da;});
-  renderTabela();
+  filtrado.sort((a,b)=>{const da=getDataRelevante(a),db=getDataRelevante(b);if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return db-da;});
+  isMobile()?renderMobileList():renderTabela();
 }
 function renderTabela(){
   const wrap=document.getElementById('tbl-wrap'),pager=document.getElementById('pager');
@@ -586,53 +691,70 @@ function renderTabela(){
   const total=filtrado.length,totalPags=Math.ceil(total/PAGE);
   pagina=Math.max(0,Math.min(pagina,totalPags-1));
   const slice=filtrado.slice(pagina*PAGE,(pagina+1)*PAGE);
-  let html='<table><thead><tr><th>Cliente</th><th>CPF</th><th>Última atualização</th><th>Status</th></tr></thead><tbody>';
+  let html='<div style="overflow-x:auto"><table><thead><tr><th>Cliente</th><th>CPF</th><th>Última atualização</th><th>Status</th></tr></thead><tbody>';
   for(const r of slice){
     const st=normalStatus(r.status),dt=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);
     const badge=st==='assinado'?'<span class="badge assinado">✓ Assinado</span>':'<span class="badge andamento">⏳ Em andamento</span>';
     const cpf=r.cpf&&r.cpf!=='null'&&r.cpf!==''?`<span class="cpf">${r.cpf}</span>`:'–';
     html+=`<tr><td>${r.clienteNome||r.nomeDoc||'–'}</td><td>${cpf}</td><td>${fmtDate(dt)}</td><td>${badge}</td></tr>`;
   }
-  html+='</tbody></table>';
+  html+='</tbody></table></div>';
   wrap.innerHTML=html;pager.style.display='flex';
   document.getElementById('pager-info').textContent=`${pagina*PAGE+1}–${Math.min((pagina+1)*PAGE,total)} de ${total}`;
   document.getElementById('btn-prev').disabled=pagina===0;
   document.getElementById('btn-next').disabled=pagina>=totalPags-1;
 }
-function goPage(d){pagina+=d;renderTabela();}
+function renderMobileList(){
+  const mob=document.getElementById('mob-list'),pager=document.getElementById('pager');
+  if(!filtrado.length){mob.innerHTML='<div class="empty">Nenhum registro encontrado.</div>';pager.style.display='none';return;}
+  const total=filtrado.length,totalPags=Math.ceil(total/PAGE);
+  pagina=Math.max(0,Math.min(pagina,totalPags-1));
+  const slice=filtrado.slice(pagina*PAGE,(pagina+1)*PAGE);
+  let html='';
+  for(const r of slice){
+    const st=normalStatus(r.status),dt=parseDate(st==='assinado'?r.assinadoEm:r.criadoEm);
+    const badge=st==='assinado'?'<span class="badge assinado">✓ Assinado</span>':'<span class="badge andamento">⏳ Em andamento</span>';
+    const cpf=r.cpf&&r.cpf!=='null'&&r.cpf!==''?`<div class="mob-card-cpf">${r.cpf}</div>`:'';
+    html+=`<div class="mob-card"><div class="mob-card-name">${r.clienteNome||r.nomeDoc||'–'}</div>${cpf}<div class="mob-card-footer">${badge}<span class="mob-card-date">${fmtDateShort(dt)}</span></div></div>`;
+  }
+  mob.innerHTML=html;pager.style.display='flex';
+  document.getElementById('pager-info').textContent=`${pagina*PAGE+1}–${Math.min((pagina+1)*PAGE,total)} de ${total}`;
+  document.getElementById('btn-prev').disabled=pagina===0;
+  document.getElementById('btn-next').disabled=pagina>=totalPags-1;
+}
+function goPage(d){pagina+=d;isMobile()?renderMobileList():renderTabela();}
 
 // ── PROCESSOS JUDICIAIS ──
 let pjTodos=[],pjFiltrado=[],pjPagina=0,pjTabAtual='todos';
+function isIndexado(r){return r.tribunal&&r.tribunal!==''&&r.ultimoAndamento&&!r.ultimoAndamento.includes('Aguardando')&&!r.ultimoAndamento.includes('Não encontrado');}
 
 function carregarProcessos(){
   const cb='pj_'+Date.now(),s=document.createElement('script');
   s.src=`${API}?aba=processos_judiciais&callback=${cb}`;
   window[cb]=function(data){
     delete window[cb];document.head.removeChild(s);
-    pjTodos=data;
-    renderPjKPIs();popularFiltros();aplicarPjFiltro();
+    pjTodos=data;renderPjKPIs();popularFiltros();aplicarPjFiltro();
     const agora=new Date();
     document.getElementById('pj-update').textContent='Atualizado às '+String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0');
   };
-  s.onerror=function(){document.getElementById('pj-tbl-wrap').innerHTML='<div class="empty">Erro ao carregar processos.</div>';document.getElementById('pj-update').textContent='Erro ao carregar';};
+  s.onerror=function(){document.getElementById('pj-tbl-wrap').innerHTML='<div class="empty">Erro ao carregar processos.</div>';};
   document.head.appendChild(s);
 }
-function isIndexado(r){return r.tribunal&&r.tribunal!==''&&r.ultimoAndamento&&!r.ultimoAndamento.includes('Aguardando')&&!r.ultimoAndamento.includes('Não encontrado');}
 function renderPjKPIs(){
-  const total=pjTodos.length;
-  const indexados=pjTodos.filter(isIndexado).length;
+  const total=pjTodos.length,indexados=pjTodos.filter(isIndexado).length;
   const advs=new Set(pjTodos.map(r=>r.advogado).filter(Boolean)).size;
   document.getElementById('pj-total').textContent=total;
   document.getElementById('pj-indexados').textContent=indexados;
   document.getElementById('pj-aguardando').textContent=total-indexados;
   document.getElementById('pj-advogados').textContent=advs;
   document.getElementById('nav-pj-count').textContent=total;
+  const bn=document.getElementById('bn-pj-count');
+  if(bn){bn.textContent=total;bn.style.display='block';}
 }
 function popularFiltros(){
   const advs=[...new Set(pjTodos.map(r=>r.advogado).filter(Boolean))].sort();
   const tribs=[...new Set(pjTodos.map(r=>r.tribunal).filter(v=>v&&v!==''))].sort();
-  const advSel=document.getElementById('pj-adv-filter');
-  const tribSel=document.getElementById('pj-trib-filter');
+  const advSel=document.getElementById('pj-adv-filter'),tribSel=document.getElementById('pj-trib-filter');
   advs.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;advSel.appendChild(o);});
   tribs.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t.toUpperCase();tribSel.appendChild(o);});
 }
@@ -640,17 +762,17 @@ function setPjTab(aba,el){pjTabAtual=aba;document.querySelectorAll('.pj-tabs .ta
 function onPjBusca(){pjPagina=0;aplicarPjFiltro();}
 function aplicarPjFiltro(){
   const q=(document.getElementById('pj-busca').value||'').toLowerCase().trim();
-  const adv=(document.getElementById('pj-adv-filter').value||'');
-  const trib=(document.getElementById('pj-trib-filter').value||'');
+  const adv=document.getElementById('pj-adv-filter').value||'';
+  const trib=document.getElementById('pj-trib-filter').value||'';
   pjFiltrado=pjTodos.filter(r=>{
-    if(pjTabAtual==='indexado'&&!isIndexado(r)) return false;
-    if(pjTabAtual==='aguardando'&&isIndexado(r)) return false;
-    if(adv&&r.advogado!==adv) return false;
-    if(trib&&r.tribunal!==trib) return false;
-    if(q){const txt=`${r.cnj} ${r.partes} ${r.advogado} ${r.tribunal} ${r.ultimoAndamento} ${r.status}`.toLowerCase();if(!txt.includes(q)) return false;}
+    if(pjTabAtual==='indexado'&&!isIndexado(r))return false;
+    if(pjTabAtual==='aguardando'&&isIndexado(r))return false;
+    if(adv&&r.advogado!==adv)return false;
+    if(trib&&r.tribunal!==trib)return false;
+    if(q){const txt=`${r.cnj} ${r.partes} ${r.advogado} ${r.tribunal} ${r.ultimoAndamento} ${r.status}`.toLowerCase();if(!txt.includes(q))return false;}
     return true;
   });
-  renderPjTabela();
+  isMobile()?renderPjCards():renderPjTabela();
 }
 function renderPjTabela(){
   const wrap=document.getElementById('pj-tbl-wrap'),pager=document.getElementById('pj-pager');
@@ -661,17 +783,9 @@ function renderPjTabela(){
   let html='<div style="overflow-x:auto"><table><thead><tr><th>Nº CNJ</th><th>Advogado</th><th>Partes</th><th>Tribunal</th><th>Último Andamento</th><th>Data</th><th>Status</th></tr></thead><tbody>';
   for(const r of slice){
     const idx=isIndexado(r);
-    const statusBadge=idx?`<span class="badge ativo">${r.status||'Ativo'}</span>`:'<span class="badge aguardando">⏳ Aguardando</span>';
+    const badge=idx?`<span class="badge ativo">${r.status||'Ativo'}</span>`:'<span class="badge aguardando">⏳ Aguardando</span>';
     const dataFmt=r.dataAndamento?r.dataAndamento.substring(0,10).split('-').reverse().join('/'):'–';
-    html+=`<tr>
-      <td><span class="cnj">${r.cnj||'–'}</span></td>
-      <td>${r.advogado||'–'}</td>
-      <td><div class="truncate" title="${(r.partes||'').replace(/"/g,'&quot;')}">${r.partes||'Não informado'}</div></td>
-      <td><strong>${(r.tribunal||'–').toUpperCase()}</strong></td>
-      <td><div class="truncate" title="${(r.ultimoAndamento||'').replace(/"/g,'&quot;')}">${r.ultimoAndamento||'–'}</div></td>
-      <td style="white-space:nowrap">${dataFmt}</td>
-      <td>${statusBadge}</td>
-    </tr>`;
+    html+=`<tr><td><span class="cnj">${r.cnj||'–'}</span></td><td>${r.advogado||'–'}</td><td><div class="truncate" title="${(r.partes||'').replace(/"/g,'')}">${r.partes||'Não informado'}</div></td><td><strong>${(r.tribunal||'–').toUpperCase()}</strong></td><td><div class="truncate" title="${(r.ultimoAndamento||'').replace(/"/g,'')}">${r.ultimoAndamento||'–'}</div></td><td style="white-space:nowrap">${dataFmt}</td><td>${badge}</td></tr>`;
   }
   html+='</tbody></table></div>';
   wrap.innerHTML=html;pager.style.display='flex';
@@ -679,12 +793,39 @@ function renderPjTabela(){
   document.getElementById('pj-btn-prev').disabled=pjPagina===0;
   document.getElementById('pj-btn-next').disabled=pjPagina>=totalPags-1;
 }
-function goPjPage(d){pjPagina+=d;renderPjTabela();}
+function renderPjCards(){
+  const cards=document.getElementById('pj-cards'),pager=document.getElementById('pj-pager');
+  if(!pjFiltrado.length){cards.innerHTML='<div class="empty">Nenhum processo encontrado.</div>';pager.style.display='none';return;}
+  const total=pjFiltrado.length,totalPags=Math.ceil(total/PAGE);
+  pjPagina=Math.max(0,Math.min(pjPagina,totalPags-1));
+  const slice=pjFiltrado.slice(pjPagina*PAGE,(pjPagina+1)*PAGE);
+  let html='';
+  for(const r of slice){
+    const idx=isIndexado(r);
+    const badge=idx?`<span class="badge ativo">${r.status||'Ativo'}</span>`:'<span class="badge aguardando">⏳ Aguardando</span>';
+    const dataFmt=r.dataAndamento?r.dataAndamento.substring(0,10).split('-').reverse().join('/'):'–';
+    html+=`<div class="pj-card">
+      <div class="pj-card-cnj">${r.cnj||'–'}</div>
+      <div class="pj-card-adv">${r.advogado||'–'}</div>
+      ${r.tribunal?`<div class="pj-card-tribunal">${r.tribunal.toUpperCase()}</div>`:''}
+      <div class="pj-card-andamento">${r.ultimoAndamento||'–'}</div>
+      <div class="pj-card-footer">${badge}<span class="pj-card-data">${dataFmt}</span></div>
+    </div>`;
+  }
+  cards.innerHTML=html;pager.style.display='flex';
+  document.getElementById('pj-pager-info').textContent=`${pjPagina*PAGE+1}–${Math.min((pjPagina+1)*PAGE,total)} de ${total}`;
+  document.getElementById('pj-btn-prev').disabled=pjPagina===0;
+  document.getElementById('pj-btn-next').disabled=pjPagina>=totalPags-1;
+}
+function goPjPage(d){pjPagina+=d;isMobile()?renderPjCards():renderPjTabela();}
 
-// Clock
-setInterval(()=>{const n=new Date(),el=document.getElementById('ts');if(el) el.textContent='Atualizado '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');},60000);
+// redimensionar
+window.addEventListener('resize',()=>{
+  if(filtrado.length) isMobile()?renderMobileList():renderTabela();
+  if(pjFiltrado.length) isMobile()?renderPjCards():renderPjTabela();
+});
 
-// Iniciar
+setInterval(()=>{const n=new Date(),el=document.getElementById('ts');if(el)el.textContent='Atualizado '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');},60000);
 carregar();
 carregarProcessos();
 </script>
